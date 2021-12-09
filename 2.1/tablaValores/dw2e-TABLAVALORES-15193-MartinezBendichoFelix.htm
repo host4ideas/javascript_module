@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla valores 1</title>
+
+</head>
+
+<body>
+
+</body>
+
+<script type="text/javascript">
+    /*
+        x - cos x - sin x -  seno x con 14 decimales - x con decimales - x con 14 decimales
+    */
+
+    const SALTOS = Math.random();
+    var numInicial = 0.60;
+    var valores = [];
+
+    for (let i = 0; i < 21; i++) {
+        numInicial += SALTOS;
+        valores.push(numInicial);
+    }
+
+    console.log(SALTOS);
+
+    var table = document.createElement("table");
+    table.style.border = "solid 1px black collapse";
+    table.style.padding = "5px";
+    var thead = document.createElement("thead");
+    thead.style.backgroundColor = "green";
+    var tr = document.createElement("tr");
+
+    document.body.appendChild(table);
+    table.appendChild(thead);
+    thead.appendChild(tr);
+
+    var htmlTh = ["x", "cos(x)", "seno(x)", "seno(x) 14 decimales", "x con 14 decimales", "x original"];
+    for (let i = 0; i < 6; i++) {
+        var th = document.createElement("th");
+        th.style.border = "solid 1px black collapse";
+        th.style.padding = "5px";
+        th.innerHTML = htmlTh[i];
+        tr.appendChild(th);
+    }
+
+    var tbody = document.createElement("tbody");
+
+    valores.forEach(element => {
+        var seno = Math.sin(element);
+        var coseno = Math.cos(element);
+        var tr = document.createElement("tr");
+        var htmlTd = [element.toFixed(2), coseno, seno, seno.toFixed(14), element.toFixed(14), element];
+
+        for (let i = 0; i < 6; i++) {
+            var td = document.createElement("td");
+            td.style.border = "solid 1px black collapse";
+            td.style.padding = "5px";
+            td.innerHTML = htmlTd[i];
+            tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+
+    var nthChildTr = tbody.querySelectorAll("tbody > tr:nth-child(even)");
+    for (const child of nthChildTr) {
+        child.style.backgroundColor = "grey";
+    }
+
+    function crearNodo(tipo, id) {
+        var ele = document.createElement(tipo);
+        document.body.appendChild(ele);
+        ele.id = id;
+    }
+
+    function iniciar() {
+        crearNodo('canvas', 'canvas1');
+        var coseno = Math.cos(valores[0]);
+        var seno = Math.sin(valores[0]);
+        var txt = "";
+        txt += coseno * 25 + "," + seno * 25;
+
+        for (let i = 1; i < valores.length; i++) {
+            seno = Math.sin(valores[i]);
+            coseno = Math.cos(valores[i]);
+            txt += ";" + coseno * 25 + "," + seno * 25;
+        }
+        console.log(txt);
+        pintaCanvas('canvas1', txt);
+    }
+
+    function pintaCanvas(id, txt) {
+        var canvas1 = document.getElementById(id);
+        canvas1.style.width = '800px';
+        canvas1.style.height = '400px';
+        /* 
+        el dibujo se estira para ocupar el contenedor,
+        no es vectorial se pixela para vectorial usar SVG
+        */
+        canvas1.style.background = 'aquamarine';
+        gcc = canvas1.getContext('2d');
+
+        gcc.beginPath();
+        var filas = txt.split(';');
+        for (fila of filas) {
+            var datos = fila.split(',');
+            var x = datos[0], y = datos[1];
+            // console.log('x y:', x, y);
+            // coordenadas absolutas , contenedor 300x150 
+            // proporcion implicita 2:1		
+            gcc.lineTo(0 + 4 * x, 0 + 2 * y);
+        }
+        var py = 75;
+        gcc.moveTo(0, 200); // desplaza sin dibujar
+        for (fila of filas) {
+            var datos = fila.split(',');
+            var x = datos[0], y = datos[1];
+            // console.log('x y:', x, y);
+            gcc.lineTo(0 + 2 * x, py);
+        }
+        gcc.stroke(); // dibuja el Path definido
+    }
+
+    iniciar();
+</script>
+
+</html>

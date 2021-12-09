@@ -1,0 +1,199 @@
+body {
+    background-color: #1a1919;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+main>div {
+    text-align: center;
+    margin-top: 200px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    min-height: 100px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 2px solid #888;
+    width: 35%;
+    /* Could be more or less, depending on screen size */
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    background-color: #1a1919;
+    border-radius: 5px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+}
+
+.close:hover,
+.close:focus {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.video-info {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 5px;
+    padding: 5px;
+    width: 250px;
+    text-align: center;
+    border: 2px solid rgb(236, 244, 251, 0.6);
+    border-radius: 5px;
+    color: aliceblue;
+}
+
+.video-info:hover {
+    cursor: pointer;
+}
+
+/* Filter buttons styles */
+#filterButtons {
+    display: flex;
+    justify-content: space-around;
+}
+
+#filterButtons button {
+    background-color: aqua;
+    border: 1px solid rgba(45, 61, 61, 0.5);
+    border-radius: 5px;
+    padding: 5px;
+    transition: 300ms;
+    margin-bottom: 15px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+#filterButtons button:hover {
+    background-color: rgb(15, 110, 110);
+    border: 1px solid aqua;
+    color: aqua;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+/* Paginator styles */
+#wrapper {
+    width: 800px;
+    position: relative;
+}
+
+@media screen and (min-width: 1200px) {
+    #wrapper {
+        width: 1000px;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    #wrapper {
+        width: 1200px;
+    }
+}
+
+@media screen and (min-width: 1700px) {
+    #wrapper {
+        width: 1500px;
+    }
+}
+
+#carousel {
+    overflow: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+#carousel::-webkit-scrollbar {
+    height: 0;
+}
+
+.prev,
+.next {
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    background: white;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    outline: 0;
+    cursor: pointer;
+    position: absolute;
+    border: 1px solid rgba(45, 61, 61, 0.5);
+    background-color: aqua;
+    transition: 300ms;
+}
+
+.prev:hover,
+.next:hover {
+    background-color: rgb(15, 110, 110);
+    border: 1px solid aqua;
+    color: aqua;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.prev {
+    top: 50%;
+    left: -50px;
+    transform: translate(50%, -50%);
+    display: none;
+}
+
+#first {
+    left: -90px;
+}
+
+.next {
+    top: 50%;
+    right: -50px;
+    transform: translate(-50%, -50%);
+}
+
+#last {
+    right: -90px;
+}
+
+#content {
+    display: grid;
+    grid-gap: 16px;
+    grid-auto-flow: column;
+    margin: auto;
+    box-sizing: border-box;
+
+}

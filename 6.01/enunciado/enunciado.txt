@@ -1,0 +1,25 @@
+* Entrega: DW2E-TC1-expediente-ApellidosNombre.htm
+* Tiempo: 90m
+* Solo se evalua entregas dentro del tiempo.
+* Se adjunta parte de la página htm con errores que deben ser corregidos.
+* No escribir html, el body estará vacio.
+* Entregar un solo fichero, indicado en entrega.
+* Ejercicio realizado sobre: linux, firefox, zoom al 100%, pantalla-1024x768pixel
+
+APARTADOS ==
+El alumno completará la página suministrada index.htm
+A) página inicial y recarga de página (4 puntos)
+1- caja gris dimensiones
+2- bolas rojas dimensiones
+3- caja gris posición en la ventana
+4- bolas rojas posición respecto a la caja gris
+5- texto de la caja gris
+B) desarrollo y eventos (6 puntos)
+1- click caja8 creamos caja7 y desplazamos caja8.
+2- click caja8 el movimiento de la caja8.
+3- click caja8 el cambio de color de la caja8.
+4- clicks sucesivos movimiento del resto de cajas de la 7 a la 2.
+5- posición exacta de todas las cajas al terminar de desplegar.
+6- clicks para cambia color de las bolas a verde.
+7- cambio de puntero solo en las cajas que tengan evento asociado.
+8- eliminación de los eventos de click según la captura.

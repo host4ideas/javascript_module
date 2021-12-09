@@ -1,0 +1,81 @@
+{
+    "kind": "youtube#videoListResponse",
+    "etag": "6wgLpCHB9Ygvi1QNP2DUAtmpalg",
+    "items": [
+        {
+            "kind": "youtube#video",
+            "etag": "Uw3QAk9AgW6-j3eoQJUbrdo0zdk",
+            "id": "oaTOHmuN2M0",
+            "snippet": {
+                "publishedAt": "2021-12-01T17:59:17Z",
+                "channelId": "UCXuqSBlHAE6Xw-yeJA0Tunw",
+                "title": "Air Conditioner make PC go Brrr",
+                "description": "Thanks to Thermal Grizzly for sponsoring this video! Learn more about all of their products at https://geni.us/thermalgrizzlyltt\nBuy Thermal Grizzly Kryonaut on Amazon: https://geni.us/sp3sx\nBuy Thermal Grizzly Kryonaut on Newegg: https://geni.us/AFHhU\nBuy Thermal Grizzly Hydronaut on Amazon: https://geni.us/BJQO\nBuy Thermal Grizzly Conductonaut on Newegg: https://geni.us/A39PvVh\n\nCheck out the Tormach 1100MX: https://hubs.ly/H0LmXww0\n\nDiscuss on the forum: https://linustechtips.com/topic/1392678-air-conditioner-make-pc-go-brrr/\n\n►GET MERCH: http://www.LTTStore.com/\n►SUPPORT US ON FLOATPLANE: https://www.floatplane.com/  \n►LTX EXPO: https://www.ltxexpo.com/   \n\nAFFILIATES & REFERRALS\n---------------------------------------------------\n►Affiliates, Sponsors & Referrals: https://lmg.gg/sponsors\n►Our WAN Show & Podcast Gear: https://lmg.gg/podcastgear\n►Private Internet Access VPN: https://lmg.gg/pialinus2\n►Our Official Charging Partner Anker: https://lmg.gg/AnkerLTT\n►Secretlabs Gaming Chairs: https://lmg.gg/SecretlabLTT\n►MK Keyboards: https://lmg.gg/LyLtl\n►Nerd or Die Stream Overlays: https://lmg.gg/avLlO\n►Green Man Gaming https://lmg.gg/GMGLTT\n►Amazon Prime: https://lmg.gg/8KV1v\n►Audible Free Trial: https://lmg.gg/8242J\n►Our Gear on Amazon: https://geni.us/OhmF\n\nFOLLOW US ELSEWHERE\n---------------------------------------------------  \nTwitter: https://twitter.com/linustech\nFacebook: http://www.facebook.com/LinusTech\nInstagram: https://www.instagram.com/linustech\nTwitch: https://www.twitch.tv/linustech\n\nFOLLOW OUR OTHER CHANNELS\n---------------------------------------------------  \nMac Address: https://lmg.gg/macaddress\nTechquickie: https://lmg.gg/techquickieyt\nTechLinked: https://lmg.gg/techlinkedyt\nShortCircuit: https://lmg.gg/shortcircuityt\n\nLMG Clips: https://lmg.gg/lmgclipsyt\nChannel Super Fun: https://lmg.gg/channelsuperfunyt\nThey're Just Movies: https://lmg.gg/TheyreJustMoviesYT\n\nMUSIC CREDIT\n---------------------------------------------------  \nTitle: Laszlo - Supernova\nVideo Link: https://www.youtube.com/watch?v=PKfxmFU3lWY\niTunes Download Link: https://itunes.apple.com/us/album/supernova/id936805712\nArtist Link: https://soundcloud.com/laszlomusic\n\nOutro Screen Music Credit: Approaching Nirvana - Sugar High http://www.youtube.com/approachingnirvana\n\nIntro animation by MBarek Abdelwassaa https://www.instagram.com/mbarek_abdel/\nMonitor And Keyboard by vadimmihalkevich / CC BY 4.0  https://geni.us/PgGWp\nMechanical RGB Keyboard by BigBrotherECE / CC BY 4.0 https://geni.us/mj6pHk4\nMouse Gamer free Model By Oscar Creativo / CC BY 4.0 https://geni.us/Ps3XfE",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/oaTOHmuN2M0/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/oaTOHmuN2M0/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/oaTOHmuN2M0/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/oaTOHmuN2M0/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    },
+                    "maxres": {
+                        "url": "https://i.ytimg.com/vi/oaTOHmuN2M0/maxresdefault.jpg",
+                        "width": 1280,
+                        "height": 720
+                    }
+                },
+                "channelTitle": "Linus Tech Tips",
+                "categoryId": "28",
+                "liveBroadcastContent": "none",
+                "defaultLanguage": "en",
+                "localized": {
+                    "title": "Air Conditioner make PC go Brrr",
+                    "description": "Thanks to Thermal Grizzly for sponsoring this video! Learn more about all of their products at https://geni.us/thermalgrizzlyltt\nBuy Thermal Grizzly Kryonaut on Amazon: https://geni.us/sp3sx\nBuy Thermal Grizzly Kryonaut on Newegg: https://geni.us/AFHhU\nBuy Thermal Grizzly Hydronaut on Amazon: https://geni.us/BJQO\nBuy Thermal Grizzly Conductonaut on Newegg: https://geni.us/A39PvVh\n\nCheck out the Tormach 1100MX: https://hubs.ly/H0LmXww0\n\nDiscuss on the forum: https://linustechtips.com/topic/1392678-air-conditioner-make-pc-go-brrr/\n\n►GET MERCH: http://www.LTTStore.com/\n►SUPPORT US ON FLOATPLANE: https://www.floatplane.com/  \n►LTX EXPO: https://www.ltxexpo.com/   \n\nAFFILIATES & REFERRALS\n---------------------------------------------------\n►Affiliates, Sponsors & Referrals: https://lmg.gg/sponsors\n►Our WAN Show & Podcast Gear: https://lmg.gg/podcastgear\n►Private Internet Access VPN: https://lmg.gg/pialinus2\n►Our Official Charging Partner Anker: https://lmg.gg/AnkerLTT\n►Secretlabs Gaming Chairs: https://lmg.gg/SecretlabLTT\n►MK Keyboards: https://lmg.gg/LyLtl\n►Nerd or Die Stream Overlays: https://lmg.gg/avLlO\n►Green Man Gaming https://lmg.gg/GMGLTT\n►Amazon Prime: https://lmg.gg/8KV1v\n►Audible Free Trial: https://lmg.gg/8242J\n►Our Gear on Amazon: https://geni.us/OhmF\n\nFOLLOW US ELSEWHERE\n---------------------------------------------------  \nTwitter: https://twitter.com/linustech\nFacebook: http://www.facebook.com/LinusTech\nInstagram: https://www.instagram.com/linustech\nTwitch: https://www.twitch.tv/linustech\n\nFOLLOW OUR OTHER CHANNELS\n---------------------------------------------------  \nMac Address: https://lmg.gg/macaddress\nTechquickie: https://lmg.gg/techquickieyt\nTechLinked: https://lmg.gg/techlinkedyt\nShortCircuit: https://lmg.gg/shortcircuityt\n\nLMG Clips: https://lmg.gg/lmgclipsyt\nChannel Super Fun: https://lmg.gg/channelsuperfunyt\nThey're Just Movies: https://lmg.gg/TheyreJustMoviesYT\n\nMUSIC CREDIT\n---------------------------------------------------  \nTitle: Laszlo - Supernova\nVideo Link: https://www.youtube.com/watch?v=PKfxmFU3lWY\niTunes Download Link: https://itunes.apple.com/us/album/supernova/id936805712\nArtist Link: https://soundcloud.com/laszlomusic\n\nOutro Screen Music Credit: Approaching Nirvana - Sugar High http://www.youtube.com/approachingnirvana\n\nIntro animation by MBarek Abdelwassaa https://www.instagram.com/mbarek_abdel/\nMonitor And Keyboard by vadimmihalkevich / CC BY 4.0  https://geni.us/PgGWp\nMechanical RGB Keyboard by BigBrotherECE / CC BY 4.0 https://geni.us/mj6pHk4\nMouse Gamer free Model By Oscar Creativo / CC BY 4.0 https://geni.us/Ps3XfE"
+                },
+                "defaultAudioLanguage": "en"
+            },
+            "contentDetails": {
+                "duration": "PT18M47S",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "false",
+                "licensedContent": true,
+                "contentRating": {},
+                "projection": "rectangular"
+            },
+            "status": {
+                "uploadStatus": "processed",
+                "privacyStatus": "public",
+                "license": "youtube",
+                "embeddable": true,
+                "publicStatsViewable": true,
+                "madeForKids": false
+            },
+            "statistics": {
+                "viewCount": "605058",
+                "likeCount": "41330",
+                "dislikeCount": "844",
+                "favoriteCount": "0",
+                "commentCount": "2399"
+            }
+        }
+    ],
+    "pageInfo": {
+        "totalResults": 1,
+        "resultsPerPage": 1
+    }
+}

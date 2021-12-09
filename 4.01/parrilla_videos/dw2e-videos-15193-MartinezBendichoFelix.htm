@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <script src="VideoInfo.js"></script>
+    <script src="VideosList.js"></script>
+    <script src="apiKey.js"></script>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="styles.css">
+    <title>Parrilla videos</title>
+</head>
+
+<body>
+    <main>
+        <div>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div id="modalContent" class="modal-content">
+                    <span id="close" class="close">&times;</span>
+                    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+                    <div id="player"></div>
+                </div>
+
+            </div>
+
+            <!-- // Filtros ==
+            // 15) Filtro "todos", si hay paginador presentar la primera pagina
+            // 16) Filtro "primeras cinco fichas"
+            // 17) Otros filtros y / o con parametros entre un mínimo y un máximo
+
+            // Ordenar ==
+            // 18) Ordenar las fichas por sus campos titulo, subida, visitas, duracion
+            // 19) Otras ordenaciones, ejemplo[31] -->
+
+            <div id="filterButtons">
+                <button id="sortVisits" type="button">Sort by visits</button>
+                <button id="sortDuration" type="button">Sort by duration</button>
+                <button id="sortTitle" type="button">Sort by title</button>
+                <button id="sortDate" type="button">Sort by date</button>
+                <button id="firstFive" type="button">View first five</button>
+            </div>
+
+            <div id="wrapper">
+                <div id="carousel">
+                    <div id="content">
+                    </div>
+                </div>
+                <button id="prev" class="prev">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button id="first" class="prev">
+                    <i class="fas fa-fast-backward"></i>
+                </button>
+                <button id="next" class="next">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button id="last" class="next">
+                    <i class="fas fa-fast-forward"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+    <script>
+
+        var arrVideos = [];
+        var arrInfoVideos = [];
+
+        // Function to generate random IDs
+        function generateRandomString($length = 10) {
+            return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+        }
+
+        function loadVideos(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Get the videos data from the request
+                    const DATA = JSON.parse(this.response);
+                    let video = new VideoInfo(DATA);
+                    // console.log(video.getVidId);
+                    arrVideos.push(video);
+                }
+            };
+            xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
+            xhttp.send();
+            return false;
+        }
+
+        // Videos IDs list for fetching the data from the YT API
+        var arrVideosId = ["oaTOHmuN2M0", "F0G9lZ7gecE", "LOpFYMPXqE4", "NuyzuNBFWxQ", "Uszj_k0DGsg", "CG__N4SS1Fc", "SsJ_AusntiU", "tJJbTuviob4", "p_KHnOIqia8", "Ekw4X_QrHJ0"];
+        arrVideosId.forEach(videoId => {
+            loadVideos(videoId);
+        });
+
+        // 2. This code loads the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        function onYouTubeIframeAPIReady() {
+            var player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+            });
+
+            var myModal = document.getElementById("myModal");
+            document.getElementById('close').onclick = function () {
+                player.stopVideo();
+                myModal.style.display = "none";
+            };
+
+            // When the user clicks anywhere outside of the modal, close it and stop video
+            window.onclick = function (event) {
+                if (event.target == myModal) {
+                    player.stopVideo();
+                    myModal.style.display = "none";
+                }
+            }
+            function showVideos(arrayVideos) {
+                arrayVideos.forEach(video => {
+                    // Insert into the page the video data
+                    var divInfo = video.showInfo();
+                    arrInfoVideos.push(divInfo);
+                    document.getElementById("content").appendChild(divInfo);
+
+                    divInfo.onclick = function () {
+                        myModal.style.display = "block";
+                        player.loadVideoById(video.getVidId);
+                    }
+                });
+            }
+            document.getElementById("sortVisits").addEventListener("click", function () {
+                removeAllChildNodes();
+                showVideos(filterSelector(1));
+            });
+            document.getElementById("sortDuration").addEventListener("click", function () {
+                removeAllChildNodes();
+                showVideos(filterSelector(2));
+            });
+            document.getElementById("sortTitle").addEventListener("click", function () {
+                removeAllChildNodes();
+                showVideos(filterSelector(3));
+            });
+            document.getElementById("sortDate").addEventListener("click", function () {
+                removeAllChildNodes();
+                showVideos(filterSelector(4));
+            });
+            document.getElementById("firstFive").addEventListener("click", function () {
+                removeAllChildNodes();
+                showVideos(filterSelector(5));
+            });
+            showVideos(filterSelector(1));
+        };
+        function filterSelector(option) {
+            switch (option) {
+                case 0:
+                    return arrVideos;
+                case 1:
+                    return [...arrVideos].sort(sortByVisits);
+                case 2:
+                    return [...arrVideos].sort(sortByDuration);
+                case 3:
+                    return [...arrVideos].sort(sortByTitle);
+                case 4:
+                    return [...arrVideos].sort(sortByDate);
+                case 5:
+                    return [...arrVideos].slice(0, 5);
+            }
+        }
+        function sortByVisits(a, b) {
+            return b.getVisits - a.getVisits;
+        }
+        function sortByDuration(a, b) {
+            let date1 = a.getDuration;
+            let date2 = b.getDuration;
+            let ms1 = Number(date1.split(':')[0]) * 60 * 60 * 1000 + Number(date1.split(':')[1]) * 60 * 1000 + Number(date1.split(':')[2]) * 1000;
+            let ms2 = Number(date2.split(':')[0]) * 60 * 60 * 1000 + Number(date2.split(':')[1]) * 60 * 1000 + Number(date2.split(':')[2]) * 1000;
+            return ms2 - ms1;
+        }
+        function sortByTitle(a, b) {
+            return b.getTitle - a.getTitle;
+        }
+        function sortByDate(a, b) {
+            return b.getDate - a.getDate;
+        }
+        function removeAllChildNodes() {
+            let parent = document.getElementById("content");
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+    </script>
+    <script src="carousel.js"></script>
+</body>
+
+</html>

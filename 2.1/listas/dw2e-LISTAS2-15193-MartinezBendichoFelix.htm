@@ -1,0 +1,151 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+
+        var loremText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum facilis quisquam placeat optio, ex sed accusantium ipsa autem totam numquam velit quas vero praesentium minima facere nam at dolorum temporibus!Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint optio tempore velit deleniti qui fugit sequi accusantium dignissimos quasi? Id, in veniam corrupti exercitationem voluptates expedita quo corporis iste dolorem!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium ut et laudantium vitae accusantium, dolorum non officiis iusto commodi, quidem odio distinctio minima obcaecati! Voluptatem dolor voluptate iste recusandae doloremque!";
+        const COLORES = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+
+        function listaRandom() {
+            var arrObjetos = [];
+            for (let i = 0; i < 10; i++) {
+
+                var colorObj = "#";
+                var textoObj = "";
+                var niveles = ["A", "B", "C"];
+                var versionObj = 0;
+
+                for (let j = 0; j < 6; j++) {
+                    colorObj += COLORES[Math.floor(Math.random() * COLORES.length)];
+                }
+
+                textoObj = "hola";
+
+                nivelObj = niveles[Math.floor(Math.random() * 3)];
+
+                versionObj = Math.floor(Math.random() * 10);
+
+                arrObjetos.push(obj = {
+                    color: colorObj,
+                    texto: textoObj,
+                    nivel: nivelObj,
+                    version: versionObj
+                });
+            }
+            return arrObjetos;
+        }
+
+        function mostrarObjeto(objeto) {
+            // for (let clave in objeto) {
+            //     document.write(clave + ":" + objeto[clave] + ",");
+            // }
+
+            for (const prop in objeto) {
+                console.log(`objeto.${prop} = ${objeto[prop]}`);
+            }
+        }
+
+        function mostrarVersiones(listaObjetos) {
+            listaObjetos.forEach(element => {
+                document.write(element.version + " ");
+            });
+        }
+
+        function compararAscendente(a, b) {
+            return a.version - b.version;
+        }
+
+        function compararDescendente(a, b) {
+            return b.version - a.version;
+        }
+
+        function mediaReduce(lista) {
+            const REDUCER = (previousValue, currentValue) => previousValue + currentValue;
+            var sumatorio = lista.reduce(REDUCER);
+            return (sumatorio / lista.length);
+        }
+
+        function mediaSuma(lista) {
+            var sumatorio = 0;
+            lista.forEach(element => {
+                sumatorio += element.version;
+            })
+            return (sumatorio / lista.length);
+        }
+
+        function mediaAbreviado(lista) {
+            return (lista.reduce((previousValue, currentValue) => previousValue + currentValue) / lista.length);
+        }
+
+        function maximoApply(lista) {
+            return Math.max.apply(null, lista);
+        }
+
+        function minimoApply(lista) {
+            return Math.min.apply(null, lista);
+        }
+
+        function maximoSort(lista) {
+            return lista.sort(compararDescendente)[0];
+        }
+
+        function minimoSort(lista) {
+            return lista.sort(compararAscendente)[0];
+        }
+
+        function sumaReduce(lista) {
+            return (lista.reduce((previousValue, currentValue) => previousValue + currentValue));
+        }
+
+        function filtrar(lista) {
+            lista.filter(num => num >= 0 && num <= 100).forEach(element => document.write(element + " "));
+        }
+
+        var lista = listaRandom();
+
+        console.log(lista);
+
+        document.write("Primer objeto de la lista = ");
+        mostrarObjeto(lista[0]);
+        document.write("<br>");
+        document.write("Primer objeto de la lista = ");
+        mostrarObjeto(lista[0]);
+        document.write("<br>");
+        document.write("Trabajar con el atributo <strong>version</strong><br>");
+        document.write("lista: ");
+        mostrarVersiones(lista);
+        document.write("<br>");
+
+        document.write("ascendente: ");
+        mostrarVersiones(lista.sort(compararAscendente));
+        document.write("<br>");
+
+        document.write("descendente: ");
+        mostrarVersiones(lista.sort(compararDescendente));
+        document.write("<br>");
+
+
+
+        document.write("media reduce: " + mediaReduce(lista) + "<br>");
+        document.write("media suma/elementos: " + mediaSuma(lista) + "<br>");
+        document.write("media reduce abreviado: " + mediaAbreviado(lista) + "<br>");
+        document.write("maximo apply: " + maximoApply(lista) + "<br>");
+        document.write("minimo apply: " + minimoApply(lista) + "<br>");
+        document.write("maximo sort: " + maximoSort(lista) + "<br>");
+        document.write("minimo sort: " + minimoSort(lista) + "<br>");
+        document.write("suma reduce: " + sumaReduce(lista) + "<br>");
+        document.write("filtra entre 0 y 5 incluidos: ");
+        filtrar(lista);
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

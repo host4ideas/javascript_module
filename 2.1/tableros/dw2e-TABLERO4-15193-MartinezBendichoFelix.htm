@@ -1,0 +1,82 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Tablero 4</title>
+
+    <script>
+
+        var colores = Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+
+        // Funcion principal desde la que vamos creando nodos div y generamos un color nuevo para cada uno
+        function crearMenu() {
+            var contador = 0;
+            var color = "#";
+            for (var i = 0; i < 6; i++) {
+                color += colores[Math.floor(Math.random() * 15)];
+            }
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    contador++;
+                    // crear nodo en el dom
+                    var ele = crearNodoDiv("div", "ele" + contador, color);
+                    ele.addEventListener("click", clickCaja);
+                    ele.style.cursor = "pointer";
+                    if (i === 7 && j === 7) {
+                        ele.addEventListener("click", clickCajaClear);
+                    }
+                }
+                nuevaLinea();
+            }
+        }
+
+        // Creamos un div sin background con float left para que se localice a la izquierda y no a continuación del anterior
+        function nuevaLinea() {
+            var ele = document.createElement('div');
+            ele.style.clear = 'left';
+            document.body.appendChild(ele);
+        }
+
+        // Funcion para crear nodos, le pasamos el tipo de nodo (div, p, span, etc) el id (ele + numero) y el color del background
+        function crearNodoDiv(tipo, id, color) {
+            var ele = document.createElement(tipo);
+            ele.id = id;
+            ele.style.margin = "5px";
+            ele.style.cssFloat = "left";
+            ele.style.backgroundColor = color;
+            ele.style.width = "50px";
+            ele.style.height = "50px";
+            ele.style.border = "solid 1px";
+            document.body.appendChild(ele);
+            return ele;
+        }
+
+        // Definimos el comportamiento de la caja al hacer click sobre ella, la accion se escucha con eventListener
+        function clickCaja() {
+            this.style.backgroundColor = "white";
+        }
+
+        // Comportamiento de la ultima caja del tablero, la cual escribe todos los innerHTML como CXY
+        function clickCajaClear() {
+            var contador = 0;
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    contador++;
+                    var id = "ele" + contador;
+                    var ele = document.getElementById(id);
+                    ele.style.backgroundColor = "white";
+                }
+            }
+        }
+
+        // No ejecutar el script hasta que se cargue la pagina
+        window.onload = crearMenu;
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

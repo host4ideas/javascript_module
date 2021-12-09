@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fechas</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        var semana = ["L", "M", "X", "J", "V", "S", "D"];
+        var contadorDiaMes = 23;
+
+        for (let i = 0; i < 12; i++) {
+            var textoMes = document.createElement("span");
+            textoMes.innerText = meses[i];
+            textoMes.style.fontSize = "24px";
+            var nuevoMes = document.createElement("div");
+            nuevoMes.style.margin = "5px";
+            nuevoMes.style.border = "1px solid black";
+            nuevoMes.style.height = "34px";
+            for (let j = 0; j < 49; j++) {
+
+                var objDia = crearDia(contadorDiaMes, 2000);
+                console.log(objDia);
+
+
+                var dia = document.createElement("div");
+                dia.style.border = "1px solid black";
+                dia.style.float = "left";
+                dia.style.width = "20px";
+                dia.style.margin = "1px";
+                dia.style.height = "30px";
+
+
+                contadorDiaMes++;
+            }
+            var saltoLinea = document.createElement("div");
+            saltoLinea.style.float = "clear";
+            nuevoMes.appendChild(textoMes);
+            nuevoMes.appendChild(saltoLinea);
+            document.body.appendChild(nuevoMes);
+        }
+
+        var contadorSemana = 0;
+        function crearDia(dia, año) {
+            console.log(contadorSemana);
+            var nuevoDia = new Date();
+            nuevoDia.setFullYear(año);
+            nuevoDia.setDate(dia);
+            nuevoDia.nota = "";
+            nuevoDia.diaSemana = semana[contadorSemana];
+            nuevoDia.esFestivo = false;
+
+            if (contadorSemana == 5) {
+                nuevoDia.esFestivo = true;
+            } else if (contadorSemana == 6) {
+                nuevoDia.esFestivo = true;
+                contadorSemana = 0;
+            }
+            contadorSemana++;
+            return nuevoDia;
+        }
+
+    </script>
+</body>
+
+</html>

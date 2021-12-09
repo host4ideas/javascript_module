@@ -1,0 +1,103 @@
+{
+    "kind": "youtube#videoListResponse",
+    "etag": "C-EGLJJMjM36kjNlxDTE_K_S4d0",
+    "items": [
+        {
+            "kind": "youtube#video",
+            "etag": "QffeLjDoHe-BgBHM5Mpsdwz2GWY",
+            "id": "Ekw4X_QrHJ0",
+            "snippet": {
+                "publishedAt": "2021-08-05T14:07:32Z",
+                "channelId": "UCNHWpNqiM8yOQcHXtsluD7Q",
+                "title": "Este es el FALLO de SEGURIDAD MÁS COMÚN en EMPRESAS",
+                "description": "¿Cuáles son los fallos de seguridad más comunes que un analista de seguridad se encuentra en empresas?, en este vídeo, trataremos algunos de ellos, haciendo hincapié también en las medidas mitigadoras.\n\nCanal Secundario: https://www.youtube.com/channel/UCgzsRmCl4BU-QmSVC4jFOlg\nConfigurando un entorno Active Directory vulnerable: https://www.youtube.com/watch?v=-bNb4hwgkCo\n\nCuenta de Twitch: https://twitch.tv/s4vitaar\nCuenta de Twitter: https://twitter.com/s4vitar\nCuenta de Lbry: https://lbry.tv/@s4vitar:f\nServidor Discord Hacking Ético Español: https://discord.gg/u3dsh9M\nMi curso de Introducción al Pentesting: https://www.mastermind.ac/courses/introduccion-al-hacking-etico?ref=9988c9\nMi curso de Pentesting en Redes Inalámbricas: https://www.mastermind.ac/courses/hacking-de-redes-inalambricas-wifi?ref=9988c9\nMi curso de Pentesting en Radiofrecuencias: https://www.mastermind.ac/courses/hacking-radiofrecuencia?ref=9988c9\n\n#Ciberseguridad #InfoSec #Hacking #RedTeam #Pentesting #Twitch #S4vitar #Fallo #Seguridad #ErroresComunes #Errores #Error",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/Ekw4X_QrHJ0/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/Ekw4X_QrHJ0/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/Ekw4X_QrHJ0/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/Ekw4X_QrHJ0/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    }
+                },
+                "channelTitle": "s4vitar",
+                "tags": [
+                    "Hacking",
+                    "Ciberseguridad",
+                    "Errores de seguridad",
+                    "Fallos de seguridad",
+                    "Fallos de seguridad en empresas",
+                    "Empresas",
+                    "Riesgos seguridad",
+                    "S4vitar",
+                    "Red Team",
+                    "Pentester",
+                    "Analista de Seguridad",
+                    "SMB Relay",
+                    "Servicio RCP",
+                    "Rpclient",
+                    "Rpcenum",
+                    "SMB Firmado",
+                    "Firma SMB",
+                    "Relaying Attack",
+                    "SMB Relay Attack",
+                    "SMB Attack"
+                ],
+                "categoryId": "22",
+                "liveBroadcastContent": "none",
+                "localized": {
+                    "title": "Este es el FALLO de SEGURIDAD MÁS COMÚN en EMPRESAS",
+                    "description": "¿Cuáles son los fallos de seguridad más comunes que un analista de seguridad se encuentra en empresas?, en este vídeo, trataremos algunos de ellos, haciendo hincapié también en las medidas mitigadoras.\n\nCanal Secundario: https://www.youtube.com/channel/UCgzsRmCl4BU-QmSVC4jFOlg\nConfigurando un entorno Active Directory vulnerable: https://www.youtube.com/watch?v=-bNb4hwgkCo\n\nCuenta de Twitch: https://twitch.tv/s4vitaar\nCuenta de Twitter: https://twitter.com/s4vitar\nCuenta de Lbry: https://lbry.tv/@s4vitar:f\nServidor Discord Hacking Ético Español: https://discord.gg/u3dsh9M\nMi curso de Introducción al Pentesting: https://www.mastermind.ac/courses/introduccion-al-hacking-etico?ref=9988c9\nMi curso de Pentesting en Redes Inalámbricas: https://www.mastermind.ac/courses/hacking-de-redes-inalambricas-wifi?ref=9988c9\nMi curso de Pentesting en Radiofrecuencias: https://www.mastermind.ac/courses/hacking-radiofrecuencia?ref=9988c9\n\n#Ciberseguridad #InfoSec #Hacking #RedTeam #Pentesting #Twitch #S4vitar #Fallo #Seguridad #ErroresComunes #Errores #Error"
+                },
+                "defaultAudioLanguage": "es"
+            },
+            "contentDetails": {
+                "duration": "PT18M49S",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "false",
+                "licensedContent": true,
+                "contentRating": {},
+                "projection": "rectangular"
+            },
+            "status": {
+                "uploadStatus": "processed",
+                "privacyStatus": "public",
+                "license": "youtube",
+                "embeddable": true,
+                "publicStatsViewable": true,
+                "madeForKids": false
+            },
+            "statistics": {
+                "viewCount": "73752",
+                "likeCount": "7245",
+                "dislikeCount": "58",
+                "favoriteCount": "0",
+                "commentCount": "185"
+            },
+            "topicDetails": {
+                "topicCategories": [
+                    "https://en.wikipedia.org/wiki/Knowledge"
+                ]
+            },
+            "recordingDetails": {}
+        }
+    ],
+    "pageInfo": {
+        "totalResults": 1,
+        "resultsPerPage": 1
+    }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>tablero1</title>
+
+<script>
+function iniciar(){
+	console.log('paso por iniciar');
+	for (j=1;j<9;j++){
+		for (k=1;k<9;k++){
+			crearCaja(50,50,'aqua','caja'+k+j,'H');	
+		}
+		crearSalto();		
+	}
+}
+function crearSalto(height){
+	// div vacio sin dimensiones con clear left
+	var ele=document.createElement('div'); // crear nodo
+	ele.style.clear='left'; // css posicionamiento
+	document.body.appendChild(ele);	// añadir nodo al dom 
+}
+function crearCaja(width,height,color,id,inner){
+	var ele=document.createElement('div'); // crear objeto
+	ele.id=id;
+	ele.innerHTML=inner;
+	ele.style.cssFloat='left'; // css posicionamiento
+	ele.style.backgroundColor=color;
+	ele.style.width=width+'px';
+	ele.style.height=height+'px';
+	ele.style.margin='4px';
+	ele.style.border='1px solid black'
+	ele.addEventListener('click',clickCaja);
+	document.body.appendChild(ele); // anadir nodo al body
+}
+function clickCaja(){
+	alert(this.id); // this es el sender del evento
+}
+window.onload = iniciar; // sin parentesis , al final del head , inicio del js al carga la pagina
+</script>
+
+</head>
+ 
+<body>
+</body>
+</html>

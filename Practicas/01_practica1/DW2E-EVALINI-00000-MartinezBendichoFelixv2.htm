@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <p id="result"></p>
+
+    <script type="text/javascript">
+
+        var alto = prompt("Alto en metros");
+        var ancho = prompt("Ancho en metros");
+        var fondo = prompt("Fondo en metros");
+
+        var superficie = alto * ancho;
+        var volumen = alto * ancho * fondo;
+        var s2 = superficie * 3.281;
+        var v2 = volumen * 3.281;
+
+        var texto = "Alto = " + alto + "<br/ >Ancho = " + ancho + "<br />Fondo = " + fondo + "<br />Superficie = " + superficie + "(" + s2 + ")<br />Volumen = " + volumen + "(" + v2 + ")";
+
+        document.getElementById("result").innerHTML = texto;
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript">
+
+        posibleLetra = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'];
+
+        try {
+            var num = prompt("Introduce un numero");
+            var letra = prompt("Introduce una letra");
+
+            letra.toUpperCase();
+
+            var resto = num % 14;
+            resto = Math.floor(resto);
+
+            for (let i = 0; i < posibleLetra.length; i++) {
+                if ()
+            }
+
+        } catch (e) {
+            if (e == true) {
+                document.write("El " + num + " y " + letra + " son válidos<br>");
+            } else if (e == false && num == null || e == false && letra == null || e == false && num == "" || e == false && letra == "") {
+                document.write("Debes de introducir dos valores válidos<br>");
+            } else {
+                document.write("El número " + num + " y/o letra " + letra + " no son válidos<br>");
+            }
+        } finally {
+            document.write("El programa ha finalizado");
+        }
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

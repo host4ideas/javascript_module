@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h2>Introduce el archivo de entrada</h2>
+    <input type="file" id="inputfile">
+
+    <h2>Datos de entrada</h2>
+    <p id="input">
+
+    <h2>Resultado</h2>
+    <p id="output"></p>
+
+    <script>
+        const fileInput = document.getElementById("inputfile").addEventListener("change", handleFileSelect, false);
+        
+        function handleFileSelect(callback) {
+            var fileReader = new FileReader();
+            var file = this.files[0];
+            fileReader.readAsText(file);
+
+            fileReader.onload = function (callback) { // Cuando el archivo se cargue hacer esto
+                var contenido = fileReader.result
+
+                let texto = contenido.split("\r\n");
+
+                document.getElementById("input").innerHTML = texto;
+
+                var alto = parseFloat(texto[0]);
+                var ancho = parseFloat(texto[1]);
+                var fondo = parseFloat(texto[2]);
+
+                var s1 = alto * ancho;
+                var s2 = s1 * 3.28;
+                var v1 = alto * ancho * fondo;
+                var v2 = v1 * 3.28;
+
+                var salida = "Alto = " + alto + "<br/ >Ancho = " + ancho + "<br />Fondo = " + fondo + "<br />Superficie = " + s1 + "(" + s2 + ")<br />Volumen = " + v1 + "(" + v2 + ")";
+
+                document.getElementById("output").innerHTML = salida;
+            }
+
+            console.log(texto);
+        }
+    </script>
+</body>
+
+</html>

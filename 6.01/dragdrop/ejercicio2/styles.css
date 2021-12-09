@@ -1,0 +1,46 @@
+body {
+    display: flex;
+    justify-content: space-around;
+}
+
+.contenedor-principal {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+    float: left;
+}
+
+.contenedor-child {
+    text-align: center;
+    padding: 5px;
+    margin: 5px;
+}
+
+.contenido {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.contenido div {
+    text-align: center;
+    padding: 5px;
+    margin: 2px;
+}
+
+.verde {
+    background-color: green;
+}
+
+.azul {
+    background-color: aliceblue;
+}
+
+.crema {
+    background-color: bisque;
+}
+
+.drop {
+    background-color: darkturquoise;
+}

@@ -1,0 +1,90 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        function listaRandom() {
+            var arr = [];
+            for (let i = 0; i < 10; i++) {
+                arr[i] = Math.floor(Math.random() * (1001));
+            }
+            return arr;
+        }
+
+        function compararAscendente(a, b) {
+            return a - b;
+        }
+
+        function compararDescendente(a, b) {
+            return b - a;
+        }
+
+        function mediaReduce(lista) {
+            const REDUCER = (previousValue, currentValue) => previousValue + currentValue;
+            var sumatorio = lista.reduce(REDUCER);
+            return (sumatorio / lista.length);
+        }
+
+        function mediaSuma(lista) {
+            var sumatorio = 0;
+            lista.forEach(element => {
+                sumatorio += element;
+            })
+            return (sumatorio / lista.length);
+        }
+
+        function mediaAbreviado(lista) {
+            return (lista.reduce((previousValue, currentValue) => previousValue + currentValue) / lista.length);
+        }
+
+        function maximoApply(lista) {
+            return Math.max.apply(null, lista);
+        }
+
+        function minimoApply(lista) {
+            return Math.min.apply(null, lista);
+        }
+
+        function maximoSort(lista) {
+            return lista.sort(compararDescendente)[0];
+        }
+
+        function minimoSort(lista) {
+            return lista.sort(compararAscendente)[0];
+        }
+
+        function sumaReduce(lista) {
+            return (lista.reduce((previousValue, currentValue) => previousValue + currentValue));
+        }
+
+        function filtrar(lista) {
+            lista.filter(num => num >= 0 && num <= 100).forEach(element => document.write(element + " "));
+        }
+
+        var lista = listaRandom();
+
+        document.write("lista: " + lista + "<br>");
+        document.write("ascendente: " + lista.sort(compararAscendente) + "<br>");
+        document.write("descendente: " + lista.sort(compararDescendente) + "<br>");
+        document.write("media reduce: " + mediaReduce(lista) + "<br>");
+        document.write("media suma/elementos: " + mediaSuma(lista) + "<br>");
+        document.write("media reduce abreviado: " + mediaAbreviado(lista) + "<br>");
+        document.write("maximo apply: " + maximoApply(lista) + "<br>");
+        document.write("minimo apply: " + minimoApply(lista) + "<br>");
+        document.write("maximo sort: " + maximoSort(lista) + "<br>");
+        document.write("minimo sort: " + minimoSort(lista) + "<br>");
+        document.write("suma reduce: " + sumaReduce(lista) + "<br>");
+        document.write("filtra entre 0 y 100: ");
+        filtrar(lista);
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

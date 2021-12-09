@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function calculos(ingresos, gastos){
+            var ingresosTotales = 0;
+            var gastosTotales = 0;
+            for(let i = 0; i < ingresos.length; i++){
+                document.write(diasSemana[i] + ":" + ingresos[i] + "-" + gastos[i] + "=" + (ingresos[i]-gastos[i]) + "#");
+                ingresosTotales += ingresos[i];
+                gastosTotales += gastos[i];
+            }
+            document.write("<br>");
+            document.write("totales:" + ingresosTotales + "#" + gastosTotales + "#" + (ingresosTotales-gastosTotales));
+            document.write("<br>");
+            var mediaIngresos = ingresosTotales/diasSemana.length;
+            var mediaGastos = gastosTotales/diasSemana.length;
+            var mediaBeneficios = (ingresosTotales-gastosTotales)/diasSemana.length;
+            document.write("medias:" + mediaIngresos + "#" + mediaGastos + "#" + mediaBeneficios);
+            document.write("<br><br>");
+        }
+
+        var diasSemana = ["lunes", "martes", "miercoles", "jueves", "viernes"];
+        var ingresos = [1, 2, 3, 4, 5];
+        var gastos = [5, 4, 3, 2, 1];
+        var gastos2 = [];
+        var ingresos2 = [];
+        var valorRandom = 0;
+        
+        document.write("Felix");
+        document.write("<br><br>");
+        diasSemana.forEach(element => {
+            document.write(element + " ");
+        });
+        document.write("<br><br>");
+        
+        for(let i = 0; i < 5; i++){
+            valorRandom = Math.floor(Math.random() * (9-2) + 2);
+            gastos2.push(valorRandom);
+        }
+
+        for(let i = 0; i < 5; i++){
+            valorRandom = Math.floor(Math.random() * (9-2) + 2);
+            ingresos2.push(valorRandom);
+        }
+
+        calculos(ingresos, gastos);
+        calculos(ingresos2, gastos2);
+    </script>
+</body>
+</html>

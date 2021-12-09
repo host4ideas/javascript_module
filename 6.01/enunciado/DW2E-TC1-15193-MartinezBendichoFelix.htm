@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+
+<style>
+.gris{
+	background-color: #DDD;
+}
+.contenedor{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	top: 16px;
+	left: 16px;
+	text-align: center;
+	transition: top 2s, background-color 0s; 
+}
+div>div{
+	position: absolute;	
+	background-color: red;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border-radius: 100%;
+}
+.izq{
+	left:-10px;
+	top: 36px;
+}
+.der{
+	top: -10px;
+	left:36px;
+}
+.arr{
+	left: -10px;
+	top:-10px;
+}
+.abj{
+	top:36px;
+	left: 36px;
+}
+
+.moveElementDown{
+	transition: 500ms;
+}
+
+</style>
+
+<script>
+	var indiceY = 0;
+	var posicionTransform = 520;
+
+	function inicio(){
+		for(let i = 1; i < 9; i++){
+			crearDiv(i);
+		}
+	}
+
+	function crearDiv(indice){
+		var divPrincipal = document.createElement("div");
+		divPrincipal.innerHTML = indice;
+		divPrincipal.id = indice;
+		divPrincipal.setAttribute("class", "contenedor gris");
+		
+		
+
+		divPrincipal.addEventListener("click", function(){
+			this.setAttribute("class", "contenedor gris moveElementDown")
+			this.style.transform = "translateY(" + posicionTransform + "px)";
+			posicionTransform -= 70;
+		});
+
+		divPrincipal.addEventListener("click", function(){
+			if(indice > 1){
+				this.setAttribute("class", "contenedor gris moveElementDown");
+				var arrCirculosRojos = this.childNodes;
+				arrCirculosRojos.forEach(element => {
+				if(element.nodeType != 3){
+					element.style.backgroundColor = "green";
+				}
+			});
+			this.style.backgroundColor = "yellow";
+			}
+		});
+
+		var arrPosiciones = ["arr", "der", "abj", "izq"];
+		for(let i = 0; i < 4; i++){
+			var divCirculo = document.createElement("div");
+			divCirculo.setAttribute("class", arrPosiciones[i]);
+			divPrincipal.appendChild(divCirculo);
+		}
+		document.body.appendChild(divPrincipal);
+	}
+window.onload=inicio;
+</script>
+</head>
+<body></body>
+</html>
+
+

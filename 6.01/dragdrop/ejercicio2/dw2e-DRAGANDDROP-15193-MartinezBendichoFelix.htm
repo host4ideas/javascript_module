@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Dragdrop 2</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function crearContenedorElementos(nombreContenedor, nombreHijos, i) {
+            var contenedorPrincipal = document.createElement("div");
+            contenedorPrincipal.setAttribute("class", "contenedor-principal");
+            contenedorPrincipal.id = "contenedor" + i;
+            contenedorPrincipal.contadorContenedor = 0;
+            document.body.appendChild(contenedorPrincipal);
+
+            var tituloContenedor = document.createElement("div");
+            tituloContenedor.innerHTML = nombreContenedor;
+            tituloContenedor.setAttribute("class", "azul contenedor-child");
+            contenedorPrincipal.appendChild(tituloContenedor);
+
+            // Caja para eliminar etiquetas
+            var drop = document.createElement("div");
+            drop.id = "drop" + i;
+            drop.innerHTML = "[drop]";
+            drop.setAttribute("class", "drop contenedor-child");
+            contenedorPrincipal.appendChild(drop);
+
+            var agregar = document.createElement("div");
+            agregar.innerHTML = "[+]";
+            agregar.setAttribute("class", "verde contenedor-child");
+            agregar.addEventListener("click", function () {
+                // Guardamos el indice para cada elemento, el cual aumenta por cada eventListenner
+                contenedorPrincipal.contadorContenedor += 1;
+                var elemento = document.createElement("div");
+                elemento.setAttribute("draggable", "true");
+                elemento.id = "elemento" + contenedorPrincipal.contadorContenedor;
+                if (nombreContenedor == "ETIQUETAS") {
+                    elemento.contenido = [];
+                } else {
+                    elemento.etiquetas = [];
+                }
+                elemento.innerHTML = nombreHijos + " " + contenedorPrincipal.contadorContenedor;
+                elemento.setAttribute("class", "crema contenedor-child");
+                document.getElementById(("contenedor" + i)).insertBefore(elemento, document.getElementById(("drop" + i)));
+
+                if (nombreContenedor == "ETIQUETAS") {
+                    var dupNode = elemento.cloneNode(true);
+                    dupNode.id += "Dup";
+                    var contenedorContenido = document.getElementById(("contenedor2"));
+                    var arrChilds = contenedorContenido.childNodes;
+                    document.getElementById(("contenedor2")).insertBefore(dupNode, document.getElementById(("drop" + 2)));
+                }
+
+                /*
+                    Element drag events (event.target)
+                */
+
+                elemento.addEventListener("dragstart", function (event) {
+                    // The dataTransfer.setData() method sets the data type and the value of the dragged data
+                    event.dataTransfer.setData("text", event.target.id);
+                    // Change the border of the dragable element
+                    event.target.style.border = "1px solid grey";
+                });
+
+                // Output some text when finished dragging the p element and reset the opacity
+                elemento.addEventListener("dragend", function (event) {
+
+                });
+
+                // While dragging the element
+                elemento.addEventListener("drag", function (event) {
+
+                });
+            });
+
+            contenedorPrincipal.appendChild(agregar);
+
+            /*
+                Drop target
+            */
+
+            // When the draggable element enters the droptarget
+            drop.addEventListener("dragenter", function (event) {
+
+            });
+
+            // By default, data/elements cannot be dropped in other elements. To allow a drop, we must prevent the default handling of the element
+            drop.addEventListener("dragover", function (event) {
+                if (event.target.parentNode.id == drop.parentNode.id) {
+                    event.preventDefault();
+                }
+            });
+
+            // When the draggable element leaves the droptarget
+            drop.addEventListener("dragleave", function (event) {
+
+            });
+
+            /* On drop - Prevent the browser default handling of the data (default is open as link on drop)
+               Reset the color of the output text and DIV's border color
+               Get the dragged data with the dataTransfer.getData() method
+               The dragged data is the id of the dragged element ("drag1")
+               Append the dragged element into the drop element
+            */
+            drop.addEventListener("drop", function (event) {
+                event.preventDefault();
+                var data = event.dataTransfer.getData("text");
+                contenedorPrincipal.removeChild(document.getElementById(data));
+                var contenedorContenido = document.getElementById(("contenedor2"));
+                contenedorContenido.removeChild(document.getElementById(data + "Dup"));
+            });
+        }
+
+        function crearContenedorContenido(nombreContenedor, i) {
+            var contenedorPrincipal = document.createElement("div");
+            contenedorPrincipal.setAttribute("class", "contenedor-principal contenido");
+            contenedorPrincipal.id = "contenedor" + i;
+            contenedorPrincipal.contadorContenedor = 0;
+            document.body.appendChild(contenedorPrincipal);
+
+            var tituloContenedor = document.createElement("div");
+            tituloContenedor.innerHTML = nombreContenedor;
+            tituloContenedor.setAttribute("class", "azul");
+            contenedorPrincipal.appendChild(tituloContenedor);
+
+            // Inputs y labels
+            var labelTitulo = document.createElement("label");
+            labelTitulo.innerText = "Titulo";
+            var inputTitulo = document.createElement("input");
+            inputTitulo.setAttribute("type", "text");
+            inputTitulo.setAttribute("placeholder", "titulo");
+
+            contenedorPrincipal.appendChild(labelTitulo);
+            contenedorPrincipal.appendChild(inputTitulo);
+
+            var labelUrl = document.createElement("label");
+            labelUrl.innerText = "Url";
+            var inputUrl = document.createElement("input");
+            inputUrl.setAttribute("type", "text");
+            inputUrl.setAttribute("placeholder", "url");
+
+            contenedorPrincipal.appendChild(labelUrl);
+            contenedorPrincipal.appendChild(inputUrl);
+
+            var labelDescri = document.createElement("label");
+            labelDescri.innerText = "Descripcion";
+            var inputDescri = document.createElement("input");
+            inputDescri.setAttribute("type", "text");
+            inputDescri.setAttribute("placeholder", "descripcion");
+
+            contenedorPrincipal.appendChild(labelDescri);
+            contenedorPrincipal.appendChild(inputDescri);
+
+
+            var childsArr = contenedorPrincipal.childNodes;
+            var maxIndex = childsArr.length;
+
+            // for(let i = 0; i < maxIndex; i++){
+            //     if(childsArr[i])
+            // }
+
+            // Caja para eliminar etiquetas
+            var drop = document.createElement("div");
+            drop.id = "drop" + i;
+            drop.innerHTML = "[drop]";
+            drop.setAttribute("class", "drop");
+            contenedorPrincipal.appendChild(drop);
+
+            /*
+                Drop target
+            */
+
+            // When the draggable element enters the droptarget
+            drop.addEventListener("dragenter", function (event) {
+
+            });
+
+            // By default, data/elements cannot be dropped in other elements. To allow a drop, we must prevent the default handling of the element
+            drop.addEventListener("dragover", function (event) {
+                if (event.target.parentNode.id == drop.parentNode.id) {
+                    event.preventDefault();
+                }
+            });
+
+            // When the draggable element leaves the droptarget
+            drop.addEventListener("dragleave", function (event) {
+
+            });
+
+            /* On drop - Prevent the browser default handling of the data (default is open as link on drop)
+               Reset the color of the output text and DIV's border color
+               Get the dragged data with the dataTransfer.getData() method
+               The dragged data is the id of the dragged element ("drag1")
+               Append the dragged element into the drop element
+            */
+            drop.addEventListener("drop", function (event) {
+                event.preventDefault();
+                var data = event.dataTransfer.getData("text");
+                contenedorPrincipal.removeChild(document.getElementById(data));
+            });
+        }
+
+        crearContenedorElementos("BOOKMARKS", "Bookmark", "1");
+        crearContenedorContenido("CONTENIDO", "2");
+        crearContenedorElementos("ETIQUETAS", "Label", "3");
+    </script>
+</body>
+
+</html>

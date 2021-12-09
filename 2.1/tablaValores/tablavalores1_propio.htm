@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla valores 1</title>
+    <script type="text/javascript">
+        /*
+            x - cos x - sin x -  seno x con 14 decimales - x con decimales - x con 14 decimales
+        */
+
+        // Valores iniciales de x
+        var valores = [0.00, 0.60, 1.20, 1.80, 2.40, 3.00, 3.60, 4.20, 4.80, 5.40, 6.00, 6.60, 7.20, 7.80, 8.40, 9.00, 9.60, 10.20, 10.80, 11.40, 12.00];
+
+        var valores = [];
+        for (let i = 0; i < 21; i++) {
+            valores.push((Math.random() * 13));
+        }
+
+        console.log(valores);
+
+        var c = document.createElement("canvas");
+        var ctx = c.getContext("2d");
+        c.id = "myCanvas";
+        c.style.margin = "10px";
+        c.style.border = "solid 1px black";
+        c.style.backgroundColor = "aquamarine";
+        c.setAttribute("width", "800px");
+        c.setAttribute("height", "400px");
+
+        /*
+    x - cos x - sin x -  seno x con 14 decimales - x con decimales - x con 14 decimales
+*/
+
+        // Valores iniciales de x
+        var valores = [0.00, 0.60, 1.20, 1.80, 2.40, 3.00, 3.60, 4.20, 4.80, 5.40, 6.00, 6.60, 7.20, 7.80, 8.40, 9.00, 9.60, 5.20, 5.80, 11.40, 12.00];
+
+        // var valores = [];
+        // for (let i = 0; i < 21; i++) {
+        //     valores.push((Math.random() * 13));
+        // }
+
+        var table = document.createElement("table");
+        table.style.border = "solid 1px black collapse";
+        table.style.padding = "5px";
+        var thead = document.createElement("thead");
+        thead.style.backgroundColor = "green";
+        var tr = document.createElement("tr");
+
+        document.body.appendChild(table);
+        table.appendChild(thead);
+        thead.appendChild(tr);
+
+        var htmlTh = ["x", "cos(x)", "seno(x)", "seno(x) 14 decimales", "x con 14 decimales", "x original"];
+        for (let i = 0; i < 6; i++) {
+            var th = document.createElement("th");
+            th.style.border = "solid 1px black collapse";
+            th.style.padding = "5px";
+            th.innerHTML = htmlTh[i];
+            tr.appendChild(th);
+        }
+
+        var tbody = document.createElement("tbody");
+
+        valores.forEach(element => {
+            var seno = Math.sin(element);
+            var coseno = Math.cos(element);
+            var tr = document.createElement("tr");
+            var htmlTd = [element.toFixed(2), coseno, seno, seno.toFixed(15), element.toFixed(14), element];
+
+            for (let i = 0; i < 6; i++) {
+                var td = document.createElement("td");
+                td.style.border = "solid 1px black collapse";
+                td.style.padding = "5px";
+                td.innerHTML = htmlTd[i];
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+
+        var scale = 5;
+        //Pintar los puntos para pintar los valores
+        function drawfx(x, y) {
+            //Aquí es donde aplico la escala
+            x = x * scale;
+            y = y * scale;
+
+            ctx.beginPath();
+            ctx.arc(x, y, 1, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        ctx.stroke();
+        document.body.appendChild(c);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

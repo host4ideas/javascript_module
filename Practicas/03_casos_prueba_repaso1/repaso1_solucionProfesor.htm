@@ -1,0 +1,166 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>ejercicio-C-madrid-2011</title>
+	<style>
+		body {
+			margin: 4px;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<h2>Introduce el archivo de entrada</h2>
+	<input type="file" id="inputfile">
+
+	<h2>Datos de entrada</h2>
+	<p id="input">
+
+	<h2>Resultado</h2>
+	<p id="output"></p>
+
+	<script type="text/javascript">
+
+		/*
+		PREMISAS
+		-los ceros se consideran minimos.
+		-se pueden repetir las entradas, las sumar� o no repetir.
+		-para calcular la media no se tienen en cuenta las lineas con cero y solo la categoria comida.
+		
+		DESARROLLO
+		Desarrollo en espiral a�adiendo poco a poco funcionalidades:
+		-impirmir salida
+		-detectar fin de entrada
+		-detectar fin del dia
+		-leer datos del dia , imprimir cuantos lineas hay en cada dia
+		-imprimir los separadores por linea #
+		-imprimir el maximo y minimo
+		-imprimir cuantos maximo y minimos
+		-imprimir la media 
+		-cuanto tenga los calculo imprimir los textos
+		*/
+
+		const fileInput = document.getElementById("inputfile").addEventListener("change", handleFileSelect, false);
+
+		function handleFileSelect(callback) {
+			var fileReader = new FileReader();
+			var file = this.files[0];
+			fileReader.readAsText(file);
+
+			fileReader.onload = function (callback) { // Cuando el archivo se cargue hacer esto
+				var contenido = fileReader.result
+				var entrada = contenido.split("\r\n");
+
+				for (var i = 1; i < entrada.length; i += 2) {
+					entrada[i] = parseFloat(entrada[i]);
+				}
+
+				// for (var i = 1; i < entrada.length; i += 2) {
+				// 	entrada[i] = parseFloat(entrada[i]);
+				// }
+
+				tratamientoEntrada(entrada);
+				document.getElementById("input").innerHTML = entrada;
+			}
+		}
+
+		// // entradas de datos todos con cadenas
+		// var entrada = [
+		// 	'D', '2.8', 'C', '2.8', 'A', '8', 'N', '0',
+		// 	'D', '15.33', 'A', '60', 'M', '12', 'I', '25', 'E', '0'];
+		// // sobrescritura de array
+		// var entrada = [
+		// 	'D', '2.8', 'D', '2.8', 'C', '2.8', 'A', '2.8', 'A', '2.8', 'N', '0',
+		// 	'D', '15.33', 'A', '60', 'M', '12', 'I', '25', 'N',
+		// 	'0', 'D', '3', 'C', '2', 'A', '1', 'M', '3', 'E', '0'];
+		// // sobrescritura mezcla de cadenas y numeros permitida me ahorro parseFloat
+		// var entrada = [
+		// 	'D', 1.8, 'D', 0.80, 'C', 48.00, 'A', 8, 'N', 0, 'D', 15.33, 'A', 60.00,
+		// 	'M', 12.00, 'I', 25.00, 'E', 0];
+
+		function tratamientoEntrada(entrada) {
+			console.log(entrada); // imprimir depuracion en navegador por consola
+
+			// declaraci�n de variables de ambito global
+			var d1, d2, i = 0;
+			var temporal = [0, 0, 0, 0, 0]; // almacena contadores de gastos para las categorias D A M I C , iniciados a cero para categorias que no aparecen
+			var tipos = ['DESAYUNO', 'COMIDA', 'MERIENDA', 'CENAS', 'COPAS']; //textos para las caterogias [0]=DESAYUNO usado en impresi�n
+
+			document.write("<b>entrada</b><br/>"); // imprimir
+
+			// bucle para imprimir la entrada de datos
+			do {
+				d1 = entrada[i];
+				d2 = entrada[i + 1];
+				if (d1 != 'N' && d1 != 'E') { d2 = d2.toFixed(2) }
+				document.write(d1 + " " + d2 + "<br/>");
+				i += 2;
+			} while (d1 != 'E') // marca de fin de entrada	
+
+			// calculos y salida
+			document.write("<b>salida</b><br/>");
+
+			var j;
+			i = 0; // inicio del indice para el bucle siguiente
+			do {
+				d1 = entrada[i];
+				d2 = entrada[i + 1];
+				if (d1 != 'N' && d1 != 'E') {	// operador AND && , no es fin del d�a
+					// almacenar los datos del dia por categorias
+					if (d1 == 'D') { j = 0; }
+					if (d1 == 'A') { j = 1; }
+					if (d1 == 'M') { j = 2; }
+					if (d1 == 'I') { j = 3; }
+					if (d1 == 'C') { j = 4; }
+					temporal[j] = temporal[j] + parseFloat(d2); // acumula y podrian repetirse categorias , paso a n�mero decimal
+				}
+				else { // fin del dia							
+					var maximo = -1, minimo = 999, media = 0, suma = 0, elementos = 0, vmin, vmax, cmin = 0, cmax = 0; // inicializaci�n
+					for (k = 0; k < temporal.length; k++) { // revision de gastos del dia, calculo del minimo,maximo,suma
+						console.log(k + " --" + temporal[k]);
+						//if (temporal[k]!=0){ // procesa entradas a cero
+						if (temporal[k] == minimo) { cmin++; } // contador de minimos , cmin>0 minimo repetido
+						if (temporal[k] == maximo) { cmax++; } // contador de maximos , cmax>0 minimo repetido
+						if (temporal[k] < minimo) { minimo = temporal[k]; vmin = k; cmin = 0 }   // minimo
+						if (temporal[k] > maximo) { maximo = temporal[k]; vmax = k; cmax = 0 }	// maximo
+						if (temporal[k] != 0 && k == 3) { // no usa los gastos ceros para la media , para la media solo usa comidas
+							elementos++;
+							suma += temporal[k];
+						}
+						//}		
+					}
+					media = suma / elementos;
+
+					// resultado del c�lculo
+					console.log("minimo:" + vmin + " maximo:" + vmax + " elementos:" + elementos + " suma:" + suma + " media:" + media + " empate maximo:" + cmax + ' empate minimo:' + cmin);
+
+					// imprimir resultados y terminar los calculos
+					var cat = tipos[vmax];
+					if (cmax > 0) { cat = 'EMPATE'; }	// hay mas de un maximo								
+					document.write(cat + "#");
+
+					cat = tipos[vmin];
+					if (cmin > 0) { cat = 'EMPATE'; }	// hay mas de un minimo							
+					document.write(cat + "#");
+
+					if (temporal[1] > media) { cat = 'SI'; } else { cat = 'NO'; }
+					document.write(cat + "<br/>");
+
+					var temporal = [0, 0, 0, 0, 0]; // reset para el proximo dia
+					j = 0;
+				}
+				i += 2; // indice para recorrer la entrada		
+			} while (d1 != 'E') // fin de fichero	
+
+		}
+
+	</script>
+
+</body>
+
+</html>

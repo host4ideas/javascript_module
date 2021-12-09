@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>calculo</title>
+</head>
+ 
+<body>
+
+<p id='resul'></p>
+
+<script>
+/*
+el programa crea un parrafo con id resul,
+pide por pantalla los datos al usuario usando prompt
+hace los calculos, no necesito tipar las variables
+monta en una variable texto el resultado usando html
+lo saca por el elemento p.resul usando innerHTML
+*/
+
+var alto=10;
+var ancho=20;
+var fondo=30;
+
+var alto = prompt("Alto (m)?", "");
+var ancho = prompt("Ancho (m)?", "");
+var fondo = prompt("Fondo (m)?", "");
+
+var superficie=fondo*ancho;
+var s2=superficie*3.28;
+var volumen=superficie*alto;
+var v2=volumen*3.28;
+
+var texto="alto = "+alto+"<br/>ancho = "+ancho+"<br/>fondo = "+fondo+"<br/>superficie = "+superficie+" ( "+s2.toFixed(2)+" pies )"+"<br/>volumen = "+volumen+" ( "+v2.toFixed(2)+" pies )";
+
+document.getElementById("resul").innerHTML=texto;
+
+</script>
+</body>
+</html>

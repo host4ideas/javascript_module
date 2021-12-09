@@ -1,0 +1,98 @@
+{
+    "kind": "youtube#videoListResponse",
+    "etag": "ckncyUOUnNze_IRUu_KmXo_su0o",
+    "items": [
+        {
+            "kind": "youtube#video",
+            "etag": "0k2g8PkiNkyas75aWpQkSkujtGk",
+            "id": "SsJ_AusntiU",
+            "snippet": {
+                "publishedAt": "2021-08-29T15:09:14Z",
+                "channelId": "UCbfYPyITQ-7l4upoX8nvctg",
+                "title": "This AI Learned Boxing…With Serious Knockout Power! 🥊",
+                "description": "❤️ Check out Perceptilabs and sign up for a free demo here: https://www.perceptilabs.com/papers\n\n📝 The paper \"Control Strategies for Physically Simulated Characters Performing Two-player Competitive Sports\" is available here:\nhttps://research.fb.com/publications/control-strategies-for-physically-simulated-characters-performing-two-player-competitive-sports/\n\n🙏 We would like to thank our generous Patreon supporters who make Two Minute Papers possible:\nAleksandr Mashrabov, Alex Haro, Andrew Melnychuk, Angelos Evripiotis, Benji Rabhan, Bryan Learn, Christian Ahlin, Eric Haddad, Eric Martel, Gordon Child, Ivo Galic, Jace O'Brien, Javier Bustamante, John Le, Jonas, Kenneth Davis, Klaus Busse, Lorin Atzberger, Lukas Biewald, Matthew Allen Fisher, Mark Oates, Michael Albrecht, Nikhil Velpanur, Owen Campbell-Moore, Owen Skarpness, Ramsey Elbasheer, Steef, Taras Bobrovytsky, Thomas Krcmar, Timothy Sum Hon Mun, Torsten Reil, Tybie Fitzhugh, Ueli Gallizzi.\nIf you wish to appear here or pick up other perks, click here: https://www.patreon.com/TwoMinutePapers\n\nThumbnail background design: Felícia Zsolnai-Fehér - http://felicia.hu\n\nKároly Zsolnai-Fehér's links:\nInstagram: https://www.instagram.com/twominutepapers/\nTwitter: https://twitter.com/twominutepapers\nWeb: https://cg.tuwien.ac.at/~zsolnai/",
+                "thumbnails": {
+                    "default": {
+                        "url": "https://i.ytimg.com/vi/SsJ_AusntiU/default.jpg",
+                        "width": 120,
+                        "height": 90
+                    },
+                    "medium": {
+                        "url": "https://i.ytimg.com/vi/SsJ_AusntiU/mqdefault.jpg",
+                        "width": 320,
+                        "height": 180
+                    },
+                    "high": {
+                        "url": "https://i.ytimg.com/vi/SsJ_AusntiU/hqdefault.jpg",
+                        "width": 480,
+                        "height": 360
+                    },
+                    "standard": {
+                        "url": "https://i.ytimg.com/vi/SsJ_AusntiU/sddefault.jpg",
+                        "width": 640,
+                        "height": 480
+                    },
+                    "maxres": {
+                        "url": "https://i.ytimg.com/vi/SsJ_AusntiU/maxresdefault.jpg",
+                        "width": 1280,
+                        "height": 720
+                    }
+                },
+                "channelTitle": "Two Minute Papers",
+                "tags": [
+                    "two minute papers",
+                    "deep learning",
+                    "ai",
+                    "technology",
+                    "science",
+                    "machine learning",
+                    "boxing ai",
+                    "facebook"
+                ],
+                "categoryId": "28",
+                "liveBroadcastContent": "none",
+                "defaultLanguage": "en",
+                "localized": {
+                    "title": "This AI Learned Boxing…With Serious Knockout Power! 🥊",
+                    "description": "❤️ Check out Perceptilabs and sign up for a free demo here: https://www.perceptilabs.com/papers\n\n📝 The paper \"Control Strategies for Physically Simulated Characters Performing Two-player Competitive Sports\" is available here:\nhttps://research.fb.com/publications/control-strategies-for-physically-simulated-characters-performing-two-player-competitive-sports/\n\n🙏 We would like to thank our generous Patreon supporters who make Two Minute Papers possible:\nAleksandr Mashrabov, Alex Haro, Andrew Melnychuk, Angelos Evripiotis, Benji Rabhan, Bryan Learn, Christian Ahlin, Eric Haddad, Eric Martel, Gordon Child, Ivo Galic, Jace O'Brien, Javier Bustamante, John Le, Jonas, Kenneth Davis, Klaus Busse, Lorin Atzberger, Lukas Biewald, Matthew Allen Fisher, Mark Oates, Michael Albrecht, Nikhil Velpanur, Owen Campbell-Moore, Owen Skarpness, Ramsey Elbasheer, Steef, Taras Bobrovytsky, Thomas Krcmar, Timothy Sum Hon Mun, Torsten Reil, Tybie Fitzhugh, Ueli Gallizzi.\nIf you wish to appear here or pick up other perks, click here: https://www.patreon.com/TwoMinutePapers\n\nThumbnail background design: Felícia Zsolnai-Fehér - http://felicia.hu\n\nKároly Zsolnai-Fehér's links:\nInstagram: https://www.instagram.com/twominutepapers/\nTwitter: https://twitter.com/twominutepapers\nWeb: https://cg.tuwien.ac.at/~zsolnai/"
+                },
+                "defaultAudioLanguage": "en"
+            },
+            "contentDetails": {
+                "duration": "PT6M8S",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "true",
+                "licensedContent": true,
+                "contentRating": {},
+                "projection": "rectangular"
+            },
+            "status": {
+                "uploadStatus": "processed",
+                "privacyStatus": "public",
+                "license": "youtube",
+                "embeddable": true,
+                "publicStatsViewable": false,
+                "madeForKids": false
+            },
+            "statistics": {
+                "viewCount": "962243",
+                "likeCount": "45549",
+                "dislikeCount": "719",
+                "favoriteCount": "0",
+                "commentCount": "1468"
+            },
+            "recordingDetails": {},
+            "localizations": {
+                "en": {
+                    "description": "❤️ Check out Perceptilabs and sign up for a free demo here: https://www.perceptilabs.com/papers\n\n📝 The paper \"Control Strategies for Physically Simulated Characters Performing Two-player Competitive Sports\" is available here:\nhttps://research.fb.com/publications/control-strategies-for-physically-simulated-characters-performing-two-player-competitive-sports/\n\n🙏 We would like to thank our generous Patreon supporters who make Two Minute Papers possible:\nAleksandr Mashrabov, Alex Haro, Andrew Melnychuk, Angelos Evripiotis, Benji Rabhan, Bryan Learn, Christian Ahlin, Eric Haddad, Eric Martel, Gordon Child, Ivo Galic, Jace O'Brien, Javier Bustamante, John Le, Jonas, Kenneth Davis, Klaus Busse, Lorin Atzberger, Lukas Biewald, Matthew Allen Fisher, Mark Oates, Michael Albrecht, Nikhil Velpanur, Owen Campbell-Moore, Owen Skarpness, Ramsey Elbasheer, Steef, Taras Bobrovytsky, Thomas Krcmar, Timothy Sum Hon Mun, Torsten Reil, Tybie Fitzhugh, Ueli Gallizzi.\nIf you wish to appear here or pick up other perks, click here: https://www.patreon.com/TwoMinutePapers\n\nThumbnail background design: Felícia Zsolnai-Fehér - http://felicia.hu\n\nKároly Zsolnai-Fehér's links:\nInstagram: https://www.instagram.com/twominutepapers/\nTwitter: https://twitter.com/twominutepapers\nWeb: https://cg.tuwien.ac.at/~zsolnai/",
+                    "title": "This AI Learned Boxing…With Serious Knockout Power! 🥊"
+                }
+            }
+        }
+    ],
+    "pageInfo": {
+        "totalResults": 1,
+        "resultsPerPage": 1
+    }
+}

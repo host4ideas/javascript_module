@@ -1,0 +1,250 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Tablero 5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+</head>
+
+<body>
+    <script>
+        const colores = Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
+        function crearTablero() {
+            // alert("Utiliza WASD para moverte por el tablero y pulsa Q \npara cambiar el color del cubo en el que te posiciones.");
+            var bgCubeColors = coloresRandom();
+            var contador = 0;
+            var listaDivs = [];
+            for (let i = 0; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    contador++;
+                    var ele = createSquare(bgCubeColors[0], bgCubeColors[1], contador);
+                    listaDivs.push(ele);
+                }
+                nuevaLinea();
+            }
+            const BACKUP_DIVS = listaDivs;
+            var posicion = 0;
+            listaDivs[0].firstElementChild.style.visibility = "visible";
+            // Añadimos el event listener para las pulsaciones del teclado
+            document.addEventListener('keypress', (event) => {
+                switch (event.code) {
+                    case "KeyW":
+                        listaDivs[posicion].firstElementChild.style.visibility = "hidden";
+                        if (posicion - 8 >= 0) { posicion -= 8 };
+                        listaDivs[posicion].firstElementChild.style.visibility = "visible";
+                        break;
+                    case "KeyA":
+                        listaDivs[posicion].firstElementChild.style.visibility = "hidden";
+                        if (posicion - 1 >= 0) { posicion-- };
+                        listaDivs[posicion].firstElementChild.style.visibility = "visible";
+                        break;
+                    case "KeyS":
+                        listaDivs[posicion].firstElementChild.style.visibility = "hidden";
+                        if (posicion + 8 <= listaDivs.length - 8) { posicion += 8 };
+                        listaDivs[posicion].firstElementChild.style.visibility = "visible";
+                        break;
+                    case "KeyD":
+                        listaDivs[posicion].firstElementChild.style.visibility = "hidden";
+                        if (posicion + 1 < listaDivs.length) { posicion++ };
+                        listaDivs[posicion].firstElementChild.style.visibility = "visible";
+                        break;
+                    case "KeyQ":
+                        cambiarColorCubo(listaDivs[posicion]);
+                        console.log(listaDivs[posicion]);
+                        break;
+                    case "KeyE":
+                        document.write(BACKUP_DIVS[posicion]);
+                        break;
+                }
+            });
+        }
+        // Creamos un div sin background con float left para que se localice a la izquierda y no a continuación del anterior
+        function nuevaLinea() {
+            var ele = document.createElement('div');
+            ele.style.clear = 'left';
+            document.body.appendChild(ele);
+        }
+        // Definimos el comportamiento de la caja al hacer click sobre ella, la accion se escucha con eventListener
+        // El color se cambia cargando de nuevo el canvas dentro del div
+        function cambiarColorCubo(container = null) {
+            if (container == null) {
+                var containerId = this.id;
+                var canvasElement = document.getElementById(containerId).lastChild;
+                var canvasId = canvasElement.id;
+                document.getElementById(containerId).removeChild(canvasElement);
+                var bgCubeColors = coloresRandom();
+                createSquare(bgCubeColors[0], bgCubeColors[1], canvasId, containerId);
+            } else {
+                var containerId = container.id;
+                var canvasElement = document.getElementById(containerId).lastChild;
+                var canvasId = canvasElement.id;
+                document.getElementById(containerId).removeChild(canvasElement);
+                var bgCubeColors = coloresRandom();
+                createSquare(bgCubeColors[0], bgCubeColors[1], canvasId, containerId);
+            }
+        }
+        function coloresRandom() {
+            var colorBG = "#";
+            var colorCube = "#";
+            for (var i = 0; i < 6; i++) {
+                colorBG += colores[Math.floor(Math.random() * 15)];
+            }
+            for (var i = 0; i < 6; i++) {
+                colorCube += colores[Math.floor(Math.random() * 15)];
+            }
+            var bgCubeColors = [colorBG, colorCube];
+            // console.log(bgCubeColors[0], bgCubeColors[1]);
+            return bgCubeColors;
+        }
+        // Con esta funcion creamos el icono de usuario que aparece encima de los cubos
+        function userIcon() {
+            var user = document.createElement("i");
+            user.setAttribute("class", "fa fa-user");
+            user.style.zIndex = "1";
+            user.style.position = "relative";
+            user.style.bottom = "40px";
+            user.style.left = "40px";
+            user.style.width = "0";
+            user.style.height = "0";
+            user.style.visibility = "hidden";
+            return user;
+        }
+        function createSquare(colorBG, colorCube, id, defaultContainerId = null) {
+            if (defaultContainerId == null) {
+                // Set up context
+                var container = document.createElement("div");
+                var user = userIcon();
+                container.style.cssFloat = "clear";
+                container.id = "container" + id;
+                container.position = id;
+                container.style.margin = "5px";
+                container.style.border = "solid 1px black";
+                container.style.cssFloat = "left";
+                // container.addEventListener("click", cambiarColorCubo);
+                document.body.appendChild(container);
+                container.appendChild(user);
+                // set up the canvas
+                var canvas = document.createElement("canvas");
+                canvas.id = "canvas" + id;
+                document.getElementById("container" + id).appendChild(canvas);
+                var ctx = canvas.getContext("2d");
+            } else {
+                // set up the canvas with a given container
+                var container = document.getElementById(defaultContainerId);
+                var user = userIcon();
+                container.appendChild(user);
+                var canvas = document.createElement("canvas");
+                canvas.id = "canvas" + id;
+                document.getElementById(defaultContainerId).appendChild(canvas);
+                var ctx = canvas.getContext("2d");
+            }
+            // constants
+            const COLOR_BG = colorBG;
+            const COLOR_CUBE = colorCube;
+            const SPEED_X = 0.05; // rps
+            const SPEED_Y = 0.15; // rps
+            const SPEED_Z = 0.10; // rps
+            const POINT3D = function (x, y, z) { this.x = x; this.y = y; this.z = z; };
+
+            // dimensions
+            var h = 100;
+            var w = 100;
+            canvas.height = h;
+            canvas.width = w;
+
+            // colours and lines
+            ctx.fillStyle = COLOR_BG;
+            ctx.strokeStyle = COLOR_CUBE;
+            ctx.lineWidth = w / 100;
+            ctx.lineCap = "round";
+
+            // cube parameters
+            var cx = w / 2;
+            var cy = h / 2;
+            var cz = 0;
+            var size = h / 4;
+            var vertices = [
+                new POINT3D(cx - size, cy - size, cz - size),
+                new POINT3D(cx + size, cy - size, cz - size),
+                new POINT3D(cx + size, cy + size, cz - size),
+                new POINT3D(cx - size, cy + size, cz - size),
+                new POINT3D(cx - size, cy - size, cz + size),
+                new POINT3D(cx + size, cy - size, cz + size),
+                new POINT3D(cx + size, cy + size, cz + size),
+                new POINT3D(cx - size, cy + size, cz + size)
+            ];
+            var edges = [
+                [0, 1], [1, 2], [2, 3], [3, 0], // back face
+                [4, 5], [5, 6], [6, 7], [7, 4], // front face
+                [0, 4], [1, 5], [2, 6], [3, 7] // connecting sides
+            ];
+
+            // set up the animation loop
+            var timeDelta, timeLast = 0;
+            requestAnimationFrame(loop);
+
+            function loop(timeNow) {
+
+                // calculate the time difference
+                timeDelta = timeNow - timeLast;
+                timeLast = timeNow;
+
+                // background
+                ctx.fillRect(0, 0, w, h);
+
+                // rotate the cube along the z axis
+                let angle = timeDelta * 0.001 * SPEED_Z * Math.PI * 2;
+                for (let v of vertices) {
+                    let dx = v.x - cx;
+                    let dy = v.y - cy;
+                    let x = dx * Math.cos(angle) - dy * Math.sin(angle);
+                    let y = dx * Math.sin(angle) + dy * Math.cos(angle);
+                    v.x = x + cx;
+                    v.y = y + cy;
+                }
+
+                // rotate the cube along the x axis
+                angle = timeDelta * 0.001 * SPEED_X * Math.PI * 2;
+                for (let v of vertices) {
+                    let dy = v.y - cy;
+                    let dz = v.z - cz;
+                    let y = dy * Math.cos(angle) - dz * Math.sin(angle);
+                    let z = dy * Math.sin(angle) + dz * Math.cos(angle);
+                    v.y = y + cy;
+                    v.z = z + cz;
+                }
+
+                // rotate the cube along the y axis
+                angle = timeDelta * 0.001 * SPEED_Y * Math.PI * 2;
+                for (let v of vertices) {
+                    let dx = v.x - cx;
+                    let dz = v.z - cz;
+                    let x = dz * Math.sin(angle) + dx * Math.cos(angle);
+                    let z = dz * Math.cos(angle) - dx * Math.sin(angle);
+                    v.x = x + cx;
+                    v.z = z + cz;
+                }
+
+                // draw each edge
+                for (let edge of edges) {
+                    ctx.beginPath();
+                    ctx.moveTo(vertices[edge[0]].x, vertices[edge[0]].y);
+                    ctx.lineTo(vertices[edge[1]].x, vertices[edge[1]].y);
+                    ctx.stroke();
+                }
+
+                // call the next frame
+                requestAnimationFrame(loop);
+            }
+            return container;
+        }
+        window.onload = crearTablero; // sin parentesis , al final del head
+    </script>
+</body>
+
+</html>

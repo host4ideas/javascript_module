@@ -1,0 +1,130 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Codigo de barras</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        var entrada =
+            ['D', '2.8', 'C', '48', 'A', '8', 'N', '0',
+                'D', '15.33', 'A', '60', 'M', '12', 'I', '25', 'E', '0'];
+
+        var entrada =
+            ['D', '2.8', 'C', '48', 'A', '8', 'D', '15.33', 'A', '60', 'M', '12', 'I', '25'];
+
+        // Array de ventas en numero
+        var ventas = new Array;
+
+        for (var i = 1; i < entrada.length; i += 2) {
+            ventas.push(parseFloat(entrada[i]));
+        }
+
+        // Array de conceptos
+        var conceptos = new Array;
+
+        for (var i = 0; i < entrada.length; i += 2) {
+            conceptos.push(entrada[i]);
+        }
+
+        // Crear un array de la misma longitud que conceptos para sumar las reps
+        var repeticiones = new Array(conceptos.length);
+        repeticiones.fill(0);
+
+        for (var i = 0; i < conceptos.length; i++) {
+
+            for (var j = 0; j < conceptos.length; j++) {
+                if (conceptos[i] === conceptos[j]) {
+                    repeticiones[i]++;
+                }
+            }
+        }
+
+        // Con las reps, si en el indice de las reps hay mas de uno y las ventas de ese uno son las minimas o maximas, sera empate para uno o los dos casos
+        var maxVentas = Math.max.apply(null, ventas);
+        var minVentas = Math.min.apply(null, ventas);
+        var tipoMasRepetido = repeticiones.indexOf(Math.max.apply(null, repeticiones));
+        var tipoVentasMax = " ";
+        var tipoVentasMin = " ";
+
+        for (var i = 0; i < repeticiones.length; i++) {
+            if (repeticiones[i] > 1 && ventas[i] == maxVentas) {
+                // Ventas max == empate
+                tipoVentasMax = "EMPATE";
+            }
+            if (repeticiones[i] > 1 && ventas[i] == minVentas) {
+                tipoVentasMin = "EMPATE";
+            }
+        }
+
+        // Si las ventas maximas o minimas no son EMPATE, se probara cual es el concepto con mas ventas
+        var tipos = ["DESAYUNO", "COMIDAS", "MERIENDAS", "CENAS", "COPAS"];
+
+        if (tipoVentasMax != "EMPATE") {
+            var conceptoMax = conceptos[ventas.indexOf(maxVentas)];
+
+            console.log(conceptoMax);
+
+            switch (conceptoMax) {
+                case "D":
+                    var tipoVentasMax = tipos[0];
+                    break;
+                case "A":
+                    var tipoVentasMax = tipos[1];
+                    break;
+                case "M":
+                    var tipoVentasMax = tipos[2];
+                    break;
+                case "I":
+                    var tipoVentasMax = tipos[3];
+                    break;
+                case "C":
+                    var tipoVentasMax = tipos[4];
+                    break;
+            }
+        }
+
+        if (tipoVentasMin != "EMPATE") {
+            var conceptoMin = conceptos[ventas.indexOf(minVentas)];
+
+            console.log(conceptoMin);
+
+            switch (conceptoMin) {
+                case "D":
+                    var tipoVentasMin = tipos[0];
+                    break;
+                case "A":
+                    var tipoVentasMin = tipos[1];
+                    break;
+                case "M":
+                    var tipoVentasMin = tipos[2];
+                    break;
+                case "I":
+                    var tipoVentasMin = tipos[3];
+                    break;
+                case "C":
+                    var tipoVentasMin = tipos[4];
+                    break;
+            }
+        }
+
+        console.log(tipoVentasMax + " | " + tipoVentasMin);
+        console.log(minVentas);
+        console.log(ventas.indexOf(minVentas));
+        console.log(conceptos[ventas.indexOf(minVentas)]);
+
+        // Calculamos si la venta media de un concepto supera la media de todas las ventas
+
+        var ventasmaximas = 171.13;
+
+    </script>
+
+    <p id="result"></p>
+
+</body>
+
+</html>

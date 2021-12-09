@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario 1</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        /*
+            Introducimos una semana en cada mes, empezando por el lunes y calculamos
+            qué día de la próxima semana es el primer día del siguiente mes.
+        */
+        var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        var semana = ["L", "M", "X", "J", "V", "S", "D"];
+        var diasMeses = [];
+        var contadorDiaMes = 0;
+        var contadorSemana = -1;
+        var contadorMes = -1;
+
+        // var cantidadAños = prompt("Indica cuantos años quieres mostrar", 1);
+        // var años = [];
+
+        // for (let i = 0; i < cantidadAños; i++) {
+        //     var año = prompt("Indica el año " + (i + 1), 0);
+        //     años.push(año);
+        // }
+
+        var años = [2000];
+        años.forEach(element => {
+
+            for (let i = 0; i < 12; i++) {
+                contadorMes++;
+
+                var textoMes = document.createElement("span");
+                textoMes.innerText = meses[i];
+                textoMes.style.fontSize = "24px";
+
+                var nuevoMes = crearNodo("div", "1px solid black", "10px", "44px", "auto");
+                nuevoMes.style.padding = "1px";
+                nuevoMes.style.display = "flex";
+                nuevoMes.style.flexWrap = "wrap";
+                for (let j = 0; j < 49; j++) {
+                    contadorDiaMes++;
+                    var dia = crearDia(contadorDiaMes, contadorMes, element);
+                    dia.addEventListener("click", accionClick);
+                    nuevoMes.appendChild(dia);
+                    console.log(contadorMes);
+                }
+                nuevoMes.appendChild(textoMes);
+                document.body.appendChild(nuevoMes);
+            }
+        });
+        function crearNodo(tipo, border = "1px solid black", margin = "auto", heigth = "auto", width = "auto") {
+            var nodo = document.createElement("div");
+            nodo.style.border = border;
+            nodo.style.marginTop = margin;
+            nodo.style.width = width;
+            nodo.style.height = heigth;
+            return nodo;
+        }
+        function accionClick() {
+            if (this.nota == "" || this.nota == null) {
+                var nota = prompt("Introduce el evento de ese día:");
+            } else {
+                var nota = prompt("¿Quieres cambiar la nota preexistente?", this.nota);
+            }
+            this.nota = nota;
+        }
+        /*
+        Esta función hay que ejecutarla dentro de un bucle, pasándole el número de día y el año
+        Se crean objetos de tipo date, a los cuales les daremos las propiedades de nota, el dia de la semana
+        */
+        function crearDia(dia, mes, año) {
+            contadorSemana++;
+            var nuevoDia = new Date();
+            nuevoDia.setFullYear(año);
+            nuevoDia.setDate(dia);
+            nuevoDia.setMonth(mes);
+            nuevoDia.nota = "";
+            nuevoDia.diaSemana = semana[contadorSemana];
+            nuevoDia.esFestivo = false;
+            nuevoDia.numDiaMes = nuevoDia.getDate();
+
+            console.log("dia" + dia);
+
+            if (contadorSemana == 5) {
+                nuevoDia.esFestivo = true;
+            } else if (contadorSemana == 6) {
+                nuevoDia.esFestivo = true;
+                contadorSemana = -1;
+            }
+            var dia = crearNodo("div", "1px solid black", "1px", "40px", "20px");
+            dia.innerText = nuevoDia.diaSemana + "\n" + nuevoDia.numDiaMes;
+            dia.style.textAlign = "center";
+
+            console.log(nuevoDia);
+
+            if (nuevoDia.esFestivo === true) {
+                dia.style.backgroundColor = "red";
+            }
+            return dia;
+        }
+    </script>
+</body>
+
+</html>

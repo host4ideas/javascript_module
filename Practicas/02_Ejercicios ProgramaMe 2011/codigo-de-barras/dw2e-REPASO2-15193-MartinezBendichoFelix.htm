@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Codigo de barras1</title>
+</head>
+
+<!-- Ultimo digito se calcula para detectar errores:
+	Empezando por la derecha se suman todos (excepto el ultimo digito)
+	Los digitos en posiciones impares se multiplican por 3 (excepto el ultimo)
+	Los pares se multiplican por 1
+
+	El digito de control será el numero que hay que sumar al resultado de la suma
+	de los resultados anteriores para llegar a un multiplo de 10
+
+    En el EAN13 los primeros tres digitos se usan para identificar el pais
+
+    Si el codigo no llega a 8 digitos se rellenan con ceros a la izquierda hasta 8
+    Si el codigo tiene mas de 8 digitos pero no llega a 13 se realiza lo mismo hasta 13
+
+    Si el codigo es correcto se escribira SI, si además es EAN13 se escribira el pais
+    separado por un espacio -->
+
+<body>
+    <p id="output"></p>
+
+    <script type="text/javascript">
+
+        var entrada = [
+            '65839522',
+            '65839521',
+            '8414533043847',
+            '5029365779425',
+            '5129365779425',
+            '0'];
+
+        var codigoPais = ["0", "EEUU", "380", "Bulgaria", "50", "Inglaterra", "539", "Irlanda", "560", "Portugal", "70", "Noruega", "759", "Venezuela", "850", "Cuba", "890", "India"];
+
+        var textoFinal = "";
+
+        // Bucle while para cada tipo de codigo posible hasta llegar a una entrada 0
+        var i = 0;
+        while (entrada[i] != '0') {
+            // Si el numero es menor que 8 rellenar con ceros a la izquierda hasta llegar a 8
+            if (entrada[i].length < 8) {
+                do {
+                    entrada[i] = "0".concat(entrada[i]);
+                } while (entrada[i].length != 8)
+                textoFinal += comprobarCodigo(entrada[i]) + "<br/>";
+
+            } else if (entrada[i].length == 8) {
+                textoFinal += comprobarCodigo(entrada[i]) + "<br/>";
+                // Si el numero es mayor que 8 y menor que 13 rellenar con ceros a la izquierda hasta llegar a 13
+            } else if (entrada[i].length > 8 && entrada[i].length < 13) {
+                do {
+                    entrada[i] = "0".concat(entrada[i]);
+
+                } while (entrada[i].length != 13)
+                textoFinal += comprobarCodigo(entrada[i]) + "<br/>";
+
+            } else if (entrada[i].length == 13) {
+                textoFinal += comprobarCodigo(entrada[i]) + "<br/>";
+
+                // Si es mayor que 13 no se comprobará nada
+            } else {
+                textoFinal += "NO<br/>";
+            }
+            i++;
+        }
+
+        // El ultimo digito debe de ser igual al numero que falta para llegar a un multiplo de 10, 
+        // partiendo del resultado de la suma de los impares * 3 y los pares * 1 empezando por la derecha y sin contar con el digito final
+        function comprobarCodigo(codigo) {
+            var sumatorio = 0;
+            var stringToNum = 0;
+            // Bucle para realizar el sumatorio de los numeros teniendo en cuenta pares e impares
+            if (codigo.length === 13) {
+                for (var i = codigo.length - 2; i >= 0; i--) {
+                    stringToNum = parseFloat(codigo[i]);
+                    if (esPar(i)) {
+                        sumatorio += stringToNum * 1;
+                    } else {
+                        sumatorio += stringToNum * 3;
+                    }
+                }
+            } else { // Como el codigo EAN-8 - 1 es 7, el par es el contrario al que seria con un numero EAN-13
+                for (var i = codigo.length - 2; i >= 0; i--) {
+                    stringToNum = parseFloat(codigo[i]);
+                    if (!esPar(i)) {
+                        sumatorio += stringToNum * 1;
+                    } else {
+                        sumatorio += stringToNum * 3;
+                    }
+                }
+            }
+
+            // Bucle para calcular si el ultimo digito es la cantidad de numeros que faltan hasta el proximo multiplo de 10, desde el sumatorio
+            for (var i = 0; i <= 9; i++) { // Solo va hasta 9 ya que para llegar hasta el proximo multiplo, como mucho habria que sumar nueve, ya que empezamos desde 1
+                if ((sumatorio + i) % 10 === 0 && i == codigo[codigo.length - 1]) {
+                    // Si el numero es valido y es EAN-13, calcular el codigo del pais
+                    if (codigo.length === 13) {
+                        for (var j = 0; j < codigoPais.length / 2; j += 2) {
+                            if (codigo.substring(0, 3) == codigoPais[j] || codigo.substring(0, 2) == codigoPais[j] || codigo.substring(0, 1) == codigoPais[j]) {
+                                return "SI " + codigoPais[j + 1];
+                            }
+                        }
+                        return "SI Desconocido"; // Si el bucle para el codigo termina y no se ha hecho return "SI" + codigoPais, es que el pais es desconocido pero el codigo es valido
+                    }
+                    // Si el codigo es valido y es EAN-8 saltara directamente aqui
+                    return "SI";
+                }
+            }
+            return "NO"; // Si el bucle de validacion termina y no se ha hecho return "SI", es que no es valido
+        }
+
+        // Fucion para comprobar si la posicion es impar
+        function esPar(num) {
+            if (num % 2 === 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        document.getElementById("output").innerHTML = textoFinal;
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Codigo de barras</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        var entrada =
+            ['D', '2.8', 'C', '48', 'A', '8', 'N', '0',
+                'D', '15.33', 'A', '60', 'M', '12', 'I', '25', 'N', '0',
+                'D', '15.33', 'A', '60', 'M', '12', 'I', '25', 'E', '0'];
+
+        // Si para un día no sale un concepto, significa que las ganancias son 0
+        // Esta funcion rellena los conceptos que no están con valor 0
+        function rellenarArray(dia) {
+
+            tipos = ['D', 'A', 'M', 'I', 'C'];
+            tiposRepsDia = [0, 0, 0, 0, 0];
+
+            for (var i = 0; i < dia.length; i++) {
+                switch (dia[i]) {
+                    case "D":
+                        tiposRepsDia[0]++;
+                        break;
+                    case "A":
+                        tiposRepsDia[1]++;
+                        break;
+                    case "M":
+                        tiposRepsDia[2]++;
+                        break;
+                    case "I":
+                        tiposRepsDia[3]++;
+                        break;
+                    case "C":
+                        tiposRepsDia[4]++;
+                        break;
+                }
+            }
+
+            for (var i = 0; i < tiposRepsDia.length; i++) {
+                if (tiposRepsDia[i] == 0) {
+                    dia.push(tipos[i]);
+                    dia.push(0);
+                }
+            }
+
+            return dia;
+        }
+
+        // Funcion para determinar el nombre completo de la letra del concepto
+        function nombreConcepto(letra) {
+            switch (letra) {
+                case "D":
+                    return "DESAYUNO";
+                case "A":
+                    return "COMIDAS";
+                case "M":
+                    return "MERIENDAS";
+                case "I":
+                    return "CENAS";
+                case "C":
+                    return "COPAS";
+            }
+        }
+
+        // Funcion para sacar el array de las ventas por dia
+        function arrayVentas(dia) {
+            var ventas = new Array;
+            for (var i = 1; i < dia.length; i += 2) {
+                ventas.push(parseFloat(dia[i]));
+            }
+            return ventas;
+        }
+
+        // Ahora calculamos el valor mínimo y maximo de cada dia, si hay un concepto con ese mismo valor, el minimo o maximo sera empate
+        // Concepto con mas ventas
+        function getMaxConcepto(dia) {
+            var maxVentas = Math.max.apply(null, arrayVentas(dia));
+            var countMaxVentas = 0;
+            var indiceVentaMaxima = 0;
+
+            for (var i = 1; i < dia.length; i += 2) {
+                if (dia[i] == maxVentas) {
+                    countMaxVentas++;
+                    indiceVentaMaxima = i;
+                }
+            }
+
+            if (countMaxVentas > 1) {
+                return "EMPATE";
+            } else {
+                return nombreConcepto(dia[indiceVentaMaxima - 1]);
+            }
+        }
+
+        // Concepto con menos ventas
+        function getMinConcepto(dia) {
+            var minVentas = Math.min.apply(null, arrayVentas(dia));
+            var countMinVentas = 0;
+            var indiceVentaMinima = 0;
+
+            for (var i = 1; i < dia.length; i += 2) {
+                if (dia[i] == minVentas) {
+                    countMinVentas++;
+                    indiceVentaMinima = i;
+                }
+            }
+
+            if (countMinVentas > 1) {
+                return "EMPATE";
+            } else {
+                return nombreConcepto(dia[indiceVentaMinima - 1]);
+            }
+        }
+
+        // Calculamos si el gasto para el concepto A (COMIDAS) es mayor o menor que la media total del dia
+        function comidasSiNo(dia) {
+            var sumaVentas = 0;
+            var arrVentas = arrayVentas(dia);
+            for (var i = 0; i < arrVentas.length; i++) {
+                sumaVentas += arrVentas[i];
+            }
+            var ventasMedias = (sumaVentas / arrVentas.length);
+
+            if (dia[dia.indexOf("A") + 1] > ventasMedias) {
+                return "SI";
+            } else {
+                return "NO";
+            }
+        }
+
+        // En la funcion main() dividimos la entrada en objetos con el registro y el resultado del ejercicio por cada dia
+        function main() {
+            var indiceCorteDia;
+            var arrDias = new Array;
+            var registrosDia = new Array;
+
+            for (var i = 0; i < entrada.length; i++) {
+                if (entrada[i] == "N" && entrada[i + 1] == "0") {
+                    registrosDia = rellenarArray(entrada.slice(indiceCorteDia, i));
+                    arrDias.push(Object = {
+                        registros: registrosDia,
+                        texto: "*" + getMaxConcepto(registrosDia) + "*" + getMinConcepto(registrosDia) + "*" + comidasSiNo(registrosDia)
+                    });
+                    indiceCorteDia = i + 2;
+                } else if (entrada[i] == "E" && entrada[i + 1] == "0") {
+                    registrosDia = rellenarArray(entrada.slice(indiceCorteDia, i));
+                    arrDias.push(Object = {
+                        registros: registrosDia,
+                        texto: "*" + getMaxConcepto(registrosDia) + "*" + getMinConcepto(registrosDia) + "*" + comidasSiNo(registrosDia)
+                    });
+                    break;
+                }
+            }
+
+            arrDias.forEach(myDia => {
+                document.write(myDia.texto + "<br>");
+            });
+        }
+
+        main();
+    </script>
+
+    <p id="result"></p>
+
+</body>
+
+</html>

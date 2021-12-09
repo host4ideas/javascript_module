@@ -1,0 +1,86 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Tablero 2</title>
+
+    <script>
+
+        function crearMenu() {
+            var contador = 0;
+            // crear nodo en el dom
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    contador++;
+                    var ele = crearNodoDiv("div", "Celda " + contador, "ele" + contador, j, i);
+                    ele.addEventListener("mouseenter", cambiarFondoEntrar);
+                    ele.addEventListener("mouseleave", cambiarFondoSalir);
+                    ele.addEventListener("click", clickCaja);
+                    ele.style.cursor = "pointer";
+                    if (i === 7 && j === 7) {
+                        ele.addEventListener("click", clickCajaClear);
+                    }
+                }
+                crearSalto();
+            }
+        }
+
+        function crearSalto() {
+            // div vacio sin dimensiones con clear left
+            var ele = document.createElement('div'); // crear nodo
+            ele.style.clear = 'left'; // css posicionamiento
+            document.body.appendChild(ele);	// añadir nodo al dom 
+        }
+
+        function crearNodoDiv(tipo, nombre, id, coordX, coordY) {
+            var ele = document.createElement(tipo);
+            ele.id = id;
+            ele.coordX = coordX;
+            ele.coordY = coordY;
+            ele.nombre = nombre;
+            ele.innerHTML = "H";
+            ele.style.margin = "5px";
+            ele.style.cssFloat = "left";
+            ele.style.backgroundColor = 'aqua';
+            ele.style.width = '75px';
+            ele.style.height = '75px';
+            ele.style.border = "solid 1px";
+            document.body.appendChild(ele);	// posicionarlo en DOM 
+            return ele;	// lo retornamos para trabajar con el
+        }
+
+        function clickCaja() {
+            this.innerText = this.nombre + "\n" + this.coordX + "\n" + this.coordY;
+        }
+
+        function clickCajaClear() {
+            var contador = 0;
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    contador++;
+                    var id = "ele" + contador;
+                    document.getElementById(id).innerHTML = "H";
+                }
+            }
+        }
+
+        function cambiarFondoEntrar() {
+            this.style.backgroundColor = "yellow";
+        }
+
+        function cambiarFondoSalir() {
+            this.style.backgroundColor = "aqua";
+        }
+
+        window.onload = crearMenu; // sin parentesis , al final del head
+    </script>
+
+</head>
+
+<body>
+
+</body>
+
+</html>

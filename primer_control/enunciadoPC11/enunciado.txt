@@ -1,0 +1,22 @@
+entrega: DW2E-PC11-expediente-ApellidosNombre.htm
+tiempo: 50 minutos
+acceso a internet: si
+
+Criterios de evaluación ==
+-El nombre del fichero es el indicado arriba en entrega.
+-Solo se evaluan los ficheros con el nombre totalmente correcto sino es un cero.
+-Subir a la carpeta de clase, se pueden hacer multiples entregas, se evalua la ultima dentro del tiempo. Sino se sube nada es un cero. Si solo se sube fuera de tiempo es un cero.
+-Leer este enunciado detenidamente. Durante el examen no hay preguntas.
+
+Prueba ==
+Realizar una página web , usando solo código javascrit.
+Realizar las impresiones EXACTAMENTE con el formato indicado.
+Cada apartado completamente terminado y correcto es un punto sino es cero.
+
+Apartados ==
+1) Imprime tu nombre.
+2) Crea un array con los dias de la semana, imprimela.
+3) Crea un array con ingresos (1,2,3,4,5) y otra con gastos (5,4,3,2,1). Calcula el beneficio restando ingresos-gastos. Imprime: dia, ingresos, gastos y beneficios.
+4) Calcula e imprime totales: ingresos#gastos#beneficios, son la suma respectiva de todos los dia.
+5) Calcula e imprime medias: ingresos#gastos#beneficos, son la media respectiva de todos los dias.
+6) Para las últimas tres lineas crea o copia de internet una funcion que retorne un valor al azar. Calcula ingresos y gastos con valores al azar entre 2 y 8 incluidos. Para cada recarga de página tendremos datos diferentes generados al azar. La captura 2 ha sido tomada despues de una recarga de la página.

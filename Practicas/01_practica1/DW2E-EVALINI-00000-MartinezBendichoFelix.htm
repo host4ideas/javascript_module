@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <p id="promptAlto"></p>
+    <p id="promptAncho"></p>
+    <p id="promptFondo"></p>
+    <p id="resultadoSuperficie"></p>
+    <p id="resultadoVolumen"></p>
+
+    <script type="text/javascript">
+
+        var altoMetros = prompt("Introduce el alto en metros");
+        var anchoMetros = prompt("Introduce el ancho en metros");
+        var fondoMetros = prompt("Introduce el fondo en metros");
+
+        // Calculo de la superficie en metros
+
+        function calcSuperficieMetros(altoMetros, anchoMetros) {
+            return (altoMetros * anchoMetros);
+        }
+
+        var superficieMetros = calcSuperficieMetros(altoMetros, anchoMetros);
+
+        // Calculo del volumen en metros
+
+        function calcVolumenMetros(altoMetros, anchoMetros, fondoMetros) {
+            return (altoMetros * anchoMetros * fondoMetros);
+        }
+
+        var volumenMetros = (calcVolumenMetros(altoMetros, anchoMetros, fondoMetros));
+
+        // Calculo superficie en pies
+
+        function superficiePies() {
+            return (superficieMetros * 3.281);
+        }
+
+        var superficiePiesResult = (superficiePies());
+
+        // Calculo volumen en pies
+
+        function volumenPies() {
+            return (volumenMetros * 3.281);
+        }
+
+        var volumenPiesResult = (volumenPies());
+
+        document.getElementById("promptAlto").innerHTML = "Alto = " + altoMetros;
+        document.getElementById("promptAncho").innerHTML = "Ancho = " + anchoMetros;
+        document.getElementById("promptFondo").innerHTML = "Fondo = " + fondoMetros;
+        document.getElementById("resultadoSuperficie").innerHTML = "Superficie = " + superficieMetros + "(" + superficiePiesResult + ")";
+        document.getElementById("resultadoVolumen").innerHTML = "Volumen = " + volumenMetros + "(" + volumenPiesResult + ")";
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>tablaValores</title>
+
+
+
+	<script>
+
+		const SALTOS = Math.random();
+		var numInicial = 0.60;
+		var valores = [];
+
+		for (let i = 0; i < 21; i++) {
+			numInicial += SALTOS;
+			valores.push(numInicial);
+		}
+
+		function iniciar() {
+			crearNodo('canvas', 'canvas1');
+			// txt = '0,0;1,1;2,2;3,3;4,4;5,5;6,6;7,7;8,8;9,9;10,10';
+
+			var coseno = Math.cos(valores[0]);
+			var seno = Math.sin(valores[0]);
+			var txt = "";
+			txt += coseno + "," + seno;
+
+			for (let i = 1; i < valores.length; i++) {
+				seno = Math.sin(valores[i]);
+				coseno = Math.cos(valores[i]);
+				txt += ";" + coseno + "," + seno;
+			}
+
+			pintaCanvas('canvas1', txt);
+		}
+		function pintaCanvas(id, txt) {
+			var canvas1 = document.getElementById(id);
+			canvas1.style.width = '300px';
+			canvas1.style.height = '150px';
+			/* 
+			el dibujo se estira para ocupar el contenedor,
+			no es vectorial se pixela para vectorial usar SVG
+			*/
+			canvas1.style.background = '#CCC';
+			gcc = canvas1.getContext('2d');
+
+			gcc.beginPath();
+			var filas = txt.split(';');
+			for (fila of filas) {
+				var datos = fila.split(',');
+				var x = datos[0], y = datos[1];
+				console.log('x y:', x, y);
+				// coordenadas absolutas , contenedor 300x150 
+				// proporcion implicita 2:1		
+				gcc.lineTo(0 + 30 * x, 0 + 15 * y);
+			}
+			var py = 75;
+			gcc.moveTo(0, py); // desplaza sin dibujar
+			for (fila of filas) {
+				var datos = fila.split(',');
+				var x = datos[0], y = datos[1];
+				console.log('x y:', x, y);
+				gcc.lineTo(0 + 15 * x, py);
+			}
+			gcc.stroke(); // dibuja el Path definido
+		}
+
+		function crearNodo(tipo, id) {
+			var ele = document.createElement(tipo);
+			document.body.appendChild(ele);
+			ele.id = id;
+		}
+
+		window.onload = iniciar;
+
+	</script>
+
+</head>
+
+<body>
+	<div><b>EJEMPLO</b> de tabla de valores canvas</div>
+</body>
+
+</html>
