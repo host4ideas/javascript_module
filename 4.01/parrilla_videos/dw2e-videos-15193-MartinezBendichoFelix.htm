@@ -69,8 +69,8 @@
     </main>
     <script>
 
-        var arrVideos = [];
-        var arrInfoVideos = [];
+        let arrVideos = [];
+        let arrInfoVideos = [];
 
         // Function to generate random IDs
         function generateRandomString($length = 10) {
@@ -78,7 +78,7 @@
         }
 
         function loadVideos(id) {
-            var xhttp = new XMLHttpRequest();
+            let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     // Get the videos data from the request
@@ -135,9 +135,14 @@
                     document.getElementById("content").appendChild(divInfo);
 
                     divInfo.onclick = function () {
+                        numVisits.innerHTML = "Times visited: " + video.counterVisits();
                         myModal.style.display = "block";
                         player.loadVideoById(video.getVidId);
                     }
+
+                    let numVisits = document.createElement("p");
+                    numVisits.innerHTML = "Times visited: " + video.counterVisits();
+                    divInfo.appendChild(numVisits);
                 });
             }
             document.getElementById("sortVisits").addEventListener("click", function () {

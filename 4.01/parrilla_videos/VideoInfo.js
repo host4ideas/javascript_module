@@ -1,15 +1,18 @@
 class VideoInfo {
     constructor(DATA) {
-        let videoData = getVideoInfo(DATA);
+        let videoData = setVideoInfo(DATA);
         this.vidId = videoData[0];
         this.title = videoData[1];
         this.duration = videoData[2];
         this.date = videoData[3];
         this.visits = videoData[4];
         this.thumbnail = setThumbnail(videoData[0]);
+        this.counterVisits = (function () {
+            let counter = -1;
+            return function () { counter += 1; return counter }
+        })();
 
-        // Get the video info from the parsed JSON data
-        function getVideoInfo(DATA) {
+        function setVideoInfo(DATA) {
             let year = DATA['items'][0]['snippet']['publishedAt'].split("T")[0].split("-")[0];
             let month = DATA['items'][0]['snippet']['publishedAt'].split("T")[0].split("-")[1]
             let day = DATA['items'][0]['snippet']['publishedAt'].split("T")[0].split("-")[2];
@@ -22,6 +25,7 @@ class VideoInfo {
             // Create the video object
             return [DATA['items'][0]['id'], DATA['items'][0]['snippet']['title'], totalDuration, publishedDate, DATA['items'][0]['statistics']['viewCount']];
         }
+
         // We set this setter as a function to block someone to set the thumbnail
         function setThumbnail(id) {
             return "https://img.youtube.com/vi/" + id + "/default.jpg";
@@ -50,6 +54,10 @@ class VideoInfo {
 
     get getThumbnail() {
         return this.thumbnail;
+    }
+
+    get getCounter() {
+        return this.counterVisits();
     }
 
     // set setThumbnail(id) {
