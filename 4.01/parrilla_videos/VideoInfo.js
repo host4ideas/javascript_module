@@ -7,6 +7,9 @@ class VideoInfo {
         this.date = videoData[3];
         this.visits = videoData[4];
         this.thumbnail = setThumbnail(videoData[0]);
+
+        // Meter Object.defineProperty(this, "vid", {get:getVid, set:setVid}
+
         this.counterVisits = (function () {
             let counter = -1;
             return function () { counter += 1; return counter }

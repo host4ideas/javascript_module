@@ -68,15 +68,33 @@
         </div>
     </main>
     <script>
-
         let arrVideos = [];
         let arrInfoVideos = [];
+        const URl_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=25&key=" + YT_API;
+        function loadListVideos(videosList) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Get the videos data from the request
+                    const DATA = JSON.parse(this.response);
+                    DATA["items"].forEach(element => {
+                        loadVideos(element["id"]["videoId"]);
+                    });
+                }
+            };
+            xhttp.open("GET", videosList, true);
+            xhttp.send();
+            return false;
+        }
+
+        loadListVideos(URl_VIDEOS);
 
         // Function to generate random IDs
         function generateRandomString($length = 10) {
             return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
         }
 
+        // Implementar promesas para poder sacar el valor fuera de la funcion
         function loadVideos(id) {
             let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
@@ -92,14 +110,7 @@
             xhttp.send();
             return false;
         }
-
-        // Videos IDs list for fetching the data from the YT API
-        // var arrVideosId = ["oaTOHmuN2M0", "F0G9lZ7gecE", "LOpFYMPXqE4", "NuyzuNBFWxQ", "Uszj_k0DGsg", "CG__N4SS1Fc", "SsJ_AusntiU", "tJJbTuviob4", "p_KHnOIqia8", "Ekw4X_QrHJ0"];
-        var listaVideosId = new Set(["oaTOHmuN2M0", "F0G9lZ7gecE", "LOpFYMPXqE4", "NuyzuNBFWxQ", "Uszj_k0DGsg", "CG__N4SS1Fc", "SsJ_AusntiU", "tJJbTuviob4", "p_KHnOIqia8", "Ekw4X_QrHJ0"]);
-
-        listaVideosId.forEach(videoId => {
-            loadVideos(videoId);
-        });
+        console.log(arrVideos);
 
         // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement('script');
