@@ -94,8 +94,10 @@
         }
 
         // Videos IDs list for fetching the data from the YT API
-        var arrVideosId = ["oaTOHmuN2M0", "F0G9lZ7gecE", "LOpFYMPXqE4", "NuyzuNBFWxQ", "Uszj_k0DGsg", "CG__N4SS1Fc", "SsJ_AusntiU", "tJJbTuviob4", "p_KHnOIqia8", "Ekw4X_QrHJ0"];
-        arrVideosId.forEach(videoId => {
+        // var arrVideosId = ["oaTOHmuN2M0", "F0G9lZ7gecE", "LOpFYMPXqE4", "NuyzuNBFWxQ", "Uszj_k0DGsg", "CG__N4SS1Fc", "SsJ_AusntiU", "tJJbTuviob4", "p_KHnOIqia8", "Ekw4X_QrHJ0"];
+        var listaVideosId = new Set(["oaTOHmuN2M0", "F0G9lZ7gecE", "LOpFYMPXqE4", "NuyzuNBFWxQ", "Uszj_k0DGsg", "CG__N4SS1Fc", "SsJ_AusntiU", "tJJbTuviob4", "p_KHnOIqia8", "Ekw4X_QrHJ0"]);
+
+        listaVideosId.forEach(videoId => {
             loadVideos(videoId);
         });
 
