@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="VideoInfo.js"></script>
-    <script src="VideosList.js"></script>
     <script src="apiKey.js"></script>
     <!-- CSS only -->
     <link rel="stylesheet" href="styles.css">
@@ -70,51 +69,72 @@
     <script>
         let arrVideos = [];
         let arrInfoVideos = [];
-        const URl_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=25&key=" + YT_API;
-        function loadListVideos(videosList) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Get the videos data from the request
-                    const DATA = JSON.parse(this.response);
-                    DATA["items"].forEach(element => {
-                        loadVideos(element["id"]["videoId"]);
+        const URL_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=15&key=" + YT_API;
+
+        function showVideos(arrayVideos) {
+            // Get the JSON of videos
+            loadListVideos(URL_VIDEOS).then(jsonVideos => {
+                return jsonVideos;
+            }).then(jsonVideos => {
+
+                // Iterate for each video, load it and display it
+                jsonVideos.forEach(element => {
+                    loadVideo(element["id"]["videoId"]).then(video => {
+                        // Insert into the page the video data
+                        var divInfo = video.showInfo();
+                        arrInfoVideos.push(divInfo);
+                        document.getElementById("content").appendChild(divInfo);
+
+                        divInfo.onclick = function () {
+                            numVisits.innerHTML = "Times visited: " + video.counterVisits();
+                            myModal.style.display = "block";
+                            player.loadVideoById(video.getVidId);
+                        }
+
+                        let numVisits = document.createElement("p");
+                        numVisits.innerHTML = "Times visited: " + video.counterVisits();
+                        divInfo.appendChild(numVisits);
                     });
-                }
-            };
-            xhttp.open("GET", videosList, true);
-            xhttp.send();
-            return false;
+                })
+            })
         }
 
-        loadListVideos(URl_VIDEOS);
-
-        // Function to generate random IDs
-        function generateRandomString($length = 10) {
-            return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+        function loadListVideos(videosUrl) {
+            return new Promise(function (resolve, reject) {
+                let xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Get the videos data from the request
+                        const DATA = JSON.parse(this.response);
+                        // Iterate for each video
+                        resolve(DATA["items"]);
+                    }
+                };
+                xhttp.open("GET", videosUrl, true);
+                xhttp.send();
+            })
         }
 
         // Implementar promesas para poder sacar el valor fuera de la funcion
-        function loadVideos(id) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Get the videos data from the request
-                    const DATA = JSON.parse(this.response);
-                    let video = new VideoInfo(DATA);
-                    // console.log(video.getVidId);
-                    arrVideos.push(video);
-                }
-            };
-            xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
-            xhttp.send();
-            return false;
+        function loadVideo(id) {
+            return new Promise(function (resolve, reject) {
+                let xhttp = new XMLHttpRequest();
+                xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
+                xhttp.send();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Get the videos data from the request
+                        const DATA = JSON.parse(this.response);
+                        let video = new VideoInfo(DATA);
+                        // console.log(video.getVidId);
+                        resolve(video);
+                    }
+                };
+            })
         }
-        console.log(arrVideos);
 
         // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement('script');
-
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -139,24 +159,6 @@
                     player.stopVideo();
                     myModal.style.display = "none";
                 }
-            }
-            function showVideos(arrayVideos) {
-                arrayVideos.forEach(video => {
-                    // Insert into the page the video data
-                    var divInfo = video.showInfo();
-                    arrInfoVideos.push(divInfo);
-                    document.getElementById("content").appendChild(divInfo);
-
-                    divInfo.onclick = function () {
-                        numVisits.innerHTML = "Times visited: " + video.counterVisits();
-                        myModal.style.display = "block";
-                        player.loadVideoById(video.getVidId);
-                    }
-
-                    let numVisits = document.createElement("p");
-                    numVisits.innerHTML = "Times visited: " + video.counterVisits();
-                    divInfo.appendChild(numVisits);
-                });
             }
             document.getElementById("sortVisits").addEventListener("click", function () {
                 removeAllChildNodes();

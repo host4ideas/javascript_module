@@ -10,6 +10,7 @@ class VideoInfo {
 
         // Meter Object.defineProperty(this, "vid", {get:getVid, set:setVid}
 
+        // Closure
         this.counterVisits = (function () {
             let counter = -1;
             return function () { counter += 1; return counter }
@@ -25,7 +26,7 @@ class VideoInfo {
             let minutes = totalDuration.split("m")[0];
             let hours = totalDuration.split("h")[0];
             totalDuration = ((hours == "NaN") ? hours : 0) + ":" + ((minutes == "NaN") ? minutes : 0) + ":" + seconds;
-            // Create the video object
+            // Return the video array info
             return [DATA['items'][0]['id'], DATA['items'][0]['snippet']['title'], totalDuration, publishedDate, DATA['items'][0]['statistics']['viewCount']];
         }
 

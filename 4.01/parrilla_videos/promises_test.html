@@ -1,0 +1,67 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    function getPosts() {
+      return new Promise(function (resolve, reject) {
+        var req = new XMLHttpRequest();
+        req.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+        req.onload = function () {
+          if (req.status == 200) {
+            resolve(JSON.parse(req.response));
+          }
+          else {
+            reject();
+          }
+        };
+
+        req.send();
+      })
+    }
+
+    var promises = [
+      getPosts(),
+      getPosts()
+    ];
+
+    Promise.all(promises).then(results => {
+      console.log(results)
+    })
+  </script>
+  <script>
+    function getPosts() {
+      return new Promise(function (resolve, reject) {
+        var req = new XMLHttpRequest();
+        req.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+        req.onload = function () {
+          if (req.status == 200) {
+            resolve(JSON.parse(req.response));
+          }
+          else {
+            reject();
+          }
+        };
+
+        req.send();
+      })
+    }
+
+    let postId = 1;
+    getPosts().then(r => {
+      return r;
+    }).then(r => {
+      console.log(r.find(x => x.id === 1));
+    })
+  </script>
+</body>
+
+</html>
