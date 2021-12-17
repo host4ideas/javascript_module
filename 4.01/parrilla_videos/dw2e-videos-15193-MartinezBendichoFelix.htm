@@ -74,21 +74,6 @@
         // Fetch URL JSON data
         const URL_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=1&key=" + YT_API;
         // Main controller
-        function main() {
-            // Get the JSON of videos
-            loadListVideos(URL_VIDEOS).then(jsonVideos => {
-                return jsonVideos;
-            }).then(jsonVideos => {
-                // Iterate for each video, load it and display it
-                jsonVideos.forEach(videoData => {
-                    loadVideo(videoData["id"]["videoId"]).then(video => {
-                        arrVideos.add(video);
-                    })
-                })
-                // showVideos(arrVideos)
-            })
-        }
-        main();
         // Inserts in the carousel (id="content") all the videos passed in an array of videos Objects (VideoInfo)
         function showVideos(arrayVideos) {
             arrayVideos.forEach(element => {
@@ -110,36 +95,32 @@
         }
         // Returns a promise with a list of videos based on the search URL parameters
         function loadListVideos(videosUrl) {
-            return new Promise(function (resolve, reject) {
-                let xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        // Get the videos data from the request
-                        const DATA = JSON.parse(this.response);
-                        // Iterate for each video
-                        resolve(DATA["items"]);
-                    }
-                };
-                xhttp.open("GET", videosUrl, true);
-                xhttp.send();
-            })
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Get the videos data from the request
+                    const DATA = JSON.parse(this.response);
+                    // Iterate for each video
+                    resolve(DATA["items"]);
+                }
+            };
+            xhttp.open("GET", videosUrl, true);
+            xhttp.send();
         }
         // Returns a promise with the desired video ID value
         function loadVideo(id) {
-            return new Promise(function (resolve, reject) {
-                let xhttp = new XMLHttpRequest();
-                xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
-                xhttp.send();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        // Get the videos data from the request
-                        const DATA = JSON.parse(this.response);
-                        let video = new VideoInfo(DATA);
-                        // console.log(video.getVidId);
-                        resolve(video);
-                    }
-                };
-            })
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Get the videos data from the request
+                    const DATA = JSON.parse(this.response);
+                    let video = new VideoInfo(DATA);
+                    // console.log(video.getVidId);
+                    resolve(video);
+                }
+            };
         }
         // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement('script');
