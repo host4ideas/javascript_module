@@ -67,38 +67,48 @@
         </div>
     </main>
     <script>
-        let arrVideos = [];
+        // Set of videos objects
+        var arrVideos = new Set();
+        // Set of videos divs info.
         let arrInfoVideos = [];
-        const URL_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=15&key=" + YT_API;
-
-        function showVideos(arrayVideos) {
+        // Fetch URL JSON data
+        const URL_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=1&key=" + YT_API;
+        // Main controller
+        function main() {
             // Get the JSON of videos
             loadListVideos(URL_VIDEOS).then(jsonVideos => {
                 return jsonVideos;
             }).then(jsonVideos => {
-
                 // Iterate for each video, load it and display it
-                jsonVideos.forEach(element => {
-                    loadVideo(element["id"]["videoId"]).then(video => {
-                        // Insert into the page the video data
-                        var divInfo = video.showInfo();
-                        arrInfoVideos.push(divInfo);
-                        document.getElementById("content").appendChild(divInfo);
-
-                        divInfo.onclick = function () {
-                            numVisits.innerHTML = "Times visited: " + video.counterVisits();
-                            myModal.style.display = "block";
-                            player.loadVideoById(video.getVidId);
-                        }
-
-                        let numVisits = document.createElement("p");
-                        numVisits.innerHTML = "Times visited: " + video.counterVisits();
-                        divInfo.appendChild(numVisits);
-                    });
+                jsonVideos.forEach(videoData => {
+                    loadVideo(videoData["id"]["videoId"]).then(video => {
+                        arrVideos.add(video);
+                    })
                 })
+                // showVideos(arrVideos)
             })
         }
+        main();
+        // Inserts in the carousel (id="content") all the videos passed in an array of videos Objects (VideoInfo)
+        function showVideos(arrayVideos) {
+            arrayVideos.forEach(element => {
+                // Insert into the page the video data
+                var divInfo = video.showInfo();
+                arrInfoVideos.push(divInfo);
+                document.getElementById("content").appendChild(divInfo);
 
+                divInfo.onclick = function () {
+                    numVisits.innerHTML = "Times visited: " + video.counterVisits();
+                    myModal.style.display = "block";
+                    player.loadVideoById(video.getVidId);
+                }
+
+                let numVisits = document.createElement("p");
+                numVisits.innerHTML = "Times visited: " + video.counterVisits();
+                divInfo.appendChild(numVisits);
+            });
+        }
+        // Returns a promise with a list of videos based on the search URL parameters
         function loadListVideos(videosUrl) {
             return new Promise(function (resolve, reject) {
                 let xhttp = new XMLHttpRequest();
@@ -114,8 +124,7 @@
                 xhttp.send();
             })
         }
-
-        // Implementar promesas para poder sacar el valor fuera de la funcion
+        // Returns a promise with the desired video ID value
         function loadVideo(id) {
             return new Promise(function (resolve, reject) {
                 let xhttp = new XMLHttpRequest();
@@ -132,13 +141,11 @@
                 };
             })
         }
-
         // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         function onYouTubeIframeAPIReady() {
@@ -146,13 +153,12 @@
                 height: '360',
                 width: '640',
             });
-
+            // Stop and close funcitonality to the cross button of the modal
             var myModal = document.getElementById("myModal");
             document.getElementById('close').onclick = function () {
                 player.stopVideo();
                 myModal.style.display = "none";
             };
-
             // When the user clicks anywhere outside of the modal, close it and stop video
             window.onclick = function (event) {
                 if (event.target == myModal) {
@@ -160,6 +166,7 @@
                     myModal.style.display = "none";
                 }
             }
+            // Onclick listeners for adding filter funcitonality to the buttons
             document.getElementById("sortVisits").addEventListener("click", function () {
                 removeAllChildNodes();
                 showVideos(filterSelector(1));
@@ -182,6 +189,7 @@
             });
             showVideos(filterSelector(1));
         };
+        // Switch-case with each filter option
         function filterSelector(option) {
             switch (option) {
                 case 0:
@@ -198,6 +206,7 @@
                     return [...arrVideos].slice(0, 5);
             }
         }
+        // Sort functions used in the filterSelector function
         function sortByVisits(a, b) {
             return b.getVisits - a.getVisits;
         }
@@ -214,11 +223,17 @@
         function sortByDate(a, b) {
             return b.getDate - a.getDate;
         }
+        // Function to clear all the videos before pushing the new filtered list in the carousel
         function removeAllChildNodes() {
             let parent = document.getElementById("content");
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
+        }
+        setTimeout(1000, showArrVideos);
+
+        function showArrVideos() {
+            console.log("arrVideos")
         }
     </script>
     <script src="carousel.js"></script>
