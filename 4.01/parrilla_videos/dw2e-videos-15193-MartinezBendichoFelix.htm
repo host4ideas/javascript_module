@@ -68,65 +68,71 @@
     </main>
     <script>
         // Set of videos objects
-        var arrVideos = new Set();
+        let arrVideos = [];
         // Set of videos divs info.
         let arrInfoVideos = [];
         // Fetch URL JSON data
         const URL_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=1&key=" + YT_API;
         // Main controller
-        // Inserts in the carousel (id="content") all the videos passed in an array of videos Objects (VideoInfo)
-        function showVideos(arrayVideos) {
-            arrayVideos.forEach(element => {
-                // Insert into the page the video data
-                var divInfo = video.showInfo();
-                arrInfoVideos.push(divInfo);
-                document.getElementById("content").appendChild(divInfo);
-
-                divInfo.onclick = function () {
-                    numVisits.innerHTML = "Times visited: " + video.counterVisits();
-                    myModal.style.display = "block";
-                    player.loadVideoById(video.getVidId);
-                }
-
-                let numVisits = document.createElement("p");
-                numVisits.innerHTML = "Times visited: " + video.counterVisits();
-                divInfo.appendChild(numVisits);
-            });
+        function main() {
+            // Get the JSON of videos
+            loadListVideos(URL_VIDEOS).then(jsonVideos => {
+                return jsonVideos;
+            }).then(jsonVideos => {
+                loadVideos(jsonVideos).then(arrayVideos => {
+                    arrVideos = arrayVideos;
+                    return arrayVideos;
+                }).then(arrayVideos => {
+                    setTimeout(setTimeout(function () {
+                        showVideos(arrayVideos);
+                    }, 100));
+                })
+            })
         }
+        main();
         // Returns a promise with a list of videos based on the search URL parameters
         function loadListVideos(videosUrl) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Get the videos data from the request
-                    const DATA = JSON.parse(this.response);
-                    // Iterate for each video
-                    resolve(DATA["items"]);
-                }
-            };
-            xhttp.open("GET", videosUrl, true);
-            xhttp.send();
+            return new Promise(function (resolve, reject) {
+                let xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Get the videos data from the request
+                        const DATA = JSON.parse(this.response);
+                        // Iterate for each video
+                        resolve(DATA["items"]);
+                    }
+                };
+                xhttp.open("GET", videosUrl, true);
+                xhttp.send();
+            })
         }
-        // Returns a promise with the desired video ID value
-        function loadVideo(id) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
-            xhttp.send();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    // Get the videos data from the request
-                    const DATA = JSON.parse(this.response);
-                    let video = new VideoInfo(DATA);
-                    // console.log(video.getVidId);
-                    resolve(video);
-                }
-            };
+        // Returns a promise with the array of videos Objects
+        function loadVideos(videosData) {
+            return new Promise(function (resolve, reject) {
+                videosData.forEach(videoData => {
+                    let id = videoData["id"]["videoId"];
+                    let xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
+                    xhttp.send();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            // Get the videos data from the request
+                            const DATA = JSON.parse(this.response);
+                            let video = new VideoInfo(DATA);
+                            // console.log(video.getVidId);
+                            arrVideos.push(video);
+                        }
+                    };
+                })
+                resolve(arrVideos);
+            })
         }
         // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         function onYouTubeIframeAPIReady() {
@@ -147,29 +153,53 @@
                     myModal.style.display = "none";
                 }
             }
-            // Onclick listeners for adding filter funcitonality to the buttons
-            document.getElementById("sortVisits").addEventListener("click", function () {
-                removeAllChildNodes();
-                showVideos(filterSelector(1));
-            });
-            document.getElementById("sortDuration").addEventListener("click", function () {
-                removeAllChildNodes();
-                showVideos(filterSelector(2));
-            });
-            document.getElementById("sortTitle").addEventListener("click", function () {
-                removeAllChildNodes();
-                showVideos(filterSelector(3));
-            });
-            document.getElementById("sortDate").addEventListener("click", function () {
-                removeAllChildNodes();
-                showVideos(filterSelector(4));
-            });
-            document.getElementById("firstFive").addEventListener("click", function () {
-                removeAllChildNodes();
-                showVideos(filterSelector(5));
-            });
-            showVideos(filterSelector(1));
+            // Create a YT player forEach video
+            
         };
+        // Inserts in the carousel (id="content") all the videos passed in an array of videos Objects (VideoInfo)
+        function showVideos(arrayVideos) {
+            console.log(arrayVideos);
+            arrayVideos.forEach(video => {
+                console.log(video);
+                // Insert into the page the video data
+                var divInfo = video.showInfo();
+                arrInfoVideos.push(divInfo);
+                document.getElementById("content").appendChild(divInfo);
+                // Add onclick event to show modal and play video
+                divInfo.onclick = function () {
+                    numVisits.innerHTML = "Times visited: " + video.getCounter();
+                    myModal.style.display = "block";
+                    player.loadVideoById(video.getVidId());
+                }
+                // Add the count of visits to each video
+                let numVisits = document.createElement("p");
+                numVisits.innerHTML = "Times visited: " + video.getCounter();
+                divInfo.appendChild(numVisits);
+            });
+        }
+
+        // Onclick listeners for adding filter funcitonality to the buttons
+        document.getElementById("sortVisits").addEventListener("click", function () {
+            removeAllChildNodes();
+            showVideos(filterSelector(1));
+        });
+        document.getElementById("sortDuration").addEventListener("click", function () {
+            removeAllChildNodes();
+            showVideos(filterSelector(2));
+        });
+        document.getElementById("sortTitle").addEventListener("click", function () {
+            removeAllChildNodes();
+            showVideos(filterSelector(3));
+        });
+        document.getElementById("sortDate").addEventListener("click", function () {
+            removeAllChildNodes();
+            showVideos(filterSelector(4));
+        });
+        document.getElementById("firstFive").addEventListener("click", function () {
+            removeAllChildNodes();
+            showVideos(filterSelector(5));
+        });
+        showVideos(filterSelector(1));
         // Switch-case with each filter option
         function filterSelector(option) {
             switch (option) {
@@ -189,20 +219,20 @@
         }
         // Sort functions used in the filterSelector function
         function sortByVisits(a, b) {
-            return b.getVisits - a.getVisits;
+            return b.getVisits() - a.getVisits();
         }
         function sortByDuration(a, b) {
-            let date1 = a.getDuration;
-            let date2 = b.getDuration;
+            let date1 = a.getDuration();
+            let date2 = b.getDuration();
             let ms1 = Number(date1.split(':')[0]) * 60 * 60 * 1000 + Number(date1.split(':')[1]) * 60 * 1000 + Number(date1.split(':')[2]) * 1000;
             let ms2 = Number(date2.split(':')[0]) * 60 * 60 * 1000 + Number(date2.split(':')[1]) * 60 * 1000 + Number(date2.split(':')[2]) * 1000;
             return ms2 - ms1;
         }
         function sortByTitle(a, b) {
-            return b.getTitle - a.getTitle;
+            return b.getTitle() - a.getTitle();
         }
         function sortByDate(a, b) {
-            return b.getDate - a.getDate;
+            return b.getDate() - a.getDate();
         }
         // Function to clear all the videos before pushing the new filtered list in the carousel
         function removeAllChildNodes() {
@@ -210,11 +240,6 @@
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
-        }
-        setTimeout(1000, showArrVideos);
-
-        function showArrVideos() {
-            console.log("arrVideos")
         }
     </script>
     <script src="carousel.js"></script>

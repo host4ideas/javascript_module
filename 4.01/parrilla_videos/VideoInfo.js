@@ -1,24 +1,22 @@
 class VideoInfo {
     constructor(DATA) {
         let videoData = setVideoInfo(DATA);
-        this.vidId = videoData[0];
-        this.title = videoData[1];
-        this.duration = videoData[2];
-        this.date = videoData[3];
-        this.visits = videoData[4];
-        this.thumbnail = setThumbnail(videoData[0]);
-
-        // Meter Object.defineProperty(this, "vid", {get:getVid, set:setVid}
+        var vidId = videoData[0];
+        var title = videoData[1];
+        var duration = videoData[2];
+        var date = videoData[3];
+        var visits = videoData[4];
+        var thumbnail = setThumbnail(videoData[0]);
 
         // Closure
-        this.counterVisits = (function () {
+        var counterVisits = (function () {
             let counter = -1;
             return function () { counter += 1; return counter }
         })();
 
         function setVideoInfo(DATA) {
             let year = DATA['items'][0]['snippet']['publishedAt'].split("T")[0].split("-")[0];
-            let month = DATA['items'][0]['snippet']['publishedAt'].split("T")[0].split("-")[1]
+            let month = DATA['items'][0]['snippet']['publishedAt'].split("T")[0].split("-")[1] - 1;
             let day = DATA['items'][0]['snippet']['publishedAt'].split("T")[0].split("-")[2];
             let publishedDate = new Date(year, month, day);
             let totalDuration = DATA['items'][0]['contentDetails']['duration'].split("PT")[1].toLowerCase();
@@ -34,44 +32,26 @@ class VideoInfo {
         function setThumbnail(id) {
             return "https://img.youtube.com/vi/" + id + "/default.jpg";
         }
+        this.getVidId = function () { return vidId; }
+
+        this.getTitle = function () { return title; }
+
+        this.getDuration = function () { return duration; }
+
+        this.getDate = function () { return date; }
+
+        this.getVisits = function () { return visits; }
+
+        this.getThumbnail = function () { return thumbnail; }
+
+        this.getCounter = function () { return counterVisits(); }
+
+        this.showInfo = function () {
+            let cajaInfo = document.createElement("div");
+            cajaInfo.setAttribute("class", "video-info");
+            cajaInfo.innerHTML = "<p><b>" + this.getTitle() + "</b></p><p>" + this.getDate().getDate() + "/" + (this.getDate().getMonth() + 1) + "/" + this.getDate().getFullYear() + "</p><p>Duration: " + this.getDuration() + "</p><p>Visits: " + this.getVisits() + "</p><img src=" + this.getThumbnail() + ">";
+            return cajaInfo;
+        }
     }
 
-    get getVidId() {
-        return this.vidId;
-    }
-
-    get getTitle() {
-        return this.title;
-    }
-
-    get getDuration() {
-        return this.duration;
-    }
-
-    get getDate() {
-        return this.date;
-    }
-
-    get getVisits() {
-        return this.visits;
-    }
-
-    get getThumbnail() {
-        return this.thumbnail;
-    }
-
-    get getCounter() {
-        return this.counterVisits();
-    }
-
-    // set setThumbnail(id) {
-    //     return "https://img.youtube.com/vi/" + id + "/default.jpg";
-    // }
-
-    showInfo() {
-        let cajaInfo = document.createElement("div");
-        cajaInfo.setAttribute("class", "video-info");
-        cajaInfo.innerHTML = "<p><b>" + this.getTitle + "</b></p><p>" + this.getDate.getDate() + "/" + (this.getDate.getMonth() + 1) + "/" + this.getDate.getFullYear() + "</p><p>Duration: " + this.getDuration + "</p><p>Visits: " + this.getVisits + "</p><img src=" + this.getThumbnail + ">";
-        return cajaInfo;
-    }
 }
