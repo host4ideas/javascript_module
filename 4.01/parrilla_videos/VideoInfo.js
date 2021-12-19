@@ -7,11 +7,27 @@ class VideoInfo {
         var date = videoData[3];
         var visits = videoData[4];
         var thumbnail = setThumbnail(videoData[0]);
+        var countVisits = 0;
+
+        this.getVidId = function () { return vidId; }
+
+        this.getTitle = function () { return title; }
+
+        this.getDuration = function () { return duration; }
+
+        this.getDate = function () { return date; }
+
+        this.getVisits = function () { return visits; }
+
+        this.getThumbnail = function () { return thumbnail; }
+
+        this.getCounter = function () { return countVisits; }
+
+        this.setCounter = function () { return counterVisits(); }
 
         // Closure
         var counterVisits = (function () {
-            let counter = -1;
-            return function () { counter += 1; return counter }
+            return function () { countVisits += 1; return countVisits }
         })();
 
         function setVideoInfo(DATA) {
@@ -28,23 +44,9 @@ class VideoInfo {
             return [DATA['items'][0]['id'], DATA['items'][0]['snippet']['title'], totalDuration, publishedDate, DATA['items'][0]['statistics']['viewCount']];
         }
 
-        // We define this setter as a function to block someone to set the thumbnail
         function setThumbnail(id) {
             return "https://img.youtube.com/vi/" + id + "/default.jpg";
         }
-        this.getVidId = function () { return vidId; }
-
-        this.getTitle = function () { return title; }
-
-        this.getDuration = function () { return duration; }
-
-        this.getDate = function () { return date; }
-
-        this.getVisits = function () { return visits; }
-
-        this.getThumbnail = function () { return thumbnail; }
-
-        this.getCounter = function () { return counterVisits(); }
 
         this.showInfo = function () {
             let cajaInfo = document.createElement("div");
@@ -53,5 +55,4 @@ class VideoInfo {
             return cajaInfo;
         }
     }
-
 }

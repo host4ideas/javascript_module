@@ -167,7 +167,7 @@
                 videosData.forEach(videoData => {
                     let id = videoData["id"]["videoId"];
                     let xhttp = new XMLHttpRequest();
-                    xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics,status", true);
+                    xhttp.open("GET", "https://www.googleapis.com/youtube/v3/videos?id=" + id + "&key=" + YT_API + "&part=snippet,contentDetails,statistics", true);
                     xhttp.send();
                     xhttp.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
@@ -193,7 +193,7 @@
                 document.getElementById("content").appendChild(divInfo);
                 // Add onclick event to show modal and play video
                 divInfo.onclick = function () {
-                    numVisits.innerHTML = "Times visited: " + video.getCounter();
+                    numVisits.innerHTML = "Times visited: " + video.setCounter();
                     myModal.style.display = "block";
                     player.loadVideoById(video.getVidId());
                 }
