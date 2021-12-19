@@ -28,7 +28,7 @@ class VideoInfo {
             return [DATA['items'][0]['id'], DATA['items'][0]['snippet']['title'], totalDuration, publishedDate, DATA['items'][0]['statistics']['viewCount']];
         }
 
-        // We set this setter as a function to block someone to set the thumbnail
+        // We define this setter as a function to block someone to set the thumbnail
         function setThumbnail(id) {
             return "https://img.youtube.com/vi/" + id + "/default.jpg";
         }

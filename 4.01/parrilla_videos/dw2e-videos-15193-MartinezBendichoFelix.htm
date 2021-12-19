@@ -19,16 +19,13 @@
         <div>
             <!-- The Modal -->
             <div id="myModal" class="modal">
-
                 <!-- Modal content -->
                 <div id="modalContent" class="modal-content">
                     <span id="close" class="close">&times;</span>
                     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
                     <div id="player"></div>
                 </div>
-
             </div>
-
             <!-- // Filtros ==
             // 15) Filtro "todos", si hay paginador presentar la primera pagina
             // 16) Filtro "primeras cinco fichas"
@@ -37,15 +34,14 @@
             // Ordenar ==
             // 18) Ordenar las fichas por sus campos titulo, subida, visitas, duracion
             // 19) Otras ordenaciones, ejemplo[31] -->
-
             <div id="filterButtons">
                 <button id="sortVisits" type="button">Sort by visits</button>
                 <button id="sortDuration" type="button">Sort by duration</button>
                 <button id="sortTitle" type="button">Sort by title</button>
                 <button id="sortDate" type="button">Sort by date</button>
                 <button id="firstFive" type="button">View first five</button>
+                <button id="clearFilters" type="button">Clear filters</button>
             </div>
-
             <div id="wrapper">
                 <div id="carousel">
                     <div id="content">
@@ -67,6 +63,7 @@
         </div>
     </main>
     <script>
+        let playerYT;
         // Set of videos objects
         let arrVideos = [];
         // Set of videos divs info.
@@ -75,20 +72,78 @@
         const URL_VIDEOS = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=trailer oficial español&maxResults=1&key=" + YT_API;
         // Main controller
         function main() {
-            // Get the JSON of videos
-            loadListVideos(URL_VIDEOS).then(jsonVideos => {
-                return jsonVideos;
-            }).then(jsonVideos => {
-                loadVideos(jsonVideos).then(arrayVideos => {
-                    arrVideos = arrayVideos;
-                    return arrayVideos;
-                }).then(arrayVideos => {
-                    setTimeout(setTimeout(function () {
-                        showVideos(arrayVideos);
-                    }, 100));
+            // 2. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            var p1 = new Promise((resolve, reject) => {
+                window.onYouTubeIframeAPIReady = function () {
+                    var player = new YT.Player('player', {
+                        height: '360',
+                        width: '640',
+                    });
+                    resolve(player);
+                };
+            });
+            // Once is loaded up, fetch all the related YT videos and pass to showVideos function the player
+            p1.then(player => {
+                // Stop and close funcitonality to the cross button of the modal
+                var myModal = document.getElementById("myModal");
+                document.getElementById('close').onclick = function () {
+                    player.stopVideo();
+                    myModal.style.display = "none";
+                };
+                // When the user clicks anywhere outside of the modal, close it and stop video
+                window.onclick = function (event) {
+                    if (event.target == myModal) {
+                        player.stopVideo();
+                        myModal.style.display = "none";
+                    }
+                }
+                // Get the JSON of videos
+                loadListVideos(URL_VIDEOS).then(jsonVideos => {
+                    return jsonVideos;
+                }).then(jsonVideos => {
+                    loadVideos(jsonVideos).then(arrayVideos => {
+                        arrVideos = arrayVideos;
+                        return arrayVideos;
+                    }).then(arrayVideos => {
+                        setTimeout(setTimeout(function () {
+                            showVideos(player, arrayVideos);
+                        }, 100));
+                    })
                 })
-            })
+                // Onclick listeners for adding filter funcitonality to the buttons
+                document.getElementById("sortVisits").addEventListener("click", function () {
+                    removeAllChildNodes();
+                    showVideos(player, filterSelector(1));
+                });
+                document.getElementById("sortDuration").addEventListener("click", function () {
+                    removeAllChildNodes();
+                    showVideos(player, filterSelector(2));
+                });
+                document.getElementById("sortTitle").addEventListener("click", function () {
+                    removeAllChildNodes();
+                    showVideos(player, filterSelector(3));
+                });
+                document.getElementById("sortDate").addEventListener("click", function () {
+                    removeAllChildNodes();
+                    showVideos(player, filterSelector(4));
+                });
+                document.getElementById("firstFive").addEventListener("click", function () {
+                    removeAllChildNodes();
+                    showVideos(player, filterSelector(5));
+                });
+                document.getElementById("clearFilters").addEventListener("click", function () {
+                    removeAllChildNodes();
+                    showVideos(player, filterSelector(0));
+                });
+            });
         }
+        // Call to the main function
         main();
         // Returns a promise with a list of videos based on the search URL parameters
         function loadListVideos(videosUrl) {
@@ -127,40 +182,11 @@
                 resolve(arrVideos);
             })
         }
-        // 2. This code loads the IFrame Player API code asynchronously.
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        // 3. This function creates an <iframe> (and YouTube player)
-        //    after the API code downloads.
-        function onYouTubeIframeAPIReady() {
-            var player = new YT.Player('player', {
-                height: '360',
-                width: '640',
-            });
-            // Stop and close funcitonality to the cross button of the modal
-            var myModal = document.getElementById("myModal");
-            document.getElementById('close').onclick = function () {
-                player.stopVideo();
-                myModal.style.display = "none";
-            };
-            // When the user clicks anywhere outside of the modal, close it and stop video
-            window.onclick = function (event) {
-                if (event.target == myModal) {
-                    player.stopVideo();
-                    myModal.style.display = "none";
-                }
-            }
-            // Create a YT player forEach video
-            
-        };
-        // Inserts in the carousel (id="content") all the videos passed in an array of videos Objects (VideoInfo)
-        function showVideos(arrayVideos) {
-            console.log(arrayVideos);
+        // Receives the YT player and the list of videos
+        function showVideos(player, arrayVideos) {
+            // Inserts in the carousel (id="content") all the videos passed in an array of videos Objects (VideoInfo)
             arrayVideos.forEach(video => {
-                console.log(video);
+                // console.log(video);
                 // Insert into the page the video data
                 var divInfo = video.showInfo();
                 arrInfoVideos.push(divInfo);
@@ -178,28 +204,6 @@
             });
         }
 
-        // Onclick listeners for adding filter funcitonality to the buttons
-        document.getElementById("sortVisits").addEventListener("click", function () {
-            removeAllChildNodes();
-            showVideos(filterSelector(1));
-        });
-        document.getElementById("sortDuration").addEventListener("click", function () {
-            removeAllChildNodes();
-            showVideos(filterSelector(2));
-        });
-        document.getElementById("sortTitle").addEventListener("click", function () {
-            removeAllChildNodes();
-            showVideos(filterSelector(3));
-        });
-        document.getElementById("sortDate").addEventListener("click", function () {
-            removeAllChildNodes();
-            showVideos(filterSelector(4));
-        });
-        document.getElementById("firstFive").addEventListener("click", function () {
-            removeAllChildNodes();
-            showVideos(filterSelector(5));
-        });
-        showVideos(filterSelector(1));
         // Switch-case with each filter option
         function filterSelector(option) {
             switch (option) {
@@ -234,7 +238,7 @@
         function sortByDate(a, b) {
             return b.getDate() - a.getDate();
         }
-        // Function to clear all the videos before pushing the new filtered list in the carousel
+        // Function to clear all the videos before pushing the new filtered videos list in the carousel
         function removeAllChildNodes() {
             let parent = document.getElementById("content");
             while (parent.firstChild) {
