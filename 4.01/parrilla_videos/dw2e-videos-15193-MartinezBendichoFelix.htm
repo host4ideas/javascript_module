@@ -89,7 +89,7 @@
                     return arrayVideos;
                 }).then(arrayVideos => {
                     setTimeout(setTimeout(function () {
-                        showVideos(player, arrayVideos);
+                        showVideos(arrayVideos);
                     }, 100));
                 })
             })
@@ -135,7 +135,7 @@
             })
         }
         // Receives the YT player and the list of videos
-        function showVideos(player, arrayVideos) {
+        function showVideos(arrayVideos) {
             var p1 = new Promise((resolve, reject) => {
                 window.onYouTubeIframeAPIReady = function () {
                     var player = new YT.Player('player', {
@@ -181,29 +181,29 @@
             });
         }
         // Onclick listeners for adding filter funcitonality to the buttons
+        document.getElementById("clearFilters").addEventListener("click", function () {
+            removeAllChildNodes();
+            showVideos(filterSelector(0));
+        });
         document.getElementById("sortVisits").addEventListener("click", function () {
             removeAllChildNodes();
-            showVideos(player, filterSelector(1));
+            showVideos(filterSelector(1));
         });
         document.getElementById("sortDuration").addEventListener("click", function () {
             removeAllChildNodes();
-            showVideos(player, filterSelector(2));
+            showVideos(filterSelector(2));
         });
         document.getElementById("sortTitle").addEventListener("click", function () {
             removeAllChildNodes();
-            showVideos(player, filterSelector(3));
+            showVideos(filterSelector(3));
         });
         document.getElementById("sortDate").addEventListener("click", function () {
             removeAllChildNodes();
-            showVideos(player, filterSelector(4));
+            showVideos(filterSelector(4));
         });
         document.getElementById("firstFive").addEventListener("click", function () {
             removeAllChildNodes();
-            showVideos(player, filterSelector(5));
-        });
-        document.getElementById("clearFilters").addEventListener("click", function () {
-            removeAllChildNodes();
-            showVideos(player, filterSelector(0));
+            showVideos(filterSelector(5));
         });
         // Switch-case with each filter option
         function filterSelector(option) {
