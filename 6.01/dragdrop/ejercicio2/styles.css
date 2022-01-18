@@ -1,6 +1,5 @@
 body {
-    display: flex;
-    justify-content: space-around;
+    display: inline-block;
 }
 
 .contenedor-principal {
@@ -9,6 +8,7 @@ body {
     width: 300px;
     text-align: center;
     float: left;
+    margin: 5px;
 }
 
 .contenedor-child {

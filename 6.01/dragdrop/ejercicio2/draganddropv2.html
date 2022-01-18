@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./styles.css">
+	<script src="./draganddrop.js"></script>
+	<title>Drag and drop</title>
+</head>
+
+<body>
+	<!-- Bookmarks container -->
+	<div class="contenedor-principal" id="bookmarks">
+		<div class="azul contenedor-child">BOOKMARKS</div>
+		<div id="bookmarksDrop" class="drop contenedor-child" ondrop="drop(event)" ondragover="allowDrop(event)">[drop]
+		</div>
+		<div id="bookmarksAgregar" class="verde contenedor-child">[+]</div>
+	</div>
+	<!-- Content container -->
+	<div class="contenedor-principal contenido" id="contenido">
+		<div class="azul">CONTENIDO</div>
+		<label>Titulo</label>
+		<input id="tagTitle" type="text" placeholder="titulo">
+		<label>Url</label>
+		<input id="tagUrl" type="text" placeholder="url">
+		<label>Descripcion</label>
+		<input id="tagDescription" type="text" placeholder="descripcion">
+		<div id="contenidoDrop" class="drop" ondrop="drop(event)" ondragover="allowDrop(event)">[drop]</div>
+	</div>
+	<!-- Tags container -->
+	<div class="contenedor-principal" id="etiquetas">
+		<div class="azul contenedor-child">ETIQUETAS</div>
+		<div id="etiquetasDrop" class="drop contenedor-child" ondrop="drop(event)" ondragover="allowDrop(event)">[drop]
+		</div>
+		<div id="etiquetasAgregar" class="verde contenedor-child">[+]</div>
+	</div>
+</body>
+
+</html>
