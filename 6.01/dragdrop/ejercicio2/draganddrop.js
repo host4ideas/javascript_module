@@ -17,6 +17,14 @@ function drop(ev) {
 	}
 }
 
+// Clean all the tag child elements from conenido container
+const clearContentContainer = (parent) => {
+	Array.from(parent.children).filter((child) => {
+		return child.classList.contains('crema', 'contenedor-child');
+	})
+		.forEach(elementChild => parent.removeChild(elementChild));
+};
+
 const main = () => {
 	const inputTitle = document.getElementById("tagTitle");
 	const inputUrl = document.getElementById("tagUrl");
@@ -41,14 +49,20 @@ const main = () => {
 			de tener una lista de tags
 		*/
 		if (nombreContenedorPadre == "ETIQUETAS") {
+			// Sumar 1 al counter por cada etiqueta añadida
 			counterEtiquetas++;
-			elemento.contenido = {
+			// elemento.contenido = {
+			// 	title: "Titulo de prueba",
+			// 	url: "https://www.google.es/",
+			// 	description: "Descripción"
+			// };
+			elemento.setAttribute("contenido", {
 				title: "Titulo de prueba",
 				url: "https://www.google.es/",
 				description: "Descripción"
-			};
+			});
 			elemento.id = contenedorPadre.id + counterEtiquetas;
-			elemento.innerHTML = contenedorPadre.id + counterEtiquetas;
+			elemento.innerHTML = "ETIQUETA " + counterEtiquetas;
 
 			/*
 				Add the onclick funcitonality to show the content of the tag
@@ -74,13 +88,15 @@ const main = () => {
 				};
 			};
 		} else if (nombreContenedorPadre == "BOOKMARKS") {
+			// Sumar 1 al counter por cada bookmark añadido
 			counterBookmarks++;
 			// Here we'll insert duplicated tags when associated with a bookmark
 			elemento.etiquetas = [];
 			elemento.id = contenedorPadre.id + counterBookmarks;
-			elemento.innerHTML = contenedorPadre.id + counterBookmarks;
+			elemento.innerHTML = "BOOKMARK " + counterBookmarks;
 
 			elemento.onclick = () => {
+				clearContentContainer(document.getElementById("contenido"));
 				elemento.etiquetas.forEach(etiqueta => {
 					etiqueta.setAttribute("class", "crema contenedor-child");
 					document.getElementById("contenido").insertBefore(etiqueta, document.getElementById((contenedorPadre.id, 'Drop')));
@@ -88,14 +104,39 @@ const main = () => {
 			};
 
 			/*
-				Allow associating tags to bookmarks by drag and dropp
+				Allow associating tags to bookmarks by drag and drop
 			*/
 			elemento.ondrop = (ev) => {
 				// Check first if the target is a bookmark element
 				if (ev.target.id.substring(0, 9) == "bookmarks") {
 					ev.preventDefault();
-					const duplicatedEle = document.getElementById(ev.dataTransfer.getData("id")).cloneNode(true);
+					let duplicatedEle = document.getElementById(ev.dataTransfer.getData("id")).cloneNode(true);
+					duplicatedEle.originalId = duplicatedEle.id;
+					duplicatedEle.id += "Dup";
+
+					console.log(duplicatedEle.attributes);
 					elemento.etiquetas.push(duplicatedEle);
+
+					duplicatedEle.onclick = () => {
+						inputTitle.value = this.contenido["title"];
+						inputUrl.value = this.contenido["url"];
+						inputDescription.value = this.contenido["description"];
+
+						/*
+							Add the funcitonality to change the content of the tag
+						*/
+						inputTitle.onchange = () => {
+							this.contenido["title"] = inputTitle.value;
+						};
+
+						inputUrl.onchange = () => {
+							this.contenido["url"] = inputUrl.value;
+						};
+
+						inputDescription.onchange = () => {
+							this.contenido["description"] = inputDescription.value;
+						};
+					};
 				}
 				console.log(elemento.etiquetas);
 			};
