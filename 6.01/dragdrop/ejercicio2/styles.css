@@ -17,6 +17,25 @@ body {
     margin: 5px;
 }
 
+.filtro-container {
+    margin: auto;
+    border: none;
+}
+
+.filtro-etiquetas {
+    border: none;
+    width: 100%;
+    height: max-content;
+    overflow: hidden;
+}
+
+.filtro-etiquetas option {
+    font: 16px "Times New Roman";
+    text-align: center;
+    padding: 5px;
+    margin: 2px;
+}
+
 .contenido {
     display: flex;
     flex-direction: column;

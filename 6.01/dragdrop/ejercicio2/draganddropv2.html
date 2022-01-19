@@ -16,6 +16,7 @@
 		<div class="azul contenedor-child">BOOKMARKS</div>
 		<div id="bookmarksDrop" class="drop contenedor-child" ondrop="drop(event)" ondragover="allowDrop(event)">[drop]
 		</div>
+		<div class="tags"></div>
 		<div id="bookmarksAgregar" class="verde contenedor-child">[+]</div>
 	</div>
 	<!-- Content container -->
@@ -34,7 +35,16 @@
 		<div class="azul contenedor-child">ETIQUETAS</div>
 		<div id="etiquetasDrop" class="drop contenedor-child" ondrop="drop(event)" ondragover="allowDrop(event)">[drop]
 		</div>
+		<div class="tags"></div>
 		<div id="etiquetasAgregar" class="verde contenedor-child">[+]</div>
+		<div class="contenedor-principal filtro-container">
+			<hr>
+			<div class="azul contenedor-child">FILTRO</div>
+			<div id="filtroTodas" class="verde contenedor-child">TODAS</div>
+			<div id="filtroNinguna" class="verde contenedor-child">NINGUNA</div>
+			<select name="filtro" class="filtro-etiquetas" id="filtroEtiquetas" multiple>
+			</select>
+		</div>
 	</div>
 </body>
 
