@@ -12,7 +12,7 @@ function drop(ev) {
 
 	/*
 		Si el elemento se intenta eliminar en el drop correspondiente, permitir eliminacion
-		a lo largo de todo el DOM
+		a lo largo de todo el DOM. Tanto los "originales" como las etiquetas duplicadas
 	*/
 	if (data.substring(0, 9) == "etiquetas" && ev.target.id == "etiquetasDrop" || data.substring(0, 9) == "bookmarks" && ev.target.id == "bookmarksDrop") {
 		while (ele = document.getElementById(data)) {
@@ -52,7 +52,7 @@ const main = () => {
 	const inputUrl = document.getElementById("tagUrl");
 	const inputDescription = document.getElementById("tagDescription");
 
-	let modoFiltrado = 0;
+	// El set permite evitar los duplicados y nos facilita ciertas tareas
 	let listaBookmarks = new Set();
 	let counterEtiquetas = 0;
 	let counterBookmarks = 0;
@@ -89,8 +89,7 @@ const main = () => {
 		} else if (nombreContenedorPadre == "BOOKMARKS") {
 			// Sumar 1 al counter por cada bookmark añadido
 			counterBookmarks++;
-			// Se hace uso de setAttribute para que el contenido sea clonado por cloneNode
-			// elemento.setAttribute("contenido", ["Titulo de prueba", "https://www.google.es/", "Descripción"]);
+			// Guardamos la info del bookmark como objeto
 			elemento.contenido = {
 				title: "Titulo de prueba",
 				url: "https://www.google.es/",
@@ -103,7 +102,7 @@ const main = () => {
 			listaBookmarks.add(elemento);
 
 			/*
-				Add the onclick funcitonality to show the content of the bookmark
+				Funcionalidad para mostrar la info del bookmark
 			*/
 			elemento.onclick = () => {
 				clearContentContainer(document.getElementById("contenido"));
@@ -113,7 +112,8 @@ const main = () => {
 				inputDescription.value = elemento.contenido["description"];
 
 				/*
-					Funcionalidad para cambiar el contenido del bookmark
+					Funcionalidad para cambiar el contenido del bookmark,
+					actualizamos el bookmark de la lista por cada change
 				*/
 				inputTitle.onchange = () => {
 					elemento.contenido["title"] = inputTitle.value;
@@ -157,9 +157,8 @@ const main = () => {
 					listaBookmarks.delete(elemento);
 					listaBookmarks.add(elemento);
 
-					/*
-						Guardar el id del elemento duplicado con setData
-					*/
+
+					// Guardar el id del elemento duplicado con setData
 					duplicatedEle.addEventListener("dragstart", function (event) {
 						// The dataTransfer.setData() method sets the data type and the value of the dragged data
 						event.dataTransfer.setData("id", event.target.id);
@@ -190,63 +189,68 @@ const main = () => {
 	}
 
 	/*
-		Debido a un bug sin resolver, para poder utilizar el filtro se debe de haber hecho
-		click primero en el bookmark
+		Debido a un bug sin resolver, para poder utilizar el filtro, primero se debe de haber 
+		hecho click en el bookmark
 	*/
-	const filtrarBookmarks = () => {
+	const filtrarBookmarksTodos = () => {
 		const tagsBookmarksDiv = document.querySelector("#bookmarks > .tags");
 
-		if (modoFiltrado == 0) {
-			const selected = document.querySelectorAll('#filtroEtiquetas option:checked');
-			const values = Array.from(selected).map(el => el.value);
+		const selected = document.querySelectorAll('#filtroEtiquetas option:checked');
+		const values = Array.from(selected).map(el => el.value);
 
-			let bookmarksFiltrados = [];
+		let bookmarksFiltrados = [];
 
-			listaBookmarks.forEach(bookmark => {
-				values.forEach(etiquetaID => {
-					if (bookmark.etiquetas.has(document.getElementById((etiquetaID + "Dup")))) {
-						bookmarksFiltrados.push(bookmark);
-					}
-				});
+		listaBookmarks.forEach(bookmark => {
+			values.forEach(etiquetaID => {
+				if (bookmark.etiquetas.has(document.getElementById((etiquetaID + "Dup")))) {
+					bookmarksFiltrados.push(bookmark);
+				}
 			});
+		});
 
-			console.log(bookmarksFiltrados);
+		console.log(bookmarksFiltrados);
 
-			while (tagsBookmarksDiv.firstChild) {
-				tagsBookmarksDiv.removeChild(tagsBookmarksDiv.firstChild);
-			}
-
-			bookmarksFiltrados.forEach(bookmark => {
-				tagsBookmarksDiv.appendChild(bookmark);
-			});
-		} else {
-			while (tagsBookmarksDiv.firstChild) {
-				tagsBookmarksDiv.removeChild(tagsBookmarksDiv.firstChild);
-			}
-			listaBookmarks.forEach(bookmark => {
-				tagsBookmarksDiv.appendChild(bookmark);
-			});
+		while (tagsBookmarksDiv.firstChild) {
+			tagsBookmarksDiv.removeChild(tagsBookmarksDiv.firstChild);
 		}
+
+		bookmarksFiltrados.forEach(bookmark => {
+			tagsBookmarksDiv.appendChild(bookmark);
+		});
 	};
 
-	const agregarEtiqueta = document.getElementById("etiquetasAgregar");
-	agregarEtiqueta.addEventListener("click", agregarHijos);
+	const filtrarBookmarksNinguno = () => {
+		const tagsBookmarksDiv = document.querySelector("#bookmarks > .tags");
 
-	const agregarBookmark = document.getElementById("bookmarksAgregar");
-	agregarBookmark.addEventListener("click", agregarHijos);
+		// Limpiamos la vista de bookmarks para imprimir los originales sin filtro
+		while (tagsBookmarksDiv.firstChild) {
+			tagsBookmarksDiv.removeChild(tagsBookmarksDiv.firstChild);
+		}
+
+		listaBookmarks.forEach(bookmark => {
+			tagsBookmarksDiv.appendChild(bookmark);
+		});
+	};
 
 	/*
 		Agregar onclick para los botones que permiten cambiar el modo de filtrado
 	*/
 	document.getElementById("filtroTodas").onclick = () => {
-		modoFiltrado = 0;
-		filtrarBookmarks();
+		filtrarBookmarksTodos();
 	};
 
 	document.getElementById("filtroNinguna").onclick = () => {
-		modoFiltrado = 1;
-		filtrarBookmarks();
+		filtrarBookmarksNinguno();
 	};
+
+	/*
+		Agregar onclick para los botones de agregar etiquetas y bookmarks
+	*/
+	const agregarEtiqueta = document.getElementById("etiquetasAgregar");
+	agregarEtiqueta.addEventListener("click", agregarHijos);
+
+	const agregarBookmark = document.getElementById("bookmarksAgregar");
+	agregarBookmark.addEventListener("click", agregarHijos);
 }
 
 window.onload = main;
