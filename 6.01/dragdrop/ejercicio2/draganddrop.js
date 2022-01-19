@@ -15,17 +15,13 @@ function drop(ev) {
 		a lo largo de todo el DOM
 	*/
 	if (data.substring(0, 9) == "etiquetas" && ev.target.id == "etiquetasDrop" || data.substring(0, 9) == "bookmarks" && ev.target.id == "bookmarksDrop") {
-		while (document.getElementById(data) || document.getElementById((data + "Dup"))) {
-			document.getElementById(data).remove();
-			document.getElementById((data + "Dup")).remove();
+		while (ele = document.getElementById(data)) {
+			ele.remove();
+			listaBookmarks.delete(ele);
 		}
-		try {
-			// Se intenta eliminar el duplicado de la etiqueta
-			const duplicatedEle = document.getElementById((data + "Dup"));
-			duplicatedEle.remove();
-			document.getElementById(duplicatedEle.bookmarkParent).etiquetas.delete(duplicatedEle);
-		} catch (e) {
-			console.log("El elemento no tiene duplicados.");
+		while (ele = document.getElementById((data + "Dup"))) {
+			ele.remove();
+			document.getElementById(ele.bookmarkParent).etiquetas.delete(ele);
 		}
 	}
 
@@ -57,7 +53,7 @@ const main = () => {
 	const inputDescription = document.getElementById("tagDescription");
 
 	let modoFiltrado = 0;
-	let listaEtiquetas = new Set();
+	let listaBookmarks = new Set();
 	let counterEtiquetas = 0;
 	let counterBookmarks = 0;
 	/*
@@ -81,7 +77,6 @@ const main = () => {
 			counterEtiquetas++;
 			elemento.id = contenedorPadre.id + counterEtiquetas;
 			elemento.innerHTML = "ETIQUETA " + counterEtiquetas;
-			listaEtiquetas.add(elemento);
 
 			// Añadir al filtro la etiqueta
 			var newOption = document.createElement("option");
@@ -105,6 +100,7 @@ const main = () => {
 			elemento.etiquetas = new Set();
 			elemento.id = contenedorPadre.id + counterBookmarks;
 			elemento.innerHTML = "BOOKMARK " + counterBookmarks;
+			listaBookmarks.add(elemento);
 
 			/*
 				Add the onclick funcitonality to show the content of the bookmark
@@ -121,14 +117,20 @@ const main = () => {
 				*/
 				inputTitle.onchange = () => {
 					elemento.contenido["title"] = inputTitle.value;
+					listaBookmarks.delete(elemento);
+					listaBookmarks.add(elemento);
 				};
 
 				inputUrl.onchange = () => {
 					elemento.contenido["url"] = inputUrl.value;
+					listaBookmarks.delete(elemento);
+					listaBookmarks.add(elemento);
 				};
 
 				inputDescription.onchange = () => {
 					elemento.contenido["description"] = inputDescription.value;
+					listaBookmarks.delete(elemento);
+					listaBookmarks.add(elemento);
 				};
 
 				elemento.etiquetas.forEach(etiqueta => {
@@ -150,6 +152,10 @@ const main = () => {
 
 					// Añadir la etiqueta a la lista de etiquetas asociadas al bookmark
 					elemento.etiquetas.add(duplicatedEle);
+
+					// Actualizamos la lista de bookmarks
+					listaBookmarks.delete(elemento);
+					listaBookmarks.add(elemento);
 
 					/*
 						Guardar el id del elemento duplicado con setData
@@ -183,6 +189,46 @@ const main = () => {
 		});
 	}
 
+	/*
+		Debido a un bug sin resolver, para poder utilizar el filtro se debe de haber hecho
+		click primero en el bookmark
+	*/
+	const filtrarBookmarks = () => {
+		const tagsBookmarksDiv = document.querySelector("#bookmarks > .tags");
+
+		if (modoFiltrado == 0) {
+			const selected = document.querySelectorAll('#filtroEtiquetas option:checked');
+			const values = Array.from(selected).map(el => el.value);
+
+			let bookmarksFiltrados = [];
+
+			listaBookmarks.forEach(bookmark => {
+				values.forEach(etiquetaID => {
+					if (bookmark.etiquetas.has(document.getElementById((etiquetaID + "Dup")))) {
+						bookmarksFiltrados.push(bookmark);
+					}
+				});
+			});
+
+			console.log(bookmarksFiltrados);
+
+			while (tagsBookmarksDiv.firstChild) {
+				tagsBookmarksDiv.removeChild(tagsBookmarksDiv.firstChild);
+			}
+
+			bookmarksFiltrados.forEach(bookmark => {
+				tagsBookmarksDiv.appendChild(bookmark);
+			});
+		} else {
+			while (tagsBookmarksDiv.firstChild) {
+				tagsBookmarksDiv.removeChild(tagsBookmarksDiv.firstChild);
+			}
+			listaBookmarks.forEach(bookmark => {
+				tagsBookmarksDiv.appendChild(bookmark);
+			});
+		}
+	};
+
 	const agregarEtiqueta = document.getElementById("etiquetasAgregar");
 	agregarEtiqueta.addEventListener("click", agregarHijos);
 
@@ -194,12 +240,12 @@ const main = () => {
 	*/
 	document.getElementById("filtroTodas").onclick = () => {
 		modoFiltrado = 0;
-		filtrarBookmarks;
+		filtrarBookmarks();
 	};
 
 	document.getElementById("filtroNinguna").onclick = () => {
 		modoFiltrado = 1;
-		filtrarBookmarks;
+		filtrarBookmarks();
 	};
 }
 
