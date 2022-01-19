@@ -1,3 +1,34 @@
+const crearEle = (tipo, atributos = null, texto = null) => {
+	let ele = document.createElement(tipo);
+	if (atributos != null) {
+		atributos.forEach((atributo) => {
+			ele.setAttribute(atributo.nombre, atributo.valor);
+		});
+	}
+	if (texto != null) {
+		ele.innerHTML = texto;
+	}
+	return ele;
+}
+
+const crearHtml = () => {
+	/*
+		Crear el contenedor de bookmarks
+	*/
+	const bookmarksContainer = crearEle("div", [{ nombre: "class", valor: "contenedor-principal" }])
+	document.body.appendChild(bookmarksContainer);
+	const tituloBookmarks = crearEle("div", [{ nombre: "class", valor: "azul contenedor-child" }], "BOOKMARKS");
+	bookmarksContainer.appendChild(tituloBookmarks);
+	const dropBookmarks = crearEle("div", [{ nombre: "id", valor: "bookmarksDrop" }, { nombre: "class", valor: "drop contenedor-child" }]);
+	dropBookmarks.ondrop = () => { drop(ev) };
+	bookmarksContainer.appendChild(dropBookmarks);
+	const contenedorTags = crearEle("div", [{ nombre: "class", valor: "tags" }]);
+	bookmarksContainer.appendChild(contenedorTags);
+	/*
+		Crear el contenedor de contenido
+	*/
+}
+
 function allowDrop(ev) {
 	ev.preventDefault();
 }
@@ -140,7 +171,8 @@ const main = () => {
 			};
 
 			/*
-				Permitir asociar etiquetas a bookmarks mediante drag and drop
+				Permitir asociar etiquetas a bookmarks mediante drag and drop,
+				IMPORTANTE: arrastrar y soltar la etiqueta ENCIMA DEL BOOKMARK para añadir la etiqueta al bookmark
 			*/
 			elemento.ondrop = (ev) => {
 				// Check first if the target is a bookmark element
@@ -156,7 +188,6 @@ const main = () => {
 					// Actualizamos la lista de bookmarks
 					listaBookmarks.delete(elemento);
 					listaBookmarks.add(elemento);
-
 
 					// Guardar el id del elemento duplicado con setData
 					duplicatedEle.addEventListener("dragstart", function (event) {
@@ -175,6 +206,7 @@ const main = () => {
 		}
 
 		elemento.setAttribute("class", "crema contenedor-child");
+		// Añadimos el elemento al contenedor de elementos
 		document.querySelector(`#${contenedorPadre.id} > div.tags`).appendChild(elemento);
 
 		/*
@@ -189,7 +221,7 @@ const main = () => {
 	}
 
 	/*
-		Debido a un bug sin resolver, para poder utilizar el filtro, primero se debe de haber 
+		Debido a un bug sin resolver, para poder utilizar el filtro primero se debe de haber 
 		hecho click en el bookmark
 	*/
 	const filtrarBookmarksTodos = () => {
@@ -246,11 +278,8 @@ const main = () => {
 	/*
 		Agregar onclick para los botones de agregar etiquetas y bookmarks
 	*/
-	const agregarEtiqueta = document.getElementById("etiquetasAgregar");
-	agregarEtiqueta.addEventListener("click", agregarHijos);
-
-	const agregarBookmark = document.getElementById("bookmarksAgregar");
-	agregarBookmark.addEventListener("click", agregarHijos);
+	document.getElementById("etiquetasAgregar").addEventListener("click", agregarHijos);
+	document.getElementById("bookmarksAgregar").addEventListener("click", agregarHijos);
 }
 
 window.onload = main;
