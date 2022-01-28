@@ -12,14 +12,16 @@ const main = () => {
 		}
 		crearSalto();
 	}
+
 	function crearSalto() {
 		// div vacio sin dimensiones con clear left
-		var ele = document.createElement('div'); // crear nodo
+		let ele = document.createElement('div'); // crear nodo
 		ele.style.clear = 'left'; // css posicionamiento
 		document.body.appendChild(ele);	// añadir nodo al dom 
 	}
+
 	function crearImagen(width, height, id, url) {
-		var ele = document.createElement('img'); // crear objeto
+		let ele = document.createElement('img'); // crear objeto
 		ele.id = 'img', id;
 		ele.tabIndex = ++id;
 		ele.style.cssFloat = 'left'; // css posicionamiento
@@ -27,40 +29,72 @@ const main = () => {
 		ele.style.height = height + 'px';
 		ele.style.margin = '4px';
 		ele.style.border = '1px solid black'
+		ele.focused = false;
 		ele.src = url;
 		ele.onfocus = focusImg;
+		ele.clearStyles = clearFocusStyle;
 		ele.onkeydown = (ev) => keyPress(ev);
 		document.body.appendChild(ele); // anadir nodo al body
 		return ele;
 	}
+
 	function focusImg() {
+		this.focused = true;
 		this.style.width = "92px";
 		this.style.height = "92px";
+		this.style.margin = "-8px";
+		this.style.border = '2px solid blue'
+	}
+
+	function clearFocusStyle() {
+		this.style.width = '64px';
+		this.style.height = '64px';
+		this.style.margin = '4px';
+		this.style.border = '1px solid black'
+		this.focused = false;
 	}
 }
 
 function keyPress(ev) {
-	console.log(ev.key);
 	switch (ev.key) {
 		case "w":
 			if (currentFocus - 10 >= 0) { currentFocus -= 10 };
-			console.log(currentFocus);
-			arrImg[currentFocus].focus();
+			if (arrImg[currentFocus].focused == true) {
+				arrImg[currentFocus].clearStyles();
+			} else {
+				arrImg[currentFocus].focus();
+			}
 			break;
 		case "s":
 			if (currentFocus + 10 <= 100) { currentFocus += 10 };
-			console.log(currentFocus);
-			arrImg[currentFocus].focus();
+			if (arrImg[currentFocus].focused == true) {
+				arrImg[currentFocus].clearStyles();
+			} else {
+				arrImg[currentFocus].focus();
+			}
 			break;
 		case "a":
 			if (currentFocus - 1 >= 0) { currentFocus -= 1 };
-			console.log(currentFocus);
 			arrImg[currentFocus].focus();
+			if (arrImg[currentFocus].focused == true) {
+				arrImg[currentFocus].clearStyles();
+			} else {
+				arrImg[currentFocus].focus();
+			}
 			break;
 		case "d":
-			if (currentFocus + 1 <= 100) { currentFocus += 1 };
-			console.log(currentFocus);
-			arrImg[currentFocus].focus();
+			// Si llegas al final saltará al primer elemento
+			if (currentFocus + 1 <= 99) {
+				currentFocus += 1
+			} else if (currentFocus + 1 > 99) {
+				currentFocus = 0;
+			}
+			if (arrImg[currentFocus].focused == true) {
+				arrImg[currentFocus].clearStyles();
+			} else {
+				arrImg[currentFocus].focus();
+			}
+			arrImg[currentFocus].focused = true;
 			break;
 		case "Tab":
 			currentFocus++;
