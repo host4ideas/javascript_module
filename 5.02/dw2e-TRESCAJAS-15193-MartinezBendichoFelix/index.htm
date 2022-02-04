@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tres cajas</title>
+</head>
+
+<body>
+	<script type="text/javascript">
+		const createInputs = (innerText, id, type) => {
+			const inputDiv = document.createElement("div");
+			const label = document.createElement("label");
+			const input = document.createElement("input");
+			const validatorImage = document.createElement("img");
+
+			label.setAttribute('for', id);
+			input.id = id;
+			input.setAttribute('type', type);
+			input.setAttribute('placeholder', innerText);
+			validatorImage.src = "";
+
+			inputDiv.style.margin = "10px";
+			label.style.display = "block";
+			validatorImage.style.height = "10px";
+			validatorImage.style.width = "10px";
+			validatorImage.style.position = "relative";
+			validatorImage.style.left = "10px";
+
+			document.body.appendChild(inputDiv);
+			inputDiv.appendChild(label);
+			inputDiv.appendChild(input);
+			inputDiv.appendChild(validatorImage);
+
+			label.innerText = innerText;
+
+			return [input, validatorImage];
+		}
+
+		const inputClave = createInputs('Clave', 'inputClave', 'text');
+		const inputEmail = createInputs('Email', 'inputEmail', 'text');
+		const inputCP = createInputs('CP', 'inputCP', 'text');
+
+		const claveRGEX = /^[\d|\D|\w|\W]{6}$/;
+		const emailRGEX = /[@]/;
+		const cpRGEX = '[0-9]{5}';
+
+		inputCP[0].setAttribute("pattern", cpRGEX);
+
+		document.onkeypress = () => {
+			const clave = inputClave[0].value;
+			const resultClave = claveRGEX.test(clave);
+
+			if (inputClave[0].value.length < 1) {
+				inputClave[1].src = "";
+				inputClave[1].style.visibility = "hidden";
+
+			} else if (resultClave) {
+				inputClave[1].src = "./images/check-solid.svg";
+				inputClave[1].style.visibility = "visible";
+			} else {
+				inputClave[1].src = "./images/times-solid.svg";
+				inputClave[1].style.visibility = "visible";
+			}
+		}
+
+
+		const emailValidation = () => {
+			const email = inputEmail[0].value;
+			const resultEmail = emailRGEX.test(email);
+
+			if (inputEmail[0].value.length < 1) {
+				inputEmail[1].src = "";
+				inputEmail[1].style.visibility = "hidden";
+
+			} else if (resultEmail) {
+				inputEmail[1].src = "./images/check-solid.svg";
+				inputClave[1].style.visibility = "visible";
+			} else {
+				inputEmail[1].src = "./images/times-solid.svg";
+				inputClave[1].style.visibility = "visible";
+			}
+		}
+
+		inputEmail[0].onchange = emailValidation();
+		
+		// inputCP[0].onchange = () => {
+		// 	const resultCP = inputCP[0].checkValidity();
+
+		// 	if (inputCP[0].value == "") {
+		// 		inputCP[1].src = "";
+		// 		inputCP[1].style.visibility = "hidden";
+
+		// 	} else if (resultCP) {
+		// 		inputClave[1].style.visibility = "visible";
+		// 		inputCP[1].src = "./images/check-solid.svg";
+		// 	} else {
+		// 		inputClave[1].style.visibility = "visible";
+		// 		inputCP[1].src = "./images/times-solid.svg";
+		// 	}
+		// }
+	</script>
+</body>
+
+</html>

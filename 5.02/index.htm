@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		* {
+			margin: 20px;
+		}
+
+		/* estilizar por css elementos estado valido o no */
+		.dd:invalid {
+			border: 5px solid grey;
+			outline: 4px solid red;
+		}
+
+		.dd:valid {
+			border: 5px solid grey;
+			outline: 4px solid green;
+		}
+	</style>
+	<script>
+		/*
+		Diferentes tratamientos js de validaciones: 
+		- html5 submit
+		- js validar, submit
+		- valido o no ?
+		- css presentacion valido invalido con estilos
+		*/
+		function inicio() {
+			document.getElementById('b1').onclick = hola1;
+			document.getElementById('b2').onclick = hola2;
+			document.getElementById('b3').onclick = hola3;
+			document.getElementById('ck').onclick = ck;
+			document.getElementById('choose').onclick = caja;
+			document.getElementById('choose').placeholder = 'cereza o plátano';
+			console.log('inicio');
+		}
+		function hola1(e) {
+			// envio por html submit (default) button sin tipo es type='submit' y es igual que input type='submit'
+			console.log('hola:', this.type);
+		}
+		function hola2(e) {
+			console.log('hola2:', this.type);
+			var res = document.getElementById('choose').checkValidity(); // chequear por js
+			if (res == true) {
+				document.getElementById('f0').submit(); //enviar por js 
+			} else {
+				document.getElementById('choose').value = 'error !!';
+			}
+		}
+		function hola3() {
+			console.log('hola3:', this.type);
+			var res = document.getElementById('choose').checkValidity();
+			console.log('res:', res);
+			document.getElementById('b3').innerHTML = 'check sin submit: ' + res; // [nota] presentar validacion
+		}
+		function caja() {
+			document.getElementById('choose').value = '';
+		}
+		function ck() {
+			var c = '';
+			if (this.checked) { c = 'dd'; }
+			document.getElementById('choose').className = c;
+		}
+
+		window.onload = inicio;
+	</script>
+</head>
+
+<body>
+	<form id='f0' action='nobody.htm' method='get'>
+		<label for="choose">¿ Preferirías un plátano o una cereza?</label><br />
+		<input id="choose" name="i_like" required pattern="plátano|cereza"><br />
+		<button id='b1'>submit html</button>
+		<button type='button' id='b2'>submit js</button>
+		<button type='button' id='b3'>check sin submit</button><br />
+		<input id='ck' type="checkbox" checked="checked" />añadir css :invalid y :valid
+	</form>
+
+
+</body>
+
+</html>
