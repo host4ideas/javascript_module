@@ -1,0 +1,14 @@
+{
+  "idioma": {
+    "campos": [
+      {
+        "id": "Nombre",
+        "text": "Name"
+      },
+      {
+        "id": "Usuario",
+        "text": "User"
+      }
+    ]
+  }
+}

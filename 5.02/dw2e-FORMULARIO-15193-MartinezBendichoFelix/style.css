@@ -1,0 +1,122 @@
+body {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.9rem;
+	font-weight: 600;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#cabecera {
+	margin: auto;
+	text-align: center;
+}
+
+#checkbox-options {
+	margin: 15px auto;
+}
+
+/* info errores */
+#sumario {
+	color: #BCA500;
+	font-size: 110%;
+	float: right;
+	position: relative;
+	top: 36px;
+}
+
+#content-form {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	max-width: fit-content;
+}
+
+/* contenedor del formulario */
+#contForm {
+	margin: 0 auto;
+	padding: 30px 20px 20px 60px;
+}
+
+/* composicion formulario */
+div#contForm label,
+#Blog,
+#enviar {
+	display: inline-block;
+	margin: 12px 0px 0px 0px;
+	/* estilizado */
+}
+
+div#contForm label,
+#enviar {
+	margin: 5px none;
+	width: 340px;
+}
+
+div#contForm input[type=text],
+select {
+	border: 1px solid #999;
+	box-shadow: 0px 0px 3px #AAA;
+	padding: 4px;
+	transition: box-shadow 1s ease 0s;
+}
+
+div#contForm input[type=text]:focus {
+	box-shadow: 0px 0px 6px #772;
+	background: #EBEDDA;
+}
+
+/* estilos botones */
+#enviar,
+#limpiar {
+	width: 200px;
+	padding: 8px;
+	margin: 30px 10px 10px 10px;
+	border: 1px solid #3079ED;
+	/* gmail estilo */
+	color: #FFF;
+	text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+	background-color: #4D90FE;
+	background-image: -moz-linear-gradient(center top, #4D90FE, #4787ED);
+	border-radius: 3px;
+	transition: all 0.2s ease 0s;
+	cursor: default;
+}
+
+#enviar:hover,
+#limpiar:hover {
+	border: 1px solid #2F5BB7;
+	color: #FFF;
+	text-shadow: 0px 1px rgba(0, 0, 0, 3);
+	background-color: #357AE8;
+	background-image: -moz-linear-gradient(center top, #4D90FE, #357AE8);
+}
+
+/* estados para las entradas de datos */
+.invalido {
+	background-color: #FFE100;
+}
+
+.valido {
+	background-color: white;
+}
+
+.atencion {
+	background: url('img/atencion.png') no-repeat scroll right center / 20px 20px #FFF;
+}
+
+/* tuneado de hiperenlaces */
+a:link {
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:active {
+	text-decoration: underline;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Google Montserrat font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+	<script src="index.js"></script>
+	<link rel="stylesheet" href="style.css">
+	<title>Formulario</title>
+</head>
+
+<body>
+	<div id='cabecera'>
+		<h1>Formulario</h1>
+		<select id='idiomas'>
+			<option selected value='es'>español</option>
+			<option value='en'>ingles</option>
+		</select>
+	</div>
+	<div id='contForm'>
+		<form id='registro' name="registro" onsubmit="return validar()" novalidate>
+
+			<div id="content-form">
+				<label for="Nombre">Name *</label>
+				<input type="text" required class='' id="Nombre" name="Nombre" value='' size="20" maxlength="50" />
+
+				<label for="Usuario">Sex *</label>
+				<input type="text" required class='' id="Usuario" name="Usuario" value='' size="20" maxlength="30" />
+
+				<label for="color-options">Eye color</label>
+				<!-- 
+				En vez de select option utilizar datalist desde php	
+				<datalist id="available-eye-color"><?php echo getOptionText(); ?></datalist> 
+				-->
+				<select id="color-options" name="eye color" required class='' value='' required>
+					<option>blue</option>
+					<option>brown</option>
+					<option selected>green</option>
+					<option>other</option>
+				</select>
+
+				<fieldset id="checkbox-options">
+					<legend>Check all that apply</legend>
+					<div id="checkbox-option1">
+						<label for="height">Over 6 feet tall</label>
+						<input id="height" type="checkbox" name="height" value="1"></input>
+					</div>
+
+					<div id="checkbox-option2">
+						<label for="weight">Over 200 pounds</label>
+						<input type="checkbox" name="weight" value="1"></input>
+					</div>
+				</fieldset>
+
+				<label for="athletic-hability">Describe your athletic ability</label>
+				<textarea id="athletic-hability" name="athletic" cols="50" rows="4"></textarea>
+			</div>
+
+			<input type="submit" id="enviar" value="Enviar" />
+			<input type="button" id="limpiar" name="limpiar" value="Limpiar" />
+			<span id='sumario'></span>
+		</form>
+	</div>
+</body>
+
+</html>

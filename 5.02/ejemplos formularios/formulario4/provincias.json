@@ -1,0 +1,82 @@
+{
+  "provincias": {
+    "option": [
+      {
+        "value": "Andalucía",
+        "text": "Andalucía"
+      },
+      {
+        "value": "Aragón",
+        "text": "Aragón"
+      },
+      {
+        "value": "Asturias",
+        "text": "Asturias"
+      },
+      {
+        "value": "Baleares",
+        "text": "Baleares"
+      },
+      {
+        "value": "Canarias",
+        "text": "Canarias"
+      },
+      {
+        "value": "Cantabria",
+        "text": "Cantabria"
+      },
+      {
+        "value": "Castilla La Mancha",
+        "text": "Castilla La Mancha"
+      },
+      {
+        "value": "Castilla y León",
+        "text": "Castilla y León"
+      },
+      {
+        "value": "Cataluña",
+        "text": "Cataluña"
+      },
+      {
+        "value": "Ceuta",
+        "text": "Ceuta"
+      },
+      {
+        "value": "Extremadura",
+        "text": "Extremadura"
+      },
+      {
+        "value": "Galicia",
+        "text": "Galicia"
+      },
+      {
+        "value": "La Rioja",
+        "text": "La Rioja"
+      },
+      {
+        "value": "Madrid",
+        "text": "Madrid"
+      },
+      {
+        "value": "Melilla",
+        "text": "Melilla"
+      },
+      {
+        "value": "Murcia",
+        "text": "Murcia"
+      },
+      {
+        "value": "Navarra",
+        "text": "Navarra"
+      },
+      {
+        "value": "País Vasco",
+        "text": "País Vasco"
+      },
+      {
+        "value": "Valencia",
+        "text": "Valencia"
+      }
+    ]
+  }
+}
