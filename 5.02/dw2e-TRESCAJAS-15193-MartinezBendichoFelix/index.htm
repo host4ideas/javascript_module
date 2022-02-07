@@ -16,14 +16,17 @@
 			const input = document.createElement("input");
 			const validatorImage = document.createElement("img");
 
+			// Label
 			label.setAttribute('for', id);
+			label.style.display = "block";
+			label.innerText = innerText;
+			// Input
 			input.id = id;
 			input.setAttribute('type', type);
 			input.setAttribute('placeholder', innerText);
-			validatorImage.src = "";
-
 			inputDiv.style.margin = "10px";
-			label.style.display = "block";
+			// Image
+			validatorImage.src = "";
 			validatorImage.style.height = "10px";
 			validatorImage.style.width = "10px";
 			validatorImage.style.position = "relative";
@@ -34,9 +37,7 @@
 			inputDiv.appendChild(input);
 			inputDiv.appendChild(validatorImage);
 
-			label.innerText = innerText;
-
-			return [input, validatorImage];
+			return { "input": input, "validationImg": validatorImage};
 		}
 
 		const inputClave = createInputs('Clave', 'inputClave', 'text');
@@ -47,60 +48,71 @@
 		const emailRGEX = /[@]/;
 		const cpRGEX = '[0-9]{5}';
 
-		inputCP[0].setAttribute("pattern", cpRGEX);
-
-		document.onkeypress = () => {
-			const clave = inputClave[0].value;
+		// Validación de la clave
+		const claveValidation = () => {
+			const clave = inputClave.input.value;
 			const resultClave = claveRGEX.test(clave);
 
-			if (inputClave[0].value.length < 1) {
-				inputClave[1].src = "";
-				inputClave[1].style.visibility = "hidden";
+			if (inputClave.input.value.length < 1) {
+				inputClave.validationImg.src = "";
+				inputClave.validationImg.style.visibility = "hidden";
 
 			} else if (resultClave) {
-				inputClave[1].src = "./images/check-solid.svg";
-				inputClave[1].style.visibility = "visible";
+				inputClave.validationImg.src = "./images/check-solid.svg";
+				inputClave.validationImg.style.visibility = "visible";
 			} else {
-				inputClave[1].src = "./images/times-solid.svg";
-				inputClave[1].style.visibility = "visible";
+				inputClave.validationImg.src = "./images/times-solid.svg";
+				inputClave.validationImg.style.visibility = "visible";
 			}
 		}
 
+		inputClave.input.onkeypress = claveValidation;
+		inputClave.input.onkeyup = claveValidation;
+		inputClave.input.onclick = claveValidation;
 
+		// Validación del email
 		const emailValidation = () => {
-			const email = inputEmail[0].value;
+			const email = inputEmail.input.value;
 			const resultEmail = emailRGEX.test(email);
 
-			if (inputEmail[0].value.length < 1) {
-				inputEmail[1].src = "";
-				inputEmail[1].style.visibility = "hidden";
+			if (inputEmail.input.value.length < 1) {
+				inputEmail.validationImg.src = "";
+				inputEmail.validationImg.style.visibility = "hidden";
 
 			} else if (resultEmail) {
-				inputEmail[1].src = "./images/check-solid.svg";
-				inputClave[1].style.visibility = "visible";
+				inputEmail.validationImg.src = "./images/check-solid.svg";
+				inputEmail.validationImg.style.visibility = "visible";
 			} else {
-				inputEmail[1].src = "./images/times-solid.svg";
-				inputClave[1].style.visibility = "visible";
+				inputEmail.validationImg.src = "./images/times-solid.svg";
+				inputEmail.validationImg.style.visibility = "visible";
 			}
 		}
 
-		inputEmail[0].onchange = emailValidation();
-		
-		// inputCP[0].onchange = () => {
-		// 	const resultCP = inputCP[0].checkValidity();
+		inputEmail.input.onkeypress = emailValidation;
+		inputEmail.input.onkeyup = emailValidation;
+		inputEmail.input.onclick = emailValidation;
 
-		// 	if (inputCP[0].value == "") {
-		// 		inputCP[1].src = "";
-		// 		inputCP[1].style.visibility = "hidden";
+		// Validación del codigo postal
+		inputCP.input.setAttribute("pattern", cpRGEX);
+		const cpValidation = () => {
+			const resultCP = inputCP.input.checkValidity();
 
-		// 	} else if (resultCP) {
-		// 		inputClave[1].style.visibility = "visible";
-		// 		inputCP[1].src = "./images/check-solid.svg";
-		// 	} else {
-		// 		inputClave[1].style.visibility = "visible";
-		// 		inputCP[1].src = "./images/times-solid.svg";
-		// 	}
-		// }
+			if (inputCP.input.value == "") {
+				inputCP.validationImg.src = "";
+				inputCP.validationImg.style.visibility = "hidden";
+
+			} else if (resultCP) {
+				inputCP.validationImg.style.visibility = "visible";
+				inputCP.validationImg.src = "./images/check-solid.svg";
+			} else {
+				inputCP.validationImg.style.visibility = "visible";
+				inputCP.validationImg.src = "./images/times-solid.svg";
+			}
+		}
+
+		inputCP.input.onkeypress = cpValidation;
+		inputCP.input.onkeyup = cpValidation;
+		inputCP.input.onclick = cpValidation;
 	</script>
 </body>
 
