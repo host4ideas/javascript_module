@@ -29,7 +29,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	usleep(200);
 
-	$data = json_decode(file_get_contents("php://input"));
+	$data = file_get_contents("php://input");
 	echo $data;
 }
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		var a2 = [9, 8, 7, 6, 5, 4, 3];
 		var b2 = [100, 200, 100, 200, 100, 200, 100];
 
-		const enviarRecibirDatos1 = async (...array1, ...array2) => {
+		const enviarRecibirDatos1 = async (array1, array2) => {
 			let arrayPromises = [];
 
 			for (let i = 0; i < array1.length; i++) {
@@ -70,21 +70,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						"num2": array2[i]
 					})
 				});
-				arrayPromises.push(response);
+				arrayPromises.push(promise);
 			}
 
-			console.log("enviado");
 			console.time("Traza de tiempo");
+			console.log("enviado");
 
 			const response = await Promise.all(arrayPromises);
 			console.log(response);
 
-			console.timeEnd("Traza de tiempo");
 			console.log("recibido");
+			console.timeEnd("Traza de tiempo");
 		}
 
-		const enviarRecibirDatos2 = async (...array1, ...array2) => {
+		const enviarRecibirDatos2 = async (array1, array2) => {
 			for (let i = 0; i < array1.length; i++) {
+
+				console.time(`Traza de tiempo ${i}`);
+				console.log("enviado");
 
 				const promise = fetch('practica.php', {
 					method: 'POST',
@@ -99,16 +102,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					})
 				});
 
-				console.log("enviado");
-				console.time("Traza de tiempo");
 
 				const response = await promise;
 				console.log(response);
 
-				console.timeEnd("Traza de tiempo");
 				console.log("recibido");
+				console.timeEnd(`Traza de tiempo ${i}`);
 			}
 		}
+
+		const main = async () => {
+			console.log("PRIMER TEST")
+			await enviarRecibirDatos1(a1, b1);
+
+			console.log("SEGUNDO TEST");
+			await enviarRecibirDatos2(a2, b2);
+		}
+
+		main();
 	</script>
 </body>
 
