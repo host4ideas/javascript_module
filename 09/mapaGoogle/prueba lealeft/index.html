@@ -1,0 +1,52 @@
+<html>
+
+<head>
+	<title>Tutorial leaflet.js</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+		crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+		integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+		crossorigin=""></script>
+</head>
+
+<body>
+	<h1>Leaflet.js Demo</h1>
+	<div id="map" style="height: 100%"></div>
+
+	<script>
+		var demoMap = L.map('map').setView([40.453191, -3.509236], 6);
+
+		var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+		var osm = new L.TileLayer(osmUrl, {
+			minZoom: 5,
+			maxZoom: 16,
+			attribution: osmAttrib
+		});
+
+		// L.marker([39.190878, -5.7806939999999996]).addTo(demoMap);
+
+		// var location = [39.190878, -5.7806939999999996];
+		// var marker = L.marker(location)
+		// marker.bindPopup('<p>Latitud:' + location[0] + '</p><p>Longitud:' + location[1] + '</p>');
+		// marker.addTo(demoMap);
+
+		// var demoMap = L.map('map', {
+		// 	fadeAnimation: false,
+		// 	zoomAnimation: false,
+		// 	markerZoomAnimation: false
+		// }).setView([40.453191, -3.509236], 6);
+
+		// var osm = new L.TileLayer(osmUrl, {
+		// 	minZoom: 5, maxZoom: 16,
+		// 	attribution: osmAttrib,
+		// 	updateWhenIdle: true,
+		// 	reuseTiles: true
+		// });
+
+
+	</script>
+</body>
+
+</html>
