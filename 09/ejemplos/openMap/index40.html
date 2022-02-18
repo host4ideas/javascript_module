@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+
+    <script type="text/javascript">
+      var map;
+      var key='2prYnNkCgFUDXKAWsoZCGaKDzoCjXNZO';     
+      window.onload = function() {
+         //L.mapquest.key = 'lYrP4vF3Uk5zgTiGGuEzQGwGIVDGuy24'; , tambien vale
+        L.mapquest.key = key;
+        map = L.mapquest.map('map', {
+          center: [40.4780,-3.7893],
+          layers: L.mapquest.tileLayer('map'),
+          zoom: 8
+        });
+        map.addControl(L.mapquest.control());
+        getLatLan();
+      }
+      function getLatLan(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var data=JSON.parse(this.responseText);
+            // extraer el dato
+            var pos=data.results[0].locations[0].latLng;
+            console.log(pos);
+            // cambiar la vista del mapa
+            map.setView(pos);
+          }
+        };
+        // envio de la peticion de geocoding por url 
+        // en este caso a mapquest en formato json
+        xhttp.open("GET", "http://www.mapquestapi.com/geocoding/v1/address?outformat=json&key="+key+"&location=everest(nepal)", true);
+        xhttp.send();
+      }
+    </script>
+  </head>
+
+  <body style="border: 0; margin: 0;">
+    <div id="map" style="width: 100%; height: 530px;"></div>
+  </body>
+</html>

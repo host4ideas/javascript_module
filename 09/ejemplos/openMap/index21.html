@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Quick Start - Leaflet</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+<script>
+
+/*
+
+el navegador usa el objeto navigator.geolocation
+desde js podemos preguntar la localizacion navigator.geolocation.getCurrentPosition
+desde mymap.locate tb podemos preguntar por la localizacion al objeto navigator.geolocation
+desde 1) definimos los eventos y desde 2) tambien definimos sus eventos que son diferentes
+
+*/
+
+
+// ttps://stackoverflow.com/questions/32039568/what-are-the-integrity-and-crossorigin-attributes#32042283
+// https://leafletjs.com/examples/quick-start/
+// https://docs.mapbox.com/mapbox.js/api/v3.1.1/l-mapbox-map/
+
+function inicio(){
+
+	// boton para dibujar los marcadores 
+	var ele=document.getElementById('roscaId');
+	ele.onclick=onClickroscaId;
+
+	// crear el mapa
+	mymap=L.map('mapid').setView([40.4780,-3.7893],1); // mymap global
+	// solicita localizacion al user , cambio de vista si locate es ok
+	mymap.on('locationfound', onLocationFound); 
+	mymap.on('locationerror', onLocationError);	
+	mymap.locate({setView: true, maxZoom: 6}); 
+	// respuesta evento de localizacion dentro del mapa
+
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11'
+	}).addTo(mymap);  // dibujo del mapa de tercero: mapbox
+
+	// añadir un marcador como objeto de mi js
+	var marker = L.marker([40.4780,-3.7893]).addTo(mymap);
+
+	// añadir un popup al marcador
+	marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup(); 
+
+	// anadir evento de click al marcador
+	marker.on('click', onMapClick); // [nota] evento sobre un marcador
+
+	// añadir un circulo 
+	var circulo=L.circle([40.4780,-3.7893],50000,{
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(mymap);
+	circulo.setRadius(1000); // modificar un atributo del circulo
+
+	// crear un poligono en el mapa
+	L.polygon([
+		[40.4780,-3.7893],
+		[40.4780,-4.7893],
+		[41.4780,-3.78937]
+	]).addTo(mymap);
+}
+
+function onLocationError(e) {
+	console.log('leaflet@ locationError');
+	alert(e.message);
+
+	// solicitamos de nuevo la localicazion por js y sus eventos
+	navigator.geolocation.getCurrentPosition(
+		onPosicion,
+		onErrorGeolocating,	{
+			enableHighAccuracy: false, // true no hay cambio
+			maximumAge:         5000,
+			timeout:            10000
+	});
+
+}
+
+function onLocationFound(e) {
+	var radius = e.accuracy;
+	console.log('leaflet@ locationFound');
+
+	// poner marcador
+	// ref: https://leafletjs.com/reference-1.6.0.html#marker
+	L.marker(e.latlng).addTo(mymap)
+	.bindPopup("You are within " + radius + " meters from this point").openPopup();
+	// poner circulo
+	L.circle(e.latlng, radius).addTo(mymap);
+
+	// solicitamos de nuevo la localicazion por js y sus eventos
+	// source: https://developer.mozilla.org/es/docs/Web/API/Geolocation/getCurrentPosition
+	// cuidado !! si lo haces junto mymap.on se mezclan los eventos respetar asincronia
+	navigator.geolocation.getCurrentPosition(
+		onPosicion,
+		onErrorGeolocating,	{
+			enableHighAccuracy: false, // true no hay cambio
+			maximumAge:         5000,
+			timeout:            10000
+	});
+}
+function onClickroscaId(){
+	rosca(400)
+	rosca(100);
+	rosca(10);
+}
+function rosca(a){
+	// [nota] crear objetos desde js al pulsar un boton
+	// crea un circulo (que sufre la proyecciion mercator)
+	for (j=0;j<6.2;j+=0.2){
+		var x=a*Math.sin(j)/20;
+		var y=a*Math.cos(j)/20;
+		//console.log(x,y);
+		var marker = L.marker([40.4780+x,-3.7893+y]).addTo(mymap);
+	}
+	// vista del mapa
+	mymap.setView([40.4780,-3.7893],11); // posicion y zoom
+}
+function onMapClick(){
+	console.log(this);
+	alert('HOLA');
+}
+function onPosicion(p){
+	// el event entra en el parametro p
+	console.log('js navigator ok=',p.coords.latitude,p.coords.longitude);
+	//document.getElementById('roscaId').disabled=false; // esperar evento y habilitar boton
+}
+function onErrorGeolocating(p){
+	// el evento entra en el parametro p
+	console.log('js navigator error',p.code);
+}
+
+window.onload=inicio;
+</script>
+	
+</head>
+
+<body>
+	<div id='mapid' style='width: 600px; height: 400px;'></div>
+	<button id='roscaId'>ROSCA</button>
+</body>
+
+</html>
+
+
+
+
+
+

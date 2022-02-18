@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#map {
+    height: 380px;
+    width: 80%;
+}
+</style>
+<script><!-- will be fixed on next release -->
+    <!-- Include this script if exports does not exists on window or -->
+    <!-- the following error "ReferenceError: exports is not defined" -->
+    <!-- before the cdn import -->
+        var exports = {};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css">
+<script src="https://unpkg.com/leaflet-drift-marker@1.0.3/lib/DriftMarker/Drift_Marker.js"></script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+<script>
+//  plugin to leaflet
+
+/*
+fuente: https://stackoverflow.com/questions/17364769/move-marker-on-openstreet-map-leaflet-api#17371411
+url: https://leafletjs.com/reference-1.4.0.html#tilelayer
+https://npm.taobao.org/package/leaflet.marker.slideto
+https://gitlab.com/IvanSanchez/Leaflet.Marker.SlideTo
+*/
+
+// We’ll add a tile layer to add to our map, in this case it’s a OSM tile layer.
+// Creating a tile layer usually involves setting the URL template for the tile images
+
+var zoom=3;
+
+var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+osm = L.tileLayer(osmUrl, {
+	z:zoom, //{z}
+	maxZoom: zoom,
+	minZoom: zoom,
+	attribution: osmAttrib
+});
+
+// initialize the map on the "map" div with a given center and zoom
+var map = L.map('map').setView([40, 0], zoom).addLayer(osm);
+
+console.log('una tile:',getTileURL(45.1234, 7.1234,1));
+
+var marker = new Drift_Marker([40, 0], {
+	draggable: true,
+	title: "Resource location",
+	alt: "Resource Location",
+	riseOnHover: true
+}).addTo(map)
+.bindPopup("test").openPopup();
+
+// Script for adding marker on map click
+function onMapClick(e) {
+	console.log('lat,lng,zoom:',e.latlng.lat, e.latlng.lng, map.getZoom());
+	console.log('tiles{z}{x}{y}:',getTileURL(e.latlng.lat, e.latlng.lng, map.getZoom()) );
+	marker.slideTo(	e.latlng, {
+	duration: 2000
+	});
+}
+map.on('click', onMapClick);
+marker.slideTo(	[20, 20], {
+	duration: 2000
+});
+
+// dos funciones para calcular la tile de un mapa que son la {z}{x}{y}
+function getTileURL(lat, lon, zoom) {
+	var xtile = parseInt(Math.floor( (lon + 180) / 360 * (1<<zoom) ));
+	var ytile = parseInt(Math.floor( (1 - Math.log(Math.tan(toRad(lat)) + 1 / Math.cos(toRad(lat))) / Math.PI) / 2 * (1<<zoom) ));
+	return "" + zoom + "/" + xtile + "/" + ytile;
+}
+function toRad(degrees){
+	return degrees * Math.PI / 180;
+}
+
+</script>
+</html>

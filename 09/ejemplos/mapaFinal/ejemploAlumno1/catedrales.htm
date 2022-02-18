@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>DW2E-Catedrales-GonzalezMoralesLucas</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+	<script src="leaflet-color-markers.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" type="text/javascript"></script>
+	<style type="text/css">
+		body {
+			display: flex;
+			padding: 0px;
+			margin: 0px;
+		}
+		#map { 
+			height: 100vh; 
+			width: 60vw;
+			float: right;
+		}
+		.menu {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			height: 100vh;
+			width: 20vw;
+			float: left;
+			background-color: lightgrey;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		#file {
+			display: none;
+		}
+		#upload {
+			height: 150px;
+			width: 150px;
+			cursor: pointer;
+		}
+		#upload:hover {
+			background-color: grey;
+		}
+		.lugar {
+			display: flex;
+			background-color: white;
+			border: solid 1px;
+			max-height: 20%;
+			min-height: 20%;
+		}
+		.lugar:hover {
+			cursor: pointer;
+			background-color: #dfe7f5;
+		}
+		.bloque {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			width: 50%;
+		}
+		.bloque * {
+			margin-top: 10%;
+		}
+		#crearPoligonos {
+			height: 4em;
+			line-height: 4em;
+			background-color: white;
+			cursor: pointer;
+			border: solid 1px;
+		}
+		#crearPoligonos:hover {
+			background-color: #dfe7f5;
+		}
+		.marked {
+			background-color: #64e36a;
+		}
+		.marked:hover {
+			background-color: #4bbd51;
+		}
+	</style>
+	<script type="text/javascript">
+
+		let map;
+		let coordenadasPoligono = [];
+		window.onload=principal;
+
+		function principal(){
+			map = L.map('map').setView([48.8566, 12.3522], 5);
+
+			L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=E1PZZkcHduI5DiqPoqYb'
+				).addTo(map);
+			let file = document.getElementById("file");
+			file.onchange = function(event)  {
+				cargarFichero(this.files[0]);
+			}
+		}
+
+		function cargarFichero(archivo) {
+			if (!archivo) {
+				return;
+			}
+			var lector = new FileReader();
+			lector.onload = function (e) {
+				crearMenuCatedrales(JSON.parse(e.target.result));
+				crearMenuPoligonos();
+			}
+			lector.readAsText(archivo);
+		}
+
+		function crearMenuCatedrales(catedrales) {
+			let menu = document.getElementById("menuCatedrales");
+			menu.innerHTML = "";
+			catedrales.forEach(function(catedral) {
+				let div = document.createElement("div");
+				let marker = L.marker(new L.LatLng(catedral.coordinates[1], catedral.coordinates[0]));
+				marker.on('click', function() {
+					marcarCatedral(div, marker);
+				});
+				let popup = L.popup();
+				popup.setContent(catedral.name);
+				marker.bindPopup(popup);
+				map.addLayer(marker);
+
+				div.classList.add("lugar");
+				div.onclick = function() {
+					if (!div.marked) {
+						map.flyTo(marker.getLatLng(), 7);
+					}
+					marcarCatedral(div, marker);
+					marker.openPopup();
+				}
+
+				let info = document.createElement("div");
+				info.classList.add("bloque");
+				info.innerHTML = "<div>"+catedral.name+"</div><div>"+catedral.city+"</div>";
+
+				let img = document.createElement("img");
+				img.classList.add("bloque");
+				img.src = catedral.imagen;
+
+				div.appendChild(info);
+				div.appendChild(img);
+				menu.appendChild(div);
+			});
+		}
+
+		function marcarCatedral(div, marker) {
+			if (!div.marked) {						
+				div.marked = true;
+				div.classList.add("marked");
+				coordenadasPoligono.push(marker.getLatLng());
+				marker.setIcon(greenIcon);
+			} else {
+				div.marked = false;
+				div.classList.remove("marked");
+				coordenadasPoligono = coordenadasPoligono.filter(function(value, index, arr){
+					return value != marker.getLatLng();
+				});
+				marker.setIcon(blueIcon);
+			}
+		}
+
+		function crearMenuPoligonos() {
+			let menu = document.getElementById("menuPoligonos");
+			let div = document.createElement("div");
+			div.id = "crearPoligonos";
+			div.innerHTML = "Crear Polígono";
+			div.onclick = function() {
+				let marked = document.getElementById("menuCatedrales") .querySelectorAll(".marked");
+				if (marked.length == 0) {
+					alert("Debes seleccionar las catedrales del polígono.");					
+				} else if (marked.length != 3){
+					alert("El polígono solo puede tener 3 catedrales.")
+				} else {
+					crearPoligono();
+				}
+			}
+			menu.appendChild(div);
+		}
+
+		function crearPoligono() {
+			let menu = document.getElementById("menuPoligonos");
+			let name = window.prompt("Nombre del Polígono");
+			if (name==null) {
+				return;
+			}
+			let poligono = L.polygon(coordenadasPoligono).addTo(map);
+			let area = Math.floor(L.GeometryUtil.geodesicArea(poligono.getLatLngs()[0])/1e6);
+			let popup = L.popup();
+			popup.setContent(area.toString()+" km²");
+			poligono.bindPopup(popup);
+			let div = document.createElement("div");
+			div.classList.add("lugar");
+			div.onclick = function() {
+				marcarPoligono(div, poligono);
+			}
+			div.poligono = poligono;
+
+			let info = document.createElement("div");
+			info.innerHTML = "<div>"+name+"</div><div>"+area+" km²</div>";
+			info.classList.add("bloque");
+
+			let remove = document.createElement("button");
+			remove.innerHTML = "Borrar";
+			remove.onclick = function(e) {
+				map.removeLayer(poligono);
+				menu.removeChild(div);
+				e.stopPropagation();
+			}
+			info.appendChild(remove);
+
+			let img = document.createElement("img");
+			img.classList.add("bloque");
+			img.src = "img/triangle.svg";
+			
+			div.appendChild(info);
+			div.appendChild(img);
+			menu.appendChild(div);
+		}
+
+		function marcarPoligono(div, poligono) {
+			if (!poligono.seleccionado) {
+				map.flyToBounds(poligono.getBounds(), {maxZoom: 7});
+				let menu = document.getElementById("menuPoligonos").querySelectorAll(".marked");
+				menu.forEach(function(div) {
+					div.classList.remove("marked");
+					div.poligono.seleccionado = false;
+					div.poligono.setStyle({fillColor: '#3388ff', color: '#3388ff'});
+				});
+				div.classList.add("marked");
+				poligono.setStyle({fillColor: 'red', color: 'red'});
+				poligono.seleccionado = true;
+				poligono.openPopup();
+				poligono.bringToFront();
+			} else {
+				div.classList.remove("marked");
+				poligono.setStyle({fillColor: '#3388ff', color: '#3388ff'});
+				poligono.seleccionado = false;
+			}
+		}
+
+	</script>
+</head>
+<body>
+	<div class="menu" id="menuCatedrales">
+		<br>Introduce el archivo con las catedrales
+		<input type="file" id="file">
+		<label for="file">
+			<img id="upload" src="img/upload.png">
+		</label>
+	</div>
+	<div id="map"></div>
+	<div class="menu" id="menuPoligonos"></div>
+</body>
+</html>

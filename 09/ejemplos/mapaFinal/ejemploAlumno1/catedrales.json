@@ -1,0 +1,71 @@
+[
+  {
+    "coordinates": [2.3499, 48.8530],
+    "name": "Cathédrale Notre-Dame de Paris",
+    "city": "Paris",
+    "imagen": "img/notredame.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [6.9583, 50.9413],
+    "name": "Cologne Cathedral",
+    "city": "Cologne",
+    "imagen": "img/cologne.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [9.1919, 45.4641],
+    "name": "Duomo di Milano",
+    "city": "Milan",
+    "imagen": "img/milano.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [11.2560, 43.7731],
+    "name": "Cathedral of Santa María del Fiore",
+    "city": "Florence",
+    "imagen": "img/florence.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [1.4878, 48.4478],
+    "name": "Chartres Cathedral",
+    "city": "Chartres",
+    "imagen": "img/chartres.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [16.3735, 48.2084],
+    "name": "St. Stephen's Cathedral",
+    "city": "Vienna",
+    "imagen": "img/vienna.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [-0.1273, 51.4993],
+    "name": "Westminster Abbey",
+    "city": "London",
+    "imagen": "img/london.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [-5.9931, 37.3858],
+    "name": "Catedral de Sevilla",
+    "city": "Sevilla",
+    "imagen": "img/sevilla.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [14.4005, 50.0909],
+    "name": "St. Vitus Cathedral",
+    "city": "Prague",
+    "imagen": "img/prague.jpg"
+  },
+  {
+    "type": "Feature",
+    "coordinates": [37.6231, 55.7525],
+    "name": "St. Basil's Cathedral",
+    "city": "Moscow",
+    "imagen": "img/moscow.png"
+  }
+]

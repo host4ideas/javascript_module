@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>OpenLayers Simplest Example</title>
+</head>
+<body>
+<div id="Map" style="height:700px"></div>
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script>
+
+/*
+
+transformacion de coordenadas:
+* Sistema Geodésico Mundial (WGS84) definicion de la elipsoide
+* EPSG:4326 is a common coordinate reference system that refers to WGS84 as (latitude, longitude) 
+* 900913 = GOOGLE (spelled with numbers)
+* EPSG:3857 is the official is a Spherical Mercator
+* EPSG:4326 - WGS84 - World Geodetic System 1984, used in GPS  => EPSG:3857 - WGS 84 / Pseudo-Mercator -- Spherical Mercator, Google Maps, OpenStreetMap, Bing, ArcGIS, ESRI
+*/
+
+// 4326 1) -3.696899 , 40.405131
+// 3857 2) -412264.511744 4935657.540378
+
+var lat            = 47.35387;
+var lon            = 0.0;
+var zoom           = 3;
+
+var mapnik = new OpenLayers.Layer.OSM();
+map = new OpenLayers.Map("Map");
+map.setOptions({ projection: "EPSG:4326" });
+var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Google Maps Global Mercator
+var position       = new OpenLayers.LonLat(lon, lat).transform( fromProjection, toProjection);
+
+
+
+map.addLayer(mapnik);
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+markers.addMarker(new OpenLayers.Marker(position));
+//markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(lon, lat)));
+map.setCenter(position, zoom);
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+body{
+    height: 100vh;
+    overflow: hidden;
+}
+
+.geo-menu{
+    width: 20vw;
+    display: inline-block;
+    height: 100vh;
+    overflow: auto;
+}
+.geo-menu::-webkit-scrollbar{
+    display: none;
+}
+.map-cont{
+    width: 80vw;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.popup-img{width: 100%}
+.venue-cont{position: relative}
+.venue-cont:hover, .polygon-title:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.corner{
+    position: absolute;
+    top: 1vh;
+    right: 2vw;
+}
+button.corner{
+    right: 0.5vw;
+}
+button img{
+    max-width: 25px;
+    position: absolute;
+    right: 2vw;
+    top: 2vh;
+}
+
+#make-polygon{
+    position: absolute;
+    top: -50px;
+    right: 50px;
+    z-index: 1000;
+    transition-property: top;
+    transtion-duration: 1s;
+}
