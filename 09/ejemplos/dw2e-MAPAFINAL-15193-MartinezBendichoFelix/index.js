@@ -6,8 +6,8 @@ let config = {
 // magnification with which the map will start
 const zoom = 6;
 // co-ordinates
-const lat = 51.918904;
-const lng = 19.1343786;
+const lat = -3.725759983062744;
+const lng = 40.440039352146236;
 
 // calling map
 const map = L.map("map", config).setView([lat, lng], zoom);
@@ -22,16 +22,11 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 function onEachFeature(feature, layer) {
 	layer.bindPopup(feature.properties.nazwa);
 }
-
-// adding geojson by fetch
-// of course you can use jquery, axios etc.
-fetch("../static/wojewodztwa-medium.geojson")
-	.then(function (response) {
-		return response.json();
-	})
-	.then(function (data) {
-		// use geoJSON
-		L.geoJSON(data, {
-			onEachFeature: onEachFeature,
-		}).addTo(map);
-	});
+2
+// Adding Geo JSON data to the map
+L.geoJSON(jsonData, {
+	onEachFeature: function (feature, layer) {
+		let nombreFacultad = 'Facultad de: ' + feature.properties.name.replace('_', ' ').toUpperCase();
+		layer.bindPopup(`<img src="./images/${feature.properties.image}.jpg" alt="${nombreFacultad}" class="imagen-facultad"> <p>${nombreFacultad}</p>`);
+	}
+}).addTo(map);
