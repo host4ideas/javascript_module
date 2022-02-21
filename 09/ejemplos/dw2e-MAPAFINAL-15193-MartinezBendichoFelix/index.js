@@ -33,27 +33,32 @@ function onEachFeature(feature, layer) {
 	layer.on("mouseover", function (e) {
 		// bindPopup
 		this.openPopup();
-		// style
-		this.setStyle({
-			fillColor: "#eb4034",
-			weight: 2,
-			color: "#eb4034",
-			fillOpacity: 0.7,
-		});
+		if (feature.geometry.type === "Polygon") {
+			// style
+			this.setStyle({
+				fillColor: "#eb4034",
+				weight: 2,
+				color: "#eb4034",
+				fillOpacity: 0.7,
+			});
+		}
 	});
 	layer.on("mouseout", function () {
 		this.closePopup();
-		// style
-		this.setStyle({
-			fillColor: "#3388ff",
-			weight: 2,
-			color: "#3388ff",
-			fillOpacity: 0.2,
-		});
+		if (feature.geometry.type === "Polygon") {
+			// style
+			this.setStyle({
+				fillColor: "#3388ff",
+				weight: 2,
+				color: "#3388ff",
+				fillOpacity: 0.2,
+			});
+		}
 	});
 }
 
 function createFeature(feature, layer) {
+
 	let featureDiv = document.createElement("div");
 	featureDiv.classList.add("feature-element");
 
@@ -68,14 +73,16 @@ function createFeature(feature, layer) {
 		img.classList.add("imagen-facultad");
 		img.src = `./images/${feature.properties.image}.jpg`;
 		img.alt = "Imagen de: " + feature.properties.name;
+		featureDiv.appendChild(img);
 	}
 
 	let title = document.createElement("p");
 	title.classList.add("titulo");
 	title.innerText = feature.properties.name;
 
-	featureDiv.appendChild(img);
 	featureDiv.appendChild(title);
+
+	infoDiv.appendChild(featureDiv);
 
 	if (feature.geometry.type === "Polygon") {
 		let descripcionPoligono = document.createElement("p");
@@ -83,6 +90,8 @@ function createFeature(feature, layer) {
 		featureDiv.appendChild(descripcionPoligono);
 
 		let cantidadPuntos = 0;
+
+		console.log(feature.geometry.coordinates[0]);
 
 		feature.geometry.coordinates[0].forEach(coordinate => {
 			cantidadPuntos++;
@@ -101,8 +110,6 @@ function createFeature(feature, layer) {
 			featureDiv.appendChild(detailDataY);
 		});
 	}
-
-	infoDiv.appendChild(featureDiv);
 }
 
 function createFeatureFromUserInput(feature, layer) {
@@ -115,26 +122,31 @@ function createFeatureFromUserInput(feature, layer) {
 	layer.on("mouseover", function (e) {
 		// bindPopup
 		this.openPopup();
-		// style
-		this.setStyle({
-			fillColor: "#eb4034",
-			weight: 2,
-			color: "#eb4034",
-			fillOpacity: 0.7,
-		});
+
+		if (feature.geometry.type === "Polygon") {
+			// style
+			this.setStyle({
+				fillColor: "#eb4034",
+				weight: 2,
+				color: "#eb4034",
+				fillOpacity: 0.7,
+			});
+		}
 	});
 	layer.on("mouseout", function () {
 		this.closePopup();
-		// style
-		this.setStyle({
-			fillColor: "#3388ff",
-			weight: 2,
-			color: "#3388ff",
-			fillOpacity: 0.2,
-		});
+
+		if (feature.geometry.type === "Polygon") {
+			// style
+			this.setStyle({
+				fillColor: "#3388ff",
+				weight: 2,
+				color: "#3388ff",
+				fillOpacity: 0.2,
+			});
+		}
 	});
 
-	jsonData.push(feature);
 	createFeature(feature, layer);
 }
 
@@ -176,6 +188,51 @@ map.on(L.Draw.Event.CREATED, function (event) {
 	}
 
 	drawnItems.addLayer(layer);
+
+	if (type == "polygon" || type == "rectangle" || type == "polyline") {
+		let points = [];
+		feature.geometry = {
+			"type": "Polygon",
+			"coordinates": []
+		};
+
+		if (type == "polyline") {
+			let points = [];
+
+			console.log(layer._latlngs)
+			layer._latlngs.forEach(coordinate => {
+				let point = [];
+
+				point.push(coordinate["lat"]);
+				point.push(coordinate["lng"]);
+				points.push(point);
+			});
+			feature.geometry.coordinates.push(points);
+
+		} else {
+			layer._latlngs.forEach(coordinate => {
+				coordinate.forEach(point => {
+					console.log(point["lat"]);
+					console.log(point["lng"]);
+					points.push([point["lat"], point["lng"]]);
+				});
+			});
+		}
+		feature.geometry.coordinates.push(points);
+
+	} else if (type == "marker") {
+		let points = [];
+
+		points.push(layer._latlng["lat"]);
+		points.push(layer._latlng["lng"]);
+
+		feature.geometry = {
+			"type": "Point",
+			"coordinates": points
+		};
+	}
+
+	console.log(feature);
 	createFeatureFromUserInput(feature, layer);
 });
 /* ************************************* */
