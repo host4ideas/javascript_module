@@ -1,10 +1,10 @@
-const jsonData = {
+let jsonData = {
 	"type": "FeatureCollection",
 	"features": [
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "psicologia",
+				"name": "Facultad de Psicología",
 				"image": "facultad_psicologia"
 			},
 			"geometry": {
@@ -18,7 +18,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "informatica",
+				"name": "Facultad de Informática",
 				"image": "facultad_informatica"
 			},
 			"geometry": {
@@ -32,7 +32,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "veterinaria",
+				"name": "Facultad de Veterinaria",
 				"image": "facultad_veterinaria"
 			},
 			"geometry": {
@@ -46,7 +46,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "derecho",
+				"name": "Facultad de Derecho",
 				"image": "facultad_derecho"
 			},
 			"geometry": {
@@ -60,7 +60,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "ciencias_fisicas",
+				"name": "Facultad de Ciencias Físicas",
 				"image": "facultad_ciencias_fisicas"
 			},
 			"geometry": {
@@ -74,7 +74,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "ciencias_quimicas",
+				"name": "Facultad de Ciencias Químicas",
 				"image": "facultad_ciencias_quimicas"
 			},
 			"geometry": {
@@ -88,7 +88,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "geografia_historia",
+				"name": "Facultad de Geografía e Historia",
 				"image": "facultad_geografia_historia"
 			},
 			"geometry": {
@@ -102,7 +102,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "filologia_filosofia",
+				"name": "Facultad de Filología y Filosofía",
 				"image": "facultad_filologia_filosofia"
 			},
 			"geometry": {
@@ -116,7 +116,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "matematicas",
+				"name": "Facultad de Matemáticas",
 				"image": "facultad_matematicas"
 			},
 			"geometry": {
@@ -130,7 +130,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "ciencias_informacion",
+				"name": " Facultad de Ciencias de la Información",
 				"image": "facultad_ciencias_informacion"
 			},
 			"geometry": {
@@ -144,7 +144,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "educacion",
+				"name": "Facultad de Educación",
 				"image": "facultad_educacion"
 			},
 			"geometry": {
@@ -158,7 +158,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "medicina",
+				"name": "Facultad de Medicina",
 				"image": "facultad_medicina"
 			},
 			"geometry": {
@@ -172,7 +172,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "odontologia",
+				"name": "Facultad de Odontología",
 				"image": "facultad_odontologia"
 			},
 			"geometry": {
@@ -186,7 +186,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "bellas_artes",
+				"name": "Facultad de Bellas Artes",
 				"image": "facultad_bellas_artes"
 			},
 			"geometry": {
@@ -200,7 +200,7 @@ const jsonData = {
 		{
 			"type": "Feature",
 			"properties": {
-				"name": "estadistica",
+				"name": "Facultad de Estadistíca",
 				"image": "facultad_estadistica"
 			},
 			"geometry": {
@@ -208,6 +208,48 @@ const jsonData = {
 				"coordinates": [
 					-3.735952377319336,
 					40.44712668318484
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"properties": {
+				"name": "Ciudad Universitaria",
+				"image": "ciudad_universitaria"
+			},
+			"geometry": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[
+							-3.7392568588256836,
+							40.45628684942364
+						],
+						[
+							-3.7451791763305664,
+							40.45445818159138
+						],
+						[
+							-3.7352228164672856,
+							40.433065603627995
+						],
+						[
+							-3.716511726379394,
+							40.439533085620724
+						],
+						[
+							-3.712005615234375,
+							40.451486490216325
+						],
+						[
+							-3.725137710571289,
+							40.45906241085139
+						],
+						[
+							-3.7392568588256836,
+							40.45628684942364
+						]
+					]
 				]
 			}
 		}
