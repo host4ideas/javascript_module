@@ -235,6 +235,13 @@ map.on(L.Draw.Event.CREATED, function (event) {
 	console.log(feature);
 	createFeatureFromUserInput(feature, layer);
 });
+
+map.on('draw:deleted', function (e) {
+	e.layers.forEach(layer => {
+		console.log(layer);
+	})
+	// infoDiv.removeChild(this);
+});
 /* ************************************* */
 
 
