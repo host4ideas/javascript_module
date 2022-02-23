@@ -83,7 +83,7 @@ function createFeature(feature, layer, id) {
 		featureDiv.appendChild(img);
 	}
 
-	let title = document.createElement("p");
+	let title = document.createElement("span");
 	title.classList.add("titulo");
 	title.innerText = feature.properties.name;
 
@@ -101,13 +101,14 @@ function createFeature(feature, layer, id) {
 		feature.geometry.coordinates[0].forEach(coordinate => {
 			cantidadPuntos++;
 
-			let detailTitle = document.createElement("p");
+			let detailTitle = document.createElement("span");
+			detailTitle.classList.add("bold");
 			detailTitle.innerText = `Punto ${cantidadPuntos}`;
 
-			let detailDataX = document.createElement("p");
+			let detailDataX = document.createElement("span");
 			detailDataX.innerHTML = `x: ${coordinate[0]}`;
 
-			let detailDataY = document.createElement("p");
+			let detailDataY = document.createElement("span");
 			detailDataY.innerHTML = `y: ${coordinate[1]}`;
 
 			featureDiv.appendChild(detailTitle);
