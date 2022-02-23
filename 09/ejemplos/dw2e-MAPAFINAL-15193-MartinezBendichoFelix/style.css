@@ -2,6 +2,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	background-color: rgb(49, 49, 49);
+	margin: 10px;
 }
 
 #main_container {
@@ -22,7 +23,10 @@ body {
 	overflow-y: scroll;
 	max-width: fit-content;
 	height: 90vh;
-	gap: 10;
+}
+
+#info div+div {
+	margin-top: 10px;
 }
 
 #myBtn {
@@ -32,6 +36,8 @@ body {
 	background-color: aqua;
 	cursor: pointer;
 	border: none;
+	border-radius: 5px;
+	padding: 2px;
 }
 
 #myBtn:hover {
@@ -39,6 +45,7 @@ body {
 	background-color: rgb(49, 49, 49);
 	border: 2px dotted aqua;
 	border-radius: 5px;
+	padding: 0;
 }
 
 .imagen-facultad {
@@ -47,8 +54,8 @@ body {
 }
 
 .feature-element {
+	margin-right: 10px;
 	text-align: center;
-	margin: 5px 10px 5px 0;
 	top: 150px;
 	/*Edited here */
 	bottom: 0;

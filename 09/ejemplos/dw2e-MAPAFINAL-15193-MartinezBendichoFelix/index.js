@@ -4,6 +4,8 @@ let html = "";
 // GeoJSON layer
 let geoJson;
 
+let id = 0;
+
 // config map
 let config = {
 	minZoom: 2,
@@ -26,9 +28,12 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 function onEachFeature(feature, layer) {
+
 	layer.bindPopup(`<img src="./images/${feature.properties.image}.jpg" alt="Imagen de la ${feature.properties.name}" class="imagen-facultad"> <p class="titulo-feature">${feature.properties.name}</p>`);
 
-	createFeature(feature, layer);
+	id++;
+	createFeature(feature, layer, id);
+	layer.id = id;
 
 	layer.on("mouseover", function (e) {
 		// bindPopup
@@ -57,10 +62,12 @@ function onEachFeature(feature, layer) {
 	});
 }
 
-function createFeature(feature, layer) {
+function createFeature(feature, layer, id) {
 
 	let featureDiv = document.createElement("div");
 	featureDiv.classList.add("feature-element");
+
+	featureDiv.id = id;
 
 	featureDiv.onclick = () => {
 		layer.fire('click');
@@ -91,8 +98,6 @@ function createFeature(feature, layer) {
 
 		let cantidadPuntos = 0;
 
-		console.log(feature.geometry.coordinates[0]);
-
 		feature.geometry.coordinates[0].forEach(coordinate => {
 			cantidadPuntos++;
 
@@ -113,11 +118,15 @@ function createFeature(feature, layer) {
 }
 
 function createFeatureFromUserInput(feature, layer) {
+
 	const name = window.prompt("Introduce un nombre para el marcador", "SIN NOMBRE");
 
 	feature.properties.name = name;
 
 	layer.bindPopup(`<p class="titulo-feature">${name}</p>`);
+
+	id++;
+	layer.id = id;
 
 	layer.on("mouseover", function (e) {
 		// bindPopup
@@ -147,7 +156,7 @@ function createFeatureFromUserInput(feature, layer) {
 		}
 	});
 
-	createFeature(feature, layer);
+	createFeature(feature, layer, id);
 }
 
 /* ************************************* */
@@ -236,11 +245,11 @@ map.on(L.Draw.Event.CREATED, function (event) {
 	createFeatureFromUserInput(feature, layer);
 });
 
+// Get each layer id and delete its feature info from the menu with the same id
 map.on('draw:deleted', function (e) {
-	e.layers.forEach(layer => {
-		console.log(layer);
-	})
-	// infoDiv.removeChild(this);
+	e.layers.eachLayer(layer => {
+		infoDiv.removeChild(document.getElementById(layer.id));
+	});
 });
 /* ************************************* */
 
