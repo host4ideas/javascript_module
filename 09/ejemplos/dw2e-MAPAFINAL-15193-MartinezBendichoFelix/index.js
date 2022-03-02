@@ -70,6 +70,7 @@ function createFeature(feature, layer, id) {
 	featureDiv.id = id;
 
 	featureDiv.onclick = () => {
+		map.flyTo(layer.getLatLng(), 14);
 		layer.fire('click');
 	}
 
