@@ -74,7 +74,9 @@ function createFeature(feature, layer, id) {
 			map.flyTo(layer.getLatLng(), 14);
 		}
 
-		layer.fire('click');
+		setTimeout(() => {
+			layer.fire('click');
+		}, 200)
 	}
 
 	let img;
